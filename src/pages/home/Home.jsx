@@ -10,12 +10,15 @@ const Home = () => {
   return (
     <div>
       {!data ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen bg-white text-black dark:bg-darkbg dark:text-darktext">
           <BeatLoader color="#3b82f6" />
         </div>
       ) : (
-        <div className="flex justify-center flex-col items-center mt-7">
-          <h3 className="uppercase border-b-[1px] border-black text-xl font-semibold">
+        <div
+          className="flex justify-center flex-col items-center bg-white text-black dark:bg-darkbg dark:text-darktext
+        "
+        >
+          <h3 className="uppercase border-b-[1px] border-[#e4e4e4] dark:border-white pt-20 text-xl font-semibold">
             {" "}
             Our Products
           </h3>

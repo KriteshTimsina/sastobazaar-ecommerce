@@ -11,9 +11,9 @@ const Product = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSWR(API_BASE_URL + `products/${id}`, fetcher);
   return (
-    <div className=" flex flex-col md:flex-row md:px-10 lg:px-20 items-center h-screen pt-14 ">
+    <div className=" flex flex-col md:flex-row md:px-10 lg:px-20 items-center h-screen pt-14 bg-white text-black dark:bg-darkbg dark:text-darktext">
       {!data ? (
-        <div className="flex justify-center items-center h-screen w-full ">
+        <div className="flex justify-center items-center h-screen w-full bg-white text-black dark:bg-darkbg dark:text-darktext ">
           <BeatLoader color="#3b82f6" />
         </div>
       ) : (
@@ -26,7 +26,7 @@ const Product = () => {
           </Link>
           <div className="flex justify-center items-center mb-8 lg:mb-0">
             <img
-              className="max-w-[200px] lg:max-w-sm"
+              className="max-w-[200px] lg:max-w-sm lg:max-h-[400px]"
               src={data.image}
               alt={data.title}
             />
@@ -42,9 +42,13 @@ const Product = () => {
             <div className="flex justify-start items-center px-7">
               <Rating rating={data.rating.rate} />
             </div>
-            <div className="flex justify-start items-center px-7 my-2 gap-2">
+            <div className="flex justify-start items-center px-7 my-2 gap-2 ">
               <p className="font-semibold">Size</p>
-              <select name="" id="" className="border border-1">
+              <select
+                name=""
+                id=""
+                className="border border-1 bg-white dark:bg-darkbg"
+              >
                 <option value="s">S</option>
                 <option value="m">M</option>
                 <option value="l">L</option>

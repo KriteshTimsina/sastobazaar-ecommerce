@@ -10,12 +10,12 @@ const Card = ({ products }) => {
     navigate(`/product/${id}`);
   }
   return (
-    <div className=" flex flex-wrap text-black gap-5 justify-center p-4 md:justify-start md:ml-5">
+    <div className=" flex flex-wrap text-black gap-5 justify-center p-4 md:justify-start md:ml-5 bg-white dark:bg-darkbg dark:text-darktext">
       {products.map((product) => {
         return (
           <div
             key={product.id}
-            className="cursor-pointer relative w-[300px] h-[250px] flex flex-col justify-center items-center border-gray-500 border-[0.8px] border-solid rounded-md hover:shadow-card group transition "
+            className="cursor-pointer relative w-[300px] h-[250px] flex flex-col justify-center items-center border-[#e4e4e4] border-[0.8px] border-solid rounded-md hover:shadow-card group transition "
           >
             <div className="h-[150px] w-[150px]">
               <img
