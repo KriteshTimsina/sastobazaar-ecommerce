@@ -16,7 +16,7 @@ const Product = () => {
           <BeatLoader color="#3b82f6" />
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row items-center gap-3">
+        <div className="flex flex-col md:flex-row items-center gap-3">
           <div className="flex justify-center items-center mb-8 lg:mb-0">
             <img
               className="max-w-[200px] lg:max-w-sm"

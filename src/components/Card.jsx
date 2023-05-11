@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BsPlus } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
+import Rating from "./Rating";
 
 const Card = ({ products }) => {
   const navigate = useNavigate();
@@ -32,7 +33,11 @@ const Card = ({ products }) => {
                   <h4 className="text-orange-700">${product.price}</h4>
                 </div>
               </div>
-            </div>{" "}
+            </div>
+            <div className="flex items-center gap-2">
+              <Rating rating={product.rating.rate} />
+              <p>({product.rating.count})</p>
+            </div>
             <div
               className="absolute -right-5 top-0 cursor-pointer
               bg-pink-300 text-white p-1 text-3xl flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 group-hover:right-0 transition-all "
