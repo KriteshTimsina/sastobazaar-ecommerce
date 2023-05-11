@@ -1,5 +1,5 @@
 <body>
-  <a href="https://neststore.netlify.app/"><h1>NEST STORE </h1></a>
+  <a href="https://neststore.netlify.app/">NEST STORE</a>
   <p>A simple E-Commerce web application made with React js</p>
   <p>Note: change system themes to toggle between dark and  light mode.</p>
   <h2>Table of Contents</h2>
