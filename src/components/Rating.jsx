@@ -7,7 +7,7 @@ const Rating = ({ rating }) => {
 
   let i;
   for (i = 0; i < FULL_STAR; i++) {
-    ratings.push(<RiStarSFill />);
+    ratings.push(<RiStarSFill key={i} />);
   }
   if (HALF_STAR) {
     ratings.push(<RiStarHalfFill />);

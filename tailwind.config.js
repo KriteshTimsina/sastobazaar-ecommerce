@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      spacing: {
+        navtop: "80px",
+      },
       colors: {
         primary: "#3b82f6",
         secondary: "#c2410c",

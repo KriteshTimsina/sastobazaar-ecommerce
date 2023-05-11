@@ -1,17 +1,32 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import { API_BASE_URL } from "../../utils/constant";
 import { BeatLoader } from "react-spinners";
 import Rating from "../../components/Rating";
 import { IoMdArrowBack } from "react-icons/io";
+import { cartContext } from "../../context/cartContext";
 
 const Product = () => {
   const { id } = useParams();
+  const { setCart } = useContext(cartContext);
+  const navigate = useNavigate();
+  const [size, setSize] = useState("S");
+  const [quantity, setQuantity] = useState(1);
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSWR(API_BASE_URL + `products/${id}`, fetcher);
+  const addToCart = (product) => {
+    setCart((prev) => [
+      ...prev,
+      { product: product, size: size, quantity: quantity },
+    ]);
+    navigate("/cart");
+  };
   return (
-    <div className=" flex flex-col md:flex-row md:px-10 lg:px-20 items-center h-screen pt-14 bg-white text-black dark:bg-darkbg dark:text-darktext">
+    <div
+      className=" flex flex-col md:flex-row md:px-10 lg:px-20 items-center min-h-screen pt-32 md:pt-24
+     bg-white text-black dark:bg-darkbg dark:text-darktext"
+    >
       {!data ? (
         <div className="flex justify-center items-center h-screen w-full bg-white text-black dark:bg-darkbg dark:text-darktext ">
           <BeatLoader color="#3b82f6" />
@@ -20,7 +35,7 @@ const Product = () => {
         <div className="relative flex flex-col md:flex-row items-center gap-3">
           <Link
             to="/"
-            className="absolute -top-5 text-2xl left-5 md:left-0 text-primary hover:text-blue-700 transition"
+            className="absolute -top-8 text-2xl left-5 md:left-0 text-primary hover:text-blue-700 transition"
           >
             <IoMdArrowBack />
           </Link>
@@ -43,19 +58,37 @@ const Product = () => {
               <Rating rating={data.rating.rate} />
             </div>
             <div className="flex justify-start items-center px-7 my-2 gap-2 ">
-              <p className="font-semibold">Size</p>
+              <p className="font-semibold">Size: </p>
               <select
+                onChange={(event) => setSize(event.target.value)}
                 name=""
                 id=""
                 className="border border-1 bg-white dark:bg-darkbg"
               >
-                <option value="s">S</option>
-                <option value="m">M</option>
-                <option value="l">L</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
               </select>
             </div>
+            <div className="flex justify-start gap-2 md:justify-start px-7 mb-3">
+              <p className="font-semibold">Quantity: </p>
+              <input
+                onChange={(event) => setQuantity(parseInt(event.target.value))}
+                className="bg-white text-black placeholder-gray-800 indent-1"
+                min="1"
+                max="100"
+                type="number"
+                name=""
+                id=""
+                value={quantity}
+                required
+              />
+            </div>
             <div className="flex justify-center md:justify-start items-center">
-              <button className="bg-primary text-white w-full md:w-1/2  mx-10 md:mx-7 py-2 text-xl mb-14">
+              <button
+                onClick={() => addToCart(data)}
+                className="bg-primary text-white w-full md:w-1/2  mx-10 md:mx-7 py-2 text-xl mb-14"
+              >
                 Add to Cart
               </button>
             </div>

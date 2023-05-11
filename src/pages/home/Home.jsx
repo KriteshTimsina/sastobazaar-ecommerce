@@ -18,7 +18,7 @@ const Home = () => {
           className="flex justify-center flex-col items-center bg-white text-black dark:bg-darkbg dark:text-darktext
         "
         >
-          <h3 className="uppercase border-b-[1px] border-[#e4e4e4] dark:border-white pt-20 text-xl font-semibold">
+          <h3 className="uppercase border-b-[1px] border-[#e4e4e4] dark:border-white pt-navtop text-xl font-semibold">
             {" "}
             Our Products
           </h3>
