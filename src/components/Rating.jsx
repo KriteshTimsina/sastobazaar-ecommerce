@@ -1,7 +1,6 @@
 import React from "react";
 import { RiStarSFill, RiStarSLine, RiStarHalfFill } from "react-icons/ri";
 const Rating = ({ rating }) => {
-  console.log("rating: " + rating);
   const FULL_STAR = Math.floor(rating);
   const HALF_STAR = Math.round(rating - FULL_STAR);
   const ratings = [];
@@ -19,11 +18,7 @@ const Rating = ({ rating }) => {
   while (ratings.length != 5) {
     ratings.push(<RiStarSLine />);
   }
-  return (
-    <div key={i} className="flex text-red-500">
-      {ratings}
-    </div>
-  );
+  return <div className="flex text-orange-500">{ratings}</div>;
 };
 
 export default Rating;

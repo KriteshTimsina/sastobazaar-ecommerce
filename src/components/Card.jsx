@@ -9,8 +9,6 @@ const Card = ({ products }) => {
   function handleProductClick(id) {
     navigate(`/product/${id}`);
   }
-  //   const DISCOUNTED_PRICE = Math.floor(product.discountPercentage / 100 * product.price);
-  //   const TOTAL_PRICE = product.price - DISCOUNTED_PRICE;
   return (
     <div className=" flex flex-wrap text-black gap-5 justify-center p-4 md:justify-start md:ml-5">
       {products.map((product) => {
@@ -30,11 +28,11 @@ const Card = ({ products }) => {
               <h4 className="">{product.title.slice(0, 40)} ...</h4>
               <div>
                 <div className="discount-price">
-                  <h4 className="text-orange-700">${product.price}</h4>
+                  <h4 className="text-secondary">${product.price}</h4>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex justify-start items-center gap-1">
               <Rating rating={product.rating.rate} />
               <p>({product.rating.count})</p>
             </div>
@@ -42,7 +40,7 @@ const Card = ({ products }) => {
               className="absolute -right-5 top-0 cursor-pointer
               bg-pink-300 text-white p-1 text-3xl flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 group-hover:right-0 transition-all "
             >
-              <div className="bg-blue-500 p-1">
+              <div className="bg-primary p-1">
                 <BsPlus title="add to cart" />
               </div>
               <AiOutlineEye

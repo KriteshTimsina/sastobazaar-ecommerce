@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#5CAA49",
-        secondary: "#E1E31D",
+        primary: "#3b82f6",
+        secondary: "#c2410c",
         tertiary: "#009244",
       },
       boxShadow: {
