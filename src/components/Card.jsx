@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { BsPlus } from "react-icons/bs";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiFillHeart, AiOutlineEye } from "react-icons/ai";
 import Rating from "./Rating";
 import { cartContext } from "../context/cartContext";
 
@@ -35,7 +34,7 @@ const Card = ({ products }) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-start items-center gap-1">
+            <div className="flex justify-start items-center gap-1 w-full px-2">
               <Rating rating={product.rating.rate} />
               <p>({product.rating.count})</p>
             </div>
@@ -43,13 +42,13 @@ const Card = ({ products }) => {
               className="absolute -right-5 top-0 cursor-pointer
               bg-pink-300 text-white p-1 text-3xl flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 group-hover:right-0 transition-all "
             >
-              <div className="bg-primary p-1">
-                <BsPlus title="add to cart" />
+              <AiFillHeart title="Favourite" className="text-red-500" />
+              <div className="bg-primary p-1 text-white">
+                <AiOutlineEye
+                  onClick={() => handleProductClick(product.id)}
+                  title="view product"
+                />
               </div>
-              <AiOutlineEye
-                onClick={() => handleProductClick(product.id)}
-                title="view product"
-              />
             </div>
           </div>
         );

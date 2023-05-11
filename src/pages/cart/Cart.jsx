@@ -32,9 +32,13 @@ const Cart = () => {
           Shopping Cart ({cart.length})
         </h2>
         {cart.length === 0 ? (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center dark:bg-darkbg dark:text-darktext">
             <p>Shopping Cart is empty</p>
-            <Link to="/" className="hover:text-primary">
+            <img src="/assets/emptyCart.gif" alt="sdfkjh" width={150} />
+            <Link
+              to="/"
+              className="bg-primary text-white p-1 hover:scale-105 transition-all"
+            >
               add to cart
             </Link>
           </div>
@@ -42,7 +46,7 @@ const Cart = () => {
           <div className="">
             {cart.map((item) => {
               return (
-                <div className="flex flex-col   gap-5 bg-purple-100 text-black w-full md:w-[600px] mb-2 hover:shadow-sm hover:shadow-white">
+                <div className="flex flex-col bg-purple-100 text-black w-full md:w-[600px] mb-2 hover:shadow-sm hover:shadow-white">
                   <div className="flex justify-around items-center px-2">
                     <div className="flex items-center gap-5 max-w-[300px] ">
                       <img
@@ -71,7 +75,7 @@ const Cart = () => {
         )}
       </div>
       {cart.length != 0 && (
-        <div className="bg-slate-100 text-black flex flex-col items-center md:items-start p-2 mb-3">
+        <div className="bg-slate-100  text-black dark:bg-darkbg dark:border-[1px] dark:border-[#e4e4e4] dark:text-darktext flex flex-col items-center md:items-start p-2  w-[300px] mx-auto ">
           <h2 className="uppercase font-semibold">Order Details:</h2>
           <div className="flex flex-col">
             <div className="flex  justify-between gap-5 text-slate-500">
