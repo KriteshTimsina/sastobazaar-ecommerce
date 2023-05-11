@@ -1,6 +1,7 @@
 <body>
   <a href="https://neststore.netlify.app/"><h1>NEST STORE </h1></a>
   <p>A simple E-Commerce web application made with React js</p>
+  <p>Note: change system themes to toggle between dark and  light mode.</p>
   <h2>Table of Contents</h2>
   <ul>
     <li><a href="#installation">Installation</a></li>
