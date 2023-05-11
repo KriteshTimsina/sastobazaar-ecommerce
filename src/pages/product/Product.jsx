@@ -55,7 +55,7 @@ const Product = () => {
               <p>{data.description}</p>
             </div>
             <div className="flex justify-start items-center px-7">
-              <Rating rating={data.rating.rate} />
+              <Rating rating={data.rating.rate} id={data.id} />
             </div>
             <div className="flex justify-start items-center px-7 my-2 gap-2 ">
               <p className="font-semibold">Size: </p>

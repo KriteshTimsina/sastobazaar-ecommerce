@@ -35,7 +35,7 @@ const Card = ({ products }) => {
               </div>
             </div>
             <div className="flex justify-start items-center gap-1 w-full px-2">
-              <Rating rating={product.rating.rate} />
+              <Rating rating={product.rating.rate} id={product.id} />
               <p>({product.rating.count})</p>
             </div>
             <div

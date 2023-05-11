@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { cartContext } from "../context/cartContext";
 
-const Navbar = () => {
-  const [isNavbarExtended, setIsNavbarExtended] = useState(false);
+const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
+  const { cart } = useContext(cartContext);
   return (
     <nav className=" z-10 border-gray-200 bg-gray-900 shadow-sm shadow-white fixed left-0 right-0 top-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-around mx-auto p-4">
@@ -38,7 +39,7 @@ const Navbar = () => {
                 className="my-2 p-1 hover:text-blue-500
                  hover:bg-slate-200"
               >
-                Cart
+                Cart ({cart.length})
               </Link>
             </div>
           )}
