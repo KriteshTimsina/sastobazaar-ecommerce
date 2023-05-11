@@ -76,7 +76,7 @@ const Cart = () => {
           )}
         </div>
         {cart.length != 0 && (
-          <div className="bg-slate-100 md:mt-10 text-black dark:bg-darkbg dark:border-[1px] dark:border-[#e4e4e4] dark:text-darktext flex flex-col items-center  md:items-start p-2  w-[300px] mx-auto ">
+          <div className="bg-slate-100 md:mt-10 text-black dark:bg-darkbg dark:border-[1px] dark:border-[#e4e4e4] dark:text-darktext flex flex-col items-center  md:items-start p-2 w-[300px] mx-auto ">
             <h2 className="uppercase font-semibold">Order Details:</h2>
             <div className="flex flex-col">
               <div className="flex  justify-between gap-5 text-slate-500">
