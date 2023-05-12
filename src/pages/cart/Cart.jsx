@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { cartContext } from "../../context/cartContext";
 import { Link } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 
 let SERVICE_CHARGE = 10;
 
 const Cart = () => {
-  const { cart } = useContext(cartContext);
+  const { cart, setCart } = useContext(cartContext);
+  // console.log(car);
   const [subTotal, setSubTotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
 
@@ -18,6 +21,18 @@ const Cart = () => {
     const tax = parseFloat(((subTotal * 13) / 100).toFixed(2));
     setTaxAmount(tax);
   }
+
+  function removeItem(product) {
+    const confirmation = confirm(
+      `Are you sure you want to remove ${product.title} from cart ?`
+    );
+    confirmation &&
+      setCart((prev) => {
+        return prev.filter((item) => item.product.id !== product.id);
+      });
+    // const newItem = cart.filter((item) => item.product.id !== product.id);
+    // setCart(newItem);
+  }
   useEffect(() => {
     handleTotal();
   }, []);
@@ -29,7 +44,7 @@ const Cart = () => {
     <div className=" flex justify-around dark:text-darktext  dark:bg-darkbg">
       <div className="pt-navtop  min-h-screen  md:flex md:flex-row md:justify-around  md:items-start">
         <div className="flex flex-col justify-center items-center md:items-start mx-2">
-          <h2 className="font-semibold text-xl mb-5">
+          <h2 className="font-semibold text-xl mb-5 w-full text-start">
             Shopping Cart ({cart.length})
           </h2>
           {cart.length === 0 ? (
@@ -47,7 +62,14 @@ const Cart = () => {
             <div className="">
               {cart.map((item) => {
                 return (
-                  <div className="flex flex-col bg-purple-100 text-black w-full md:w-[600px] mb-2 hover:shadow-sm hover:shadow-white">
+                  <div
+                    key={item.product.id}
+                    className="flex flex-col bg-purple-100 text-black w-full md:w-[600px] mb-2 hover:shadow-sm hover:shadow-white"
+                  >
+                    <RxCross2
+                      className="hover:cursor-pointer"
+                      onClick={() => removeItem(item.product)}
+                    />
                     <div className="flex justify-around items-center px-2">
                       <div className="flex items-center gap-5 max-w-[300px] ">
                         <img
