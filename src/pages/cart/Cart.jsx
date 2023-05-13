@@ -55,14 +55,14 @@ const Cart = () => {
             {cart.length !== 0 && (
               <button
                 onClick={clearCart}
-                className="font-semibold hover:text-primary cursor-pointer"
+                className="font-semibold text-primary cursor-pointer hover:text-blue-600"
               >
-                clear cart
+                clear
               </button>
             )}
           </div>
           {cart.length === 0 ? (
-            <div className="flex flex-col items-center dark:bg-darkbg dark:text-darktext">
+            <div className=" flex flex-col items-center dark:bg-darkbg dark:text-darktext">
               <p>Shopping Cart is empty</p>
               <img src="/assets/emptyCart.gif" alt="sdfkjh" width={150} />
               <Link
@@ -121,7 +121,7 @@ const Cart = () => {
               </div>
               <div className="flex  justify-between gap-5 text-slate-500">
                 <p>SERVICE CHARGE</p>
-                <p>$10</p>
+                <p>${SERVICE_CHARGE}</p>
               </div>
               <div className="flex  justify-between gap-5 text-slate-500">
                 <p>TAX</p>
@@ -148,7 +148,41 @@ const Cart = () => {
           </div>
         )}
 
-        {cart.length != 0 && <div className=" sm:hidden"></div>}
+        {cart.length != 0 && (
+          <div className=" sm:hidden bg-slate-50 dark:bg-slate-800 w-full h-20 fixed bottom-0 right-0 left-0 flex justify-around items-center">
+            <div>
+              <p>
+                <span className="font-semibold">{cart.length}</span> selected{" "}
+              </p>
+              <Link to="/" className="text-primary font-semibold">
+                add more
+              </Link>
+            </div>
+            <div className=" text-slate-500 dark:text-slate-300 flex items-center gap-4">
+              <div className="">
+                <p>
+                  SUBTOTAL:{" "}
+                  <span className="text-secondary">${subTotal.toFixed(2)}</span>
+                </p>
+                <p>
+                  ADDITIONAL:{" "}
+                  <span className="text-secondary">
+                    ${(SERVICE_CHARGE + taxAmount).toFixed(2)}
+                  </span>
+                </p>
+                <p className="font-semibold  text-black dark:text-white">
+                  TOTAL:
+                  <span className="text-secondary">
+                    ${(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)}
+                  </span>
+                </p>
+              </div>
+              <button className="bg-primary text-white px-2 py-1 text-lg">
+                Checkout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
