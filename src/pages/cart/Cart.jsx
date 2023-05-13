@@ -33,6 +33,10 @@ const Cart = () => {
     // const newItem = cart.filter((item) => item.product.id !== product.id);
     // setCart(newItem);
   }
+
+  function clearCart() {
+    setCart([]);
+  }
   useEffect(() => {
     handleTotal();
   }, []);
@@ -44,9 +48,19 @@ const Cart = () => {
     <div className=" flex justify-around dark:text-darktext  dark:bg-darkbg">
       <div className="pt-navtop  min-h-screen  md:flex md:flex-row md:justify-around  md:items-start">
         <div className="flex flex-col justify-center items-center md:items-start mx-2">
-          <h2 className="font-semibold text-xl mb-5 w-full text-start">
-            Shopping Cart ({cart.length})
-          </h2>
+          <div className="flex justify-between w-full mb-1 items-center">
+            <h2 className="font-semibold text-xl">
+              Shopping Cart ({cart.length})
+            </h2>
+            {cart.length !== 0 && (
+              <button
+                onClick={clearCart}
+                className="font-semibold hover:text-primary cursor-pointer"
+              >
+                clear cart
+              </button>
+            )}
+          </div>
           {cart.length === 0 ? (
             <div className="flex flex-col items-center dark:bg-darkbg dark:text-darktext">
               <p>Shopping Cart is empty</p>
@@ -98,7 +112,7 @@ const Cart = () => {
           )}
         </div>
         {cart.length != 0 && (
-          <div className="bg-slate-100 md:mt-10 text-black dark:bg-darkbg dark:border-[1px] dark:border-[#e4e4e4] dark:text-darktext flex flex-col items-center  md:items-start p-2 w-[300px] mx-auto ">
+          <div className="hidden sm:flex bg-slate-100 md:mt-10 text-black dark:bg-darkbg dark:border-[1px] dark:border-[#e4e4e4] dark:text-darktext  flex-col items-center  md:items-start p-2 w-[300px] mx-auto ">
             <h2 className="uppercase font-semibold">Order Details:</h2>
             <div className="flex flex-col">
               <div className="flex  justify-between gap-5 text-slate-500">
@@ -133,6 +147,8 @@ const Cart = () => {
             </div>
           </div>
         )}
+
+        {cart.length != 0 && <div className=" sm:hidden"></div>}
       </div>
     </div>
   );
