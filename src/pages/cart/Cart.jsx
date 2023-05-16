@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { cartContext } from "../../context/cartContext";
 import { Link } from "react-router-dom";
-import { MdDeleteOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 
 let SERVICE_CHARGE = 10;
 
 const Cart = () => {
   const { cart, setCart } = useContext(cartContext);
-  // console.log(car);
   const [subTotal, setSubTotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
 
@@ -62,7 +60,7 @@ const Cart = () => {
             )}
           </div>
           {cart.length === 0 ? (
-            <div className=" flex flex-col items-center dark:bg-darkbg dark:text-darktext">
+            <div className="relative flex flex-col items-center dark:bg-darkbg dark:text-darktext">
               <p>Shopping Cart is empty</p>
               <img src="/assets/emptyCart.gif" alt="sdfkjh" width={150} />
               <Link
@@ -73,7 +71,7 @@ const Cart = () => {
               </Link>
             </div>
           ) : (
-            <div className="">
+            <div>
               {cart.map((item) => {
                 return (
                   <div
@@ -98,7 +96,7 @@ const Cart = () => {
                           <h2 className="text-slate-500">Size: {item.size}</h2>
                         </div>
                       </div>
-                      <div className="flex flex-col justify-center items-center">
+                      <div className="flex flex-col justify-center items-center ">
                         <p className="text-secondary font-semibold">
                           ${item.product.price * item.quantity}
                         </p>
@@ -111,9 +109,10 @@ const Cart = () => {
             </div>
           )}
         </div>
-        {cart.length != 0 && (
+        {cart.length !== 0 && (
           <div className="hidden sm:flex bg-slate-100 md:mt-10 text-black dark:bg-darkbg dark:border-[1px] dark:border-[#e4e4e4] dark:text-darktext  flex-col items-center  md:items-start p-2 w-[300px] mx-auto ">
             <h2 className="uppercase font-semibold">Order Details:</h2>
+
             <div className="flex flex-col">
               <div className="flex  justify-between gap-5 text-slate-500">
                 <p>SUBTOTAL</p>

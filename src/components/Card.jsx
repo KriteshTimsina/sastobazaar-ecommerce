@@ -12,7 +12,7 @@ const Card = ({ products }) => {
   }
 
   return (
-    <div className=" flex flex-wrap text-black gap-5 justify-center p-4 md:justify-start md:ml-5 bg-white dark:bg-darkbg dark:text-darktext">
+    <div className=" flex flex-wrap text-black gap-5 justify-center p-4 bg-white dark:bg-darkbg dark:text-darktext">
       {products.map((product) => {
         return (
           <div

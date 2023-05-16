@@ -1,11 +1,10 @@
-import React from "react";
+
 import useSWR from "swr";
 import { API_BASE_URL } from "../../utils/constant";
 import Card from "../../components/Card";
 import { BeatLoader } from "react-spinners";
-
+import {fetcher} from "../../utils/fetcher.jsx";
 const Home = () => {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSWR(API_BASE_URL + "products", fetcher);
   return (
     <div>

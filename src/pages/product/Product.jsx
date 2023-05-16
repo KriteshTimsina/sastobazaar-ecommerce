@@ -6,6 +6,7 @@ import { BeatLoader } from "react-spinners";
 import Rating from "../../components/Rating";
 import { IoMdArrowBack } from "react-icons/io";
 import { cartContext } from "../../context/cartContext";
+import {fetcher} from "../../utils/fetcher.jsx";
 
 const Product = () => {
   const { id } = useParams();
@@ -13,7 +14,6 @@ const Product = () => {
   const navigate = useNavigate();
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSWR(API_BASE_URL + `products/${id}`, fetcher);
   const addToCart = (product) => {
     setCart((prev) => [

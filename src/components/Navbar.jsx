@@ -51,7 +51,7 @@ const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
         <DarkModeSwitch
           checked={isDarkTheme}
           onChange={toggleTheme}
-          className="absolute right-10 text-yellow-400 dark:text-gray-500"
+          className="absolute right-5 sm:right-10 text-yellow-400 dark:text-gray-500"
         />
         <div className="hidden w-full md:block md:w-auto " id="navbar-default">
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
