@@ -39,12 +39,20 @@ const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
                 Home
               </Link>
               <Link
+                  to="/product"
+                  className="my-2 p-1 hover:text-blue-500
+                 hover:bg-slate-200"
+              >
+                Products
+              </Link>
+              <Link
                 to="/cart"
                 className="my-2 p-1 hover:text-blue-500
                  hover:bg-slate-200"
               >
                 Cart ({cart.length})
               </Link>
+
             </div>
           )}
         </button>
@@ -64,6 +72,17 @@ const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
                 className="block py-2 pl-3 pr-4 text-white  rounded md:bg-transparent  md:p-0 "
               >
                 Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/product"
+                style={({ isActive }) => ({
+                  color: isActive ? "#3b82f6" : "white",
+                })}
+                className="block py-2 pl-3 pr-4 text-white  rounded md:bg-transparent  md:p-0 "
+              >
+                Products
               </NavLink>
             </li>
 

@@ -12,7 +12,7 @@ const Card = ({ products }) => {
   }
 
   return (
-    <div className=" flex flex-wrap text-black gap-5 justify-center p-4 bg-white dark:bg-darkbg dark:text-darktext">
+    <div className=" flex flex-wrap text-black gap-5 justify-center md:justify-start p-4 bg-white dark:bg-darkbg dark:text-darktext">
       {products.map((product) => {
         return (
           <div
@@ -26,8 +26,13 @@ const Card = ({ products }) => {
                 className="h-full w-full rounded-full object-cover group-hover:scale-105 transition duration-300"
               />
             </div>
-            <div className="flex justify-evenly items-start w-full px-2">
-              <h4 className="">{product.title.slice(0, 40)} ...</h4>
+            <div className="flex justify-evenly items-start w-full px-2 gap-5">
+              {/*{product.title.slice(0, 40)} ...*/}
+              <h4 className="">
+                {product.title.length >= 20
+                  ? `${product.title.slice(0, 40)}...`
+                  : product.title}
+              </h4>
               <div>
                 <div className="discount-price">
                   <h4 className="text-secondary">${product.price}</h4>

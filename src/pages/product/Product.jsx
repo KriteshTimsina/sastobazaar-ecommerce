@@ -6,7 +6,7 @@ import { BeatLoader } from "react-spinners";
 import Rating from "../../components/Rating";
 import { IoMdArrowBack } from "react-icons/io";
 import { cartContext } from "../../context/cartContext";
-import {fetcher} from "../../utils/fetcher.jsx";
+import { fetcher } from "../../utils/fetcher.jsx";
 
 const Product = () => {
   const { id } = useParams();
@@ -34,7 +34,7 @@ const Product = () => {
       ) : (
         <div className="relative flex flex-col md:flex-row items-center gap-3">
           <Link
-            to="/"
+            to="/product"
             className="absolute -top-8 text-2xl left-5 md:left-0 text-primary hover:text-blue-700 transition"
           >
             <IoMdArrowBack />
@@ -84,6 +84,7 @@ const Product = () => {
                 required
               />
             </div>
+
             <div className="flex justify-center md:justify-start items-center">
               <button
                 onClick={() => addToCart(data)}

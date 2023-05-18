@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Home from "./pages/home/Home";
+import Home from "./pages/home/Home.jsx";
+import Shop from "./pages/shop/Shop.jsx";
 import Cart from "./pages/cart/Cart";
 import Product from "./pages/product/Product";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -22,6 +23,7 @@ function App() {
           <div onClick={() => setIsNavbarExtended(false)}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/product" element={<Shop />} />
               <Route path="/product/:id" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
             </Routes>
