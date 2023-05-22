@@ -11,10 +11,12 @@ const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
   return (
     <nav className=" z-10 border-gray-200 bg-gray-900 shadow-sm shadow-white fixed left-0 right-0 top-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-around mx-auto p-4">
-        <Link to="/" className="flex items-center">
-          <span className="text-white uppercase self-center text-2xl font-semibold whitespace-nowrap">
-            Nest Store
-          </span>
+        <Link
+          to="/"
+          className="flex items-center text-white uppercase self-center text-2xl font-semibold"
+        >
+          Sasto&nbsp;
+          <span className=" whitespace-nowrap text-primary"> Bazaar 🛒</span>
         </Link>
 
         <button
@@ -39,8 +41,8 @@ const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
                 Home
               </Link>
               <Link
-                  to="/product"
-                  className="my-2 p-1 hover:text-blue-500
+                to="/product"
+                className="my-2 p-1 hover:text-blue-500
                  hover:bg-slate-200"
               >
                 Products
@@ -52,7 +54,6 @@ const Navbar = ({ isNavbarExtended, setIsNavbarExtended }) => {
               >
                 Cart ({cart.length})
               </Link>
-
             </div>
           )}
         </button>
