@@ -56,7 +56,7 @@ const Home = () => {
           </div>
         </section>
       </div>
-      <div className="flex flex-col items-center mb-8">
+      <div className="flex flex-col items-center">
         <h2 className="text-3xl italic font-bold uppercase">Sasto Bazaar</h2>
         <p className="text-lg">One stop for your needs</p>
       </div>

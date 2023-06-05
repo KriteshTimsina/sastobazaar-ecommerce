@@ -2,7 +2,7 @@ import React from "react";
 import { GiWorld, GiPriceTag, GiClothes } from "react-icons/gi";
 const Offers = () => {
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-center gap-10 sm:px-5 mb-5">
+    <div className="flex flex-col gap-10 pb-5 sm:flex-row sm:justify-center sm:px-5">
       <div className="flex flex-col items-center sm:border-[#e4e4e4] sm:border-[1px] sm:w-[300px]">
         <GiWorld size={100} />
         <h3 className="font-bold">Nationwide Shipping</h3>

@@ -50,27 +50,29 @@ const Cart = () => {
       <div className="min-h-screen pt-navtop md:flex md:flex-row md:justify-around md:items-start">
         <div className="flex flex-col items-center justify-center mx-2 md:items-start">
           <div className="flex items-center justify-between w-full mb-1">
-            <h2 className="text-xl font-semibold">
-              Shopping Cart ({cart.length})
-            </h2>
             {cart.length !== 0 && (
-              <button
-                onClick={clearCart}
-                className="font-semibold cursor-pointer text-primary hover:text-blue-600"
-              >
-                clear
-              </button>
+              <div className="flex justify-between w-full">
+                <h2 className="text-xl font-semibold">
+                  Shopping Cart ({cart.length})
+                </h2>
+                <button
+                  onClick={clearCart}
+                  className="font-semibold cursor-pointer text-primary hover:text-blue-600"
+                >
+                  clear
+                </button>
+              </div>
             )}
           </div>
           {cart.length === 0 ? (
-            <div className="relative flex flex-col items-center dark:bg-darkbg dark:text-darktext">
-              <p>Shopping Cart is empty</p>
+            <div className="relative flex flex-col items-center gap-2 dark:bg-darkbg dark:text-darktext">
               <img src="/assets/cart.gif" alt="Empty Cart" />
+              <p>Shopping Cart is empty</p>
               <Link
-                to="/"
+                to="/product"
                 className="p-1 text-white transition-all bg-primary hover:scale-105"
               >
-                add to cart
+                add products
               </Link>
             </div>
           ) : (
