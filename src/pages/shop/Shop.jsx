@@ -6,13 +6,12 @@ import { fetcher } from "../../utils/fetcher.jsx";
 import Category from "../../components/category/Category";
 import { IoMdArrowBack } from "react-icons/io";
 import Rating from "../../components/Rating";
-import { useState } from "react";
 import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
 import Filter from "../../components/Filter";
+import { useState } from "react";
 const Shop = () => {
-  const [filteredRange, setFilteredRange] = useState(25);
-  const { data } = useSWR(API_BASE_URL + "products", fetcher);
+  const { data } = useSWR(API_BASE_URL + "products?limit=15", fetcher);
   return (
     <div>
       {!data ? (
