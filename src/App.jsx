@@ -10,6 +10,7 @@ import CartProvider from "./context/cartContext";
 import { useTheme } from "./context/ThemeContext";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
+  const [toggleProfile, setToggleProfile] = useState(false);
   const { isDarkTheme } = useTheme();
   return (
     <div className={`${isDarkTheme ? "dark" : "light"}`}>
@@ -17,10 +18,18 @@ function App() {
         <Router>
           <ScrollToTop />
           <Navbar
-            isNavbarExtended={isNavbarExtended}
-            setIsNavbarExtended={setIsNavbarExtended}
+            {...{
+              isNavbarExtended,
+              setIsNavbarExtended,
+              toggleProfile,
+              setToggleProfile,
+            }}
           />
-          <div onClick={() => setIsNavbarExtended(false)}>
+          <div
+            onClick={() => {
+              setIsNavbarExtended(false), setToggleProfile(false);
+            }}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/product" element={<Shop />} />
