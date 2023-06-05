@@ -9,7 +9,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     domain="dev-y7b1lfas1o860suw.us.auth0.com"
     clientId="k4hq0EnrHoYmeyDJUzX8QcocgWKd2WEc"
     authorizationParams={{
-      redirect_uri: window.location.origin,
+      redirect_uri: "https://sastobazaar.netlify.app",
     }}
   >
     <ThemeProvider>
