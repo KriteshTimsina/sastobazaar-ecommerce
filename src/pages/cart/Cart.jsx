@@ -65,7 +65,7 @@ const Cart = () => {
           {cart.length === 0 ? (
             <div className="relative flex flex-col items-center dark:bg-darkbg dark:text-darktext">
               <p>Shopping Cart is empty</p>
-              <img src="/assets/emptyCart.gif" alt="sdfkjh" width={150} />
+              <img src="/assets/cart.gif" alt="Empty Cart" />
               <Link
                 to="/"
                 className="p-1 text-white transition-all bg-primary hover:scale-105"

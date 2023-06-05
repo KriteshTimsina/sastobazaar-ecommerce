@@ -28,9 +28,9 @@ const Userdetails = ({ toggleProfile, user, logout, showUserDetails }) => {
           </div>
           <p>PROFILE</p>
           <div className="flex flex-col w-full gap-2 cursor-pointer">
-            <p className="hover:bg-slate-800">Activity</p>
-            <p className="hover:bg-slate-800">Settings</p>
-            <p className="hover:bg-slate-800">Help</p>
+            <p className="hover:text-white hover:bg-slate-700">Activity</p>
+            <p className="hover:text-white hover:bg-slate-700">Settings</p>
+            <p className="hover:text-white hover:bg-slate-700">Help</p>
             <input
               type="button"
               value="Logout"
