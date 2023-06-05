@@ -35,7 +35,9 @@ const Userdetails = ({ toggleProfile, user, logout, showUserDetails }) => {
               type="button"
               value="Logout"
               className="p-2 text-white bg-black cursor-pointer w-fit"
-              onClick={() => logout({ returnTo: window.location.origin })}
+              onClick={() =>
+                logout({ returnTo: "https://sastobazaar.netlify.app" })
+              }
             />
           </div>
         </div>
