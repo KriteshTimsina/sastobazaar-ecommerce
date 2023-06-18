@@ -9,13 +9,31 @@ import Rating from "../../components/Rating";
 import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
 import Filter from "../../components/Filter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const Shop = () => {
   const { data } = useSWR(API_BASE_URL + "products?limit=15", fetcher);
+  const [products, setProducts] = useState(data);
+  const [page, setPage] = useState(1);
+  function incrementPage() {
+    setPage(page < 2 ? page + 1 : page);
+  }
+  function decrementPage() {
+    setPage(page > 1 ? page - 1 : page);
+  }
+  useEffect(() => {
+    async function getProductsPage() {
+      const res = await fetch(API_BASE_URL + `products?limit=${15 * page}`);
+      const products = await res.json();
+      const slicedProduct = products.slice(-15);
+      setProducts(slicedProduct);
+    }
+    console.log(page);
+    getProductsPage();
+  }, [page]);
   return (
     <div>
-      {!data ? (
-        <div className="flex justify-center items-center h-screen bg-white text-black dark:bg-darkbg dark:text-darktext">
+      {!products ? (
+        <div className="flex items-center justify-center h-screen text-black bg-white dark:bg-darkbg dark:text-darktext">
           <BeatLoader color="#3b82f6" />
         </div>
       ) : (
@@ -23,11 +41,11 @@ const Shop = () => {
           <div className=" flex flex-col  items-center sm:items-start pl-5 gap-10 mt-1 sm:min-w-[300px]">
             <div className=" border-[1px] border-util flex items-center p-2 dark:text-white ">
               <input
-                className="border-none outline-none bg-transparent dark:bg-darkbg dark:text-white"
+                className="bg-transparent border-none outline-none dark:bg-darkbg dark:text-white"
                 type="text"
                 placeholder="Search Products..."
               />
-              <IoMdArrowBack className="cursor-pointer rotate-180 bg-primary text-white h-full w-full " />
+              <IoMdArrowBack className="w-full h-full text-white rotate-180 cursor-pointer bg-primary " />
             </div>
             <div className="hidden sm:flex">
               <Filter />
@@ -35,37 +53,35 @@ const Shop = () => {
             <div className="hidden sm:flex">
               <Category />
             </div>
-            <div className=" hidden sm:flex flex-col gap-3">
-              <h3 className="font-semibold text-lg dark:text-darktext">
+            <div className="flex-col hidden gap-3 sm:flex">
+              <h3 className="text-lg font-semibold dark:text-darktext">
                 For Him
               </h3>
-              <div className="flex flex-col items-start gap-10 dark:text-darktext p-1">
-                {data
-                  .filter((items) => items.category === "men's clothing")
-                  .map((product) => (
-                    <div className="flex gap-2 items-center border-b-[1px] w-full border-[#e4e4e4]">
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        width={40}
-                        height={40}
-                      />
+              <div className="flex flex-col items-start gap-10 p-1 dark:text-darktext">
+                {products.length > 0 &&
+                  products
+                    .filter((items) => items.category === "men's clothing")
+                    .map((product) => (
+                      <div className="flex gap-2 items-center border-b-[1px] w-full border-[#e4e4e4]">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          width={40}
+                          height={40}
+                        />
 
-                      <div>
-                        <h2>{product.title}</h2>
-                        <Rating rating={product.rating.rate} />
-                        <p className="text-secondary">${product.price}</p>
+                        <div>
+                          <h2>{product.title}</h2>
+                          <Rating rating={product.rating.rate} />
+                          <p className="text-secondary">${product.price}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
               </div>
             </div>
           </div>
-          <div
-            className="rounded-md mb-3 flex justify-center flex-col items-center bg-white sm:items-start text-black dark:bg-darkbg dark:text-darktext
-        "
-          >
-            <div className="ml-5 mt-5">
+          <div className="flex flex-col items-center justify-center mb-3 text-black bg-white rounded-md sm:items-start dark:bg-darkbg dark:text-darktext ">
+            <div className="mt-5 ml-5">
               <p>
                 <Link to="/">Home</Link> /{" "}
                 <span className="text-primary">Store</span>
@@ -74,11 +90,11 @@ const Shop = () => {
                 Our Products
               </h3>
             </div>
-            <Card products={data} />
-            <div className="ml-5 mb-5">
-              <Pagination />
+            <Card products={products} />
+            <div className="mb-5 ml-5">
+              <Pagination {...{ page, incrementPage, decrementPage }} />
             </div>
-            <div className="flex sm:hidden  self-start ml-20 sm:ml-0 mb-5 sm:mb-0">
+            <div className="flex self-start mb-5 ml-20 sm:hidden sm:ml-0 sm:mb-0">
               <Category />
             </div>
             <div className="flex sm:hidden ">
