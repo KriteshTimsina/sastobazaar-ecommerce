@@ -4,12 +4,12 @@ import Card from "../../components/Card";
 import { BeatLoader } from "react-spinners";
 import { fetcher } from "../../utils/fetcher.jsx";
 import Category from "../../components/category/Category";
-import { IoMdArrowBack } from "react-icons/io";
 import Rating from "../../components/Rating";
 import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
 import Filter from "../../components/Filter";
 import { useEffect, useState } from "react";
+import SearchBar from "../../components/SearchBar";
 const Shop = () => {
   const { data } = useSWR(API_BASE_URL + "products?limit=15", fetcher);
   const [products, setProducts] = useState(data);
@@ -38,15 +38,8 @@ const Shop = () => {
         </div>
       ) : (
         <div className="flex flex-col sm:flex-row pt-navtop sm:px-2 bg-graded dark:bg-darkbg">
-          <div className=" flex flex-col  items-center sm:items-start pl-5 gap-10 mt-1 sm:min-w-[300px]">
-            <div className=" border-[1px] border-util flex items-center p-2 dark:text-white ">
-              <input
-                className="bg-transparent border-none outline-none dark:bg-darkbg dark:text-white"
-                type="text"
-                placeholder="Search Products..."
-              />
-              <IoMdArrowBack className="w-full h-full text-white rotate-180 cursor-pointer bg-primary " />
-            </div>
+          <div className=" flex flex-col  items-center sm:items-start gap-1 mt-1 sm:min-w-[300px]">
+            <SearchBar />
             <div className="hidden sm:flex">
               <Filter />
             </div>
