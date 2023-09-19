@@ -142,7 +142,7 @@ const Cart = () => {
                   Checkout
                 </button>
                 <Link
-                  to="/"
+                  to="/product"
                   className="w-full px-2 py-1 text-lg text-center text-white bg-primary"
                 >
                   Add More
@@ -158,7 +158,7 @@ const Cart = () => {
               <p>
                 <span className="font-semibold">{cart.length}</span> selected{" "}
               </p>
-              <Link to="/" className="font-semibold text-primary">
+              <Link to="/product" className="font-semibold text-primary">
                 add more
               </Link>
             </div>
