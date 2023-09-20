@@ -10,6 +10,8 @@ import CartProvider from "./context/cartContext";
 import { useTheme } from "./context/ThemeContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import Protected from "./utils/ProtectedRoute";
+import Checkout from "./pages/checkout/Checkout";
+import Success from "./components/checkout/Success";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -46,6 +48,8 @@ function App() {
                   </Protected>
                 }
               />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/success" element={<Success />} />
             </Routes>
           </div>
         </Router>

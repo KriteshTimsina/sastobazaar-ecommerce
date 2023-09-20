@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { cartContext } from "../../context/cartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -8,10 +8,21 @@ let SERVICE_CHARGE = 10;
 
 const Cart = () => {
   const { cart, setCart } = useContext(cartContext);
-
+  const navigate = useNavigate();
   const [subTotal, setSubTotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
   const { isAuthenticated } = useAuth0();
+
+  useEffect(() => {
+    handleTotal();
+  }, []);
+  useEffect(() => {
+    calculateTax();
+  }, [subTotal]);
+
+  const handleCheckout = () => {
+    navigate("/checkout", { state: { cart, subTotal, taxAmount } });
+  };
 
   function handleTotal() {
     let total = 0;
@@ -38,12 +49,6 @@ const Cart = () => {
   function clearCart() {
     setCart([]);
   }
-  useEffect(() => {
-    handleTotal();
-  }, []);
-  useEffect(() => {
-    calculateTax();
-  }, [subTotal]);
 
   return (
     <div className="flex justify-around dark:text-darktext dark:bg-darkbg">
@@ -138,7 +143,10 @@ const Cart = () => {
                 <p>${(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)}</p>
               </div>
               <div className="flex flex-col justify-center gap-2 mt-2">
-                <button className="w-full px-2 py-1 text-lg text-white bg-primary">
+                <button
+                  onClick={handleCheckout}
+                  className="w-full px-2 py-1 text-lg text-white bg-primary"
+                >
                   Checkout
                 </button>
                 <Link
@@ -181,7 +189,10 @@ const Cart = () => {
                   </span>
                 </p>
               </div>
-              <button className="px-2 py-1 text-lg text-white bg-primary">
+              <button
+                onClick={handleCheckout}
+                className="px-2 py-1 text-lg text-white bg-primary"
+              >
                 Checkout
               </button>
             </div>

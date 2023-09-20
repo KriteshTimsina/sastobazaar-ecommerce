@@ -13,7 +13,7 @@ const SearchBar = () => {
   useEffect(() => {
     const result = setTimeout(() => {
       const filteredProducts = data?.filter((product) =>
-        product.title.toLowerCase().includes(search)
+        product.title.toLowerCase().includes(search.toLowerCase())
       );
       setProducts(filteredProducts);
     }, 300);
