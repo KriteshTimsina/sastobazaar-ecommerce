@@ -6,9 +6,8 @@ import { fetcher } from "../../utils/fetcher.jsx";
 import Category from "../../components/category/Category";
 import Rating from "../../components/Rating";
 import Pagination from "../../components/Pagination";
-import { Link, useRevalidator } from "react-router-dom";
-import Filter from "../../components/Filter";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar";
 import Sort from "../../components/Sort";
 const Shop = () => {
@@ -16,6 +15,7 @@ const Shop = () => {
   const [products, setProducts] = useState(data);
   const [page, setPage] = useState(1);
   const [sortItems, setSortItems] = useState("");
+  const navigate = useNavigate();
 
   function handleReset() {
     setProducts([...data]);
@@ -68,9 +68,6 @@ const Shop = () => {
           <div className=" flex flex-col  items-center sm:items-start gap-1 mt-1 sm:min-w-[300px]">
             <SearchBar />
             <Sort {...{ sortItems, setSortItems, handleReset }} />
-            <div className="hidden sm:flex">
-              <Category />
-            </div>
             <div className="flex-col hidden gap-3 sm:flex">
               <h3 className="text-lg font-semibold dark:text-darktext">
                 For Him
@@ -81,8 +78,9 @@ const Shop = () => {
                     .filter((items) => items.category === "men's clothing")
                     .map((product) => (
                       <div
+                        onClick={() => navigate(`/product/${product.id}`)}
                         key={product.id}
-                        className="flex gap-2 items-center border-b-[1px] w-full border-[#e4e4e4]"
+                        className="flex gap-2 items-center border-b-[1px] w-full border-[#e4e4e4] cursor-pointer"
                       >
                         <img
                           src={product.image}
@@ -114,9 +112,6 @@ const Shop = () => {
             <Card products={products} />
             <div className="mb-5 ml-5">
               <Pagination {...{ page, incrementPage, decrementPage }} />
-            </div>
-            <div className="flex self-start mb-5 ml-20 sm:hidden sm:ml-0 sm:mb-0">
-              <Category />
             </div>
           </div>
         </div>

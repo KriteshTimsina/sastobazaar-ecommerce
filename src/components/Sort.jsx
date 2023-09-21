@@ -8,7 +8,7 @@ const Sort = ({ sortItems, setSortItems, handleReset }) => {
         <select
           value={sortItems}
           onChange={(e) => setSortItems(e.target.value)}
-          className="dark:bg-darkbg p-1 dark:text-white dark:border-primary border-[1px] border-black rounded-sm"
+          className="w-2/3 dark:bg-darkbg p-2 dark:text-white dark:border-primary border-[1px] border-black rounded-sm"
         >
           <option value="">SORT BY</option>
           <option value="price-high">Price &uarr;</option>

@@ -16,6 +16,7 @@ function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
   const { isDarkTheme } = useTheme();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
     <div className={`${isDarkTheme ? "dark" : "light"}`}>
@@ -42,9 +43,9 @@ function App() {
               <Route
                 path="/cart"
                 element={
-                  // <Protected {...{ isAuthenticated, loginWithRedirect }}>
-                  <Cart />
-                  // </Protected>
+                  <Protected {...{ isAuthenticated, loginWithRedirect }}>
+                    <Cart />
+                  </Protected>
                 }
               />
               <Route path="/checkout" element={<Checkout />} />
