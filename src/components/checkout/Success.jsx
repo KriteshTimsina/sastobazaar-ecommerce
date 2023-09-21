@@ -15,8 +15,8 @@ const Success = () => {
             Order Placed Successfully!
           </h3>
           <p class="text-gray-600 dark:text-gray-100 my-2">
-            Thank you for prder. You'll soon receive an email regarding your
-            order.
+            Thank you for your order. You'll soon receive an email regarding
+            your order.
           </p>
           <p className="dark:text-gray-50"> Have a great day! </p>
           <div class="py-10 text-center">

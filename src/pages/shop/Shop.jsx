@@ -6,20 +6,44 @@ import { fetcher } from "../../utils/fetcher.jsx";
 import Category from "../../components/category/Category";
 import Rating from "../../components/Rating";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useRevalidator } from "react-router-dom";
 import Filter from "../../components/Filter";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar";
+import Sort from "../../components/Sort";
 const Shop = () => {
-  const { data } = useSWR(API_BASE_URL + "products?limit=15", fetcher);
+  const { data } = useSWR(API_BASE_URL + "products?limit=10", fetcher);
   const [products, setProducts] = useState(data);
   const [page, setPage] = useState(1);
-  function incrementPage() {
-    setPage(page < 2 ? page + 1 : page);
+  const [sortItems, setSortItems] = useState("");
+
+  function handleReset() {
+    setProducts([...data]);
+    setSortItems("");
   }
-  function decrementPage() {
-    setPage(page > 1 ? page - 1 : page);
-  }
+
+  useEffect(() => {
+    let sortedProducts;
+    switch (sortItems) {
+      case "price-high":
+        sortedProducts = products.sort((a, b) => b.price - a.price);
+        setProducts([...sortedProducts]);
+        break;
+      case "price-low":
+        sortedProducts = products.sort((a, b) => a.price - b.price);
+        setProducts([...sortedProducts]);
+        break;
+      case "rating-high":
+        sortedProducts = products.sort((a, b) => b.rating.rate - a.rating.rate);
+        setProducts([...sortedProducts]);
+        break;
+      case "rating-low":
+        sortedProducts = products.sort((a, b) => a.rating.rate - b.rating.rate);
+        setProducts([...sortedProducts]);
+        break;
+    }
+  }, [sortItems]);
+
   useEffect(() => {
     async function getProductsPage() {
       const res = await fetch(API_BASE_URL + `products?limit=${15 * page}`);
@@ -27,9 +51,12 @@ const Shop = () => {
       const slicedProduct = products.slice(-15);
       setProducts(slicedProduct);
     }
-    console.log(page);
     getProductsPage();
   }, [page]);
+
+  const incrementPage = () => setPage(page < 2 ? page + 1 : page);
+  const decrementPage = () => setPage(page > 1 ? page - 1 : page);
+
   return (
     <div>
       {!products ? (
@@ -40,9 +67,7 @@ const Shop = () => {
         <div className="flex flex-col sm:flex-row pt-navtop sm:px-2 bg-graded dark:bg-darkbg">
           <div className=" flex flex-col  items-center sm:items-start gap-1 mt-1 sm:min-w-[300px]">
             <SearchBar />
-            <div className="hidden sm:flex">
-              <Filter />
-            </div>
+            <Sort {...{ sortItems, setSortItems, handleReset }} />
             <div className="hidden sm:flex">
               <Category />
             </div>
@@ -55,7 +80,10 @@ const Shop = () => {
                   products
                     .filter((items) => items.category === "men's clothing")
                     .map((product) => (
-                      <div className="flex gap-2 items-center border-b-[1px] w-full border-[#e4e4e4]">
+                      <div
+                        key={product.id}
+                        className="flex gap-2 items-center border-b-[1px] w-full border-[#e4e4e4]"
+                      >
                         <img
                           src={product.image}
                           alt={product.title}
@@ -89,9 +117,6 @@ const Shop = () => {
             </div>
             <div className="flex self-start mb-5 ml-20 sm:hidden sm:ml-0 sm:mb-0">
               <Category />
-            </div>
-            <div className="flex sm:hidden ">
-              <Filter />
             </div>
           </div>
         </div>
