@@ -12,6 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Protected from "./utils/ProtectedRoute";
 import Checkout from "./pages/checkout/Checkout";
 import Success from "./components/checkout/Success";
+import Error from "./pages/404/Error";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -50,6 +51,7 @@ function App() {
               />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/checkout/success" element={<Success />} />
+              <Route path="*" element={<Error />} />
             </Routes>
           </div>
         </Router>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Success = () => {
   return (
@@ -20,12 +21,12 @@ const Success = () => {
           </p>
           <p className="dark:text-gray-50"> Have a great day! </p>
           <div class="py-10 text-center">
-            <a
-              href="/product"
+            <Link
+              to="/product"
               class="px-12 bg-primary hover:bg-blue-600 text-white font-semibold py-3"
             >
               GO BACK
-            </a>
+            </Link>
           </div>
         </div>
       </div>

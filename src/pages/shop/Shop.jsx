@@ -10,8 +10,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar";
 import Sort from "../../components/Sort";
+
 const Shop = () => {
-  const { data } = useSWR(API_BASE_URL + "products?limit=10", fetcher);
+  const { data } = useSWR(API_BASE_URL + "products?limit=15", fetcher);
   const [products, setProducts] = useState(data);
   const [page, setPage] = useState(1);
   const [sortItems, setSortItems] = useState("");
