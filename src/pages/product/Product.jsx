@@ -57,19 +57,7 @@ const Product = () => {
             <div className="flex justify-start items-center px-7">
               <Rating rating={data.rating.rate} id={data.id} />
             </div>
-            <div className="flex justify-start items-center px-7 my-2 gap-2 ">
-              <p className="font-semibold">Size: </p>
-              <select
-                onChange={(event) => setSize(event.target.value)}
-                name=""
-                id=""
-                className="border border-1 bg-white dark:bg-darkbg"
-              >
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-              </select>
-            </div>
+
             <div className="flex justify-start gap-2 md:justify-start px-7 mb-3">
               <p className="font-semibold">Quantity: </p>
               <input

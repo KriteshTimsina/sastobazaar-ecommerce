@@ -103,7 +103,6 @@ const Cart = () => {
                           <h2 className="font-semibold uppercase">
                             {item.product.title.slice(0, 30)}
                           </h2>
-                          <h2 className="text-slate-500">Size: {item.size}</h2>
                         </div>
                       </div>
                       <div className="flex flex-col items-center justify-center ">
