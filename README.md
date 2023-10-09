@@ -17,13 +17,6 @@ Welcome to Sastobazaar, where shopping meets convenience! Dive into a seamless o
 ![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/01f726cf-1941-48de-89d5-ed13aca0f5b3)
 
 
-## Features:
-
-### 1. Product Variety
-### 2. Shopping Cart
-### 3. Seamless Checkout
-### 4. Product Filtering and Search
-
 ##Contributing
 
 1. Fork the Project
