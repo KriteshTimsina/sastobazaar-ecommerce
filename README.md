@@ -1,6 +1,6 @@
 <br/>
 <p>
-  <a href="https://sastobazaar.netlify.app">
+  <a target="_blank" href="https://sastobazaar.netlify.app">
     <h3>Sasto Bazaar</h3>
   </a>
   <p>
@@ -25,4 +25,4 @@ Welcome to Sastobazaar, where shopping meets convenience! Dive into a seamless o
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-Experience the joy of online shopping with Sastobazaar. Discover, shop, and enjoy the convenience of having your favorite products delivered to you. Have questions or suggestions? We welcome you to contribute to our [GitHub repository](https://github.com/kriteshTimsina/sastobazaar-ecommerce)!
+Experience the joy of online shopping with Sastobazaar. Discover, shop, and enjoy the convenience of having your favorite products delivered to you. Have questions or suggestions? We welcome you to contribute to our [GitHub repository](https://github.com/KriteshTimsina/sastobazaar-ecommerce)!
