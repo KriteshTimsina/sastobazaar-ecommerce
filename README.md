@@ -1,40 +1,35 @@
-<body>
-  <a href="https://neststore.netlify.app/">NEST STORE</a>
-  <p>A simple E-Commerce web application made with React js</p>
-  <p>Note: change system themes to toggle between dark and  light mode.</p>
-  <h2>Table of Contents</h2>
-  <ul>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#technologies-used">Technologies</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-  </ul>
-  <h2>Installation</h2>
-  <p>To use this app, first clone or fetch the repository:</p>
-  <pre><code>git clone https://github.com/KriteshTimsina/nestnepal-frontend-NestStore.git</code></pre>
-  <p>Then, navigate to the project directory and install the dependencies:</p>
-  <pre><code>cd nestnepal-frontend-NestStore
-   npm install</code></pre>
-  <h2>Usage</h2>
-  <p>To start the app, run:</p>
-  <pre><code>npm run dev</code></pre>
-  <p>This will start the app on <a href="http://localhost:5173">http://localhost:5173</a>.</p>
-  <h2>Technologies</h2>
-  <ul>
-    <li>React</li>
-    <li>React Router Dom</li>
-    <li>React Hooks</li>
-    <li>Context API</li>
-    <li>Tailwind Css</li>
-    <li>SWR</li>
-  </ul>
-  <h2>Contributing</h2>
-  <p>Please follow these steps in order to contribute to this project:</p>
-  <ol>
-    <li>Fork the repository.</li>
-    <li>Create a new branch for your feature: <code>git checkout -b feature-name</code></li>
-    <li>Make your changes and commit them: <code>git commit -m 'Description of changes'</code></li>
-    <li>Push to your branch: <code>git push origin feature-name</code></li>
-    <li>Create a pull request for your changes.</li>
-  </ol>
-</body>
+<br/>
+<p>
+  <a href="https://sastobazaar.netlify.app">
+    <h3>Sasto Bazaar</h3>
+  </a>
+  <p>
+    Where shopping meets convenience
+    <br/>
+    <br/>
+  </p>
+</p>
+
+Welcome to Sastobazaar, where shopping meets convenience! Dive into a seamless online shopping experience with a myriad of features designed to make your purchase journey enjoyable and hassle-free.
+
+![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/86ca6f73-be26-4bdb-8f21-813afc901952)
+![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/e4e9a3a1-e10b-40bb-bd5b-76f8a997beb7)
+![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/01f726cf-1941-48de-89d5-ed13aca0f5b3)
+
+
+## Features:
+
+### 1. Product Variety
+### 2. Shopping Cart
+### 3. Seamless Checkout
+### 4. Product Filtering and Search
+
+##Contributing
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Experience the joy of online shopping with Sastobazaar. Discover, shop, and enjoy the convenience of having your favorite products delivered to you. Have questions or suggestions? We welcome you to contribute to our [GitHub repository](https://github.com/kriteshTimsina/sastobazaar-ecommerce)!
