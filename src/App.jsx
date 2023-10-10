@@ -44,9 +44,9 @@ function App() {
               <Route
                 path="/cart"
                 element={
-                  // <Protected {...{ isAuthenticated, loginWithRedirect }}>
+                  <Protected {...{ isAuthenticated, loginWithRedirect }}>
                     <Cart />
-                  // </Protected>
+                  </Protected>
                 }
               />
               <Route path="/checkout" element={<Checkout />} />
