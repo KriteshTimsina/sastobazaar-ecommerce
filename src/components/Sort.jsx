@@ -8,7 +8,7 @@ const Sort = ({ sortItems, setSortItems, handleReset }) => {
         <select
           value={sortItems}
           onChange={(e) => setSortItems(e.target.value)}
-          className="w-2/3 dark:bg-darkbg p-2 dark:text-white dark:border-primary border-[1px] border-black rounded-sm"
+          className="w-2/3 dark:bg-darkbg p-2 dark:text-white  border-[1px] border-slate-300 rounded-sm"
         >
           <option value="">SORT BY</option>
           <option value="price-high">Price &uarr;</option>
@@ -16,8 +16,8 @@ const Sort = ({ sortItems, setSortItems, handleReset }) => {
           <option value="price-low">Price &darr;</option>
           <option value="rating-low">Rating &darr;</option>
         </select>
-        <button onClick={handleReset} title="Reset">
-          <GrPowerReset className="active:animate-spin " />
+        <button className="dark:bg-slate-200 dark:rounded-full p-2" onClick={handleReset} title="Reset">
+          <GrPowerReset color="#cbd5e1"  className="active:animate-spin"  />
         </button>
       </div>
       <hr />

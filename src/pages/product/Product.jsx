@@ -12,13 +12,12 @@ const Product = () => {
   const { id } = useParams();
   const { setCart } = useContext(cartContext);
   const navigate = useNavigate();
-  const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
   const { data } = useSWR(API_BASE_URL + `products/${id}`, fetcher);
   const addToCart = (product) => {
     setCart((prev) => [
       ...prev,
-      { product: product, size: size, quantity: quantity },
+      { product: product,  quantity: quantity },
     ]);
     navigate("/cart");
   };

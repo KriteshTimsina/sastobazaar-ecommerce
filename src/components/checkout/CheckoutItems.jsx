@@ -20,10 +20,6 @@ const CheckoutItems = ({ items }) => {
                 <span className="float-right text-gray-400">
                   Quantity-{item.quantity}
                 </span>
-                <span className="float-right text-gray-400">
-                  {" "}
-                  Size- {item.size}{" "}
-                </span>
               </div>
               <p className="text-lg font-bold">${item.product.price}</p>
             </div>
