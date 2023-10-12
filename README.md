@@ -1,20 +1,20 @@
-<br/>
-<p>
-  <a target="_blank" href="https://sastobazaar.netlify.app">
-    <h3>Sasto Bazaar</h3>
-  </a>
-  <p>
-    Where shopping meets convenience
-    <br/>
-    <br/>
-  </p>
-</p>
+<div align="center" style="position: relative;">
+    <a href="https://sastobazaar.netlify.app">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent;">SastoBazaar</div>
+    </a>
+    <p style="font-family: Roboto, Calibri; font-size: 12pt; font-style: italic"> Where shopping meets convenience</p>
+   <a href="https://github.com/kriteshTimsina/sastobazaar-ecommerce/forks">
+        <img alt="GitHub forks" src="https://img.shields.io/github/forks/kriteshTimsina/sastobazaar-ecommerce?color=orange">
+    </a>
+    <a href="https://github.com/kriteshTimsina/sastobazaar-ecommerce/stargazers">
+        <img alt="GitHub forks" src="https://img.shields.io/github/stars/kriteshTimsina/sastobazaar-ecommerce">
+    </a>
+</div>
 
+# [SastoBazaar](https://sastobazaar.netlify.app)
 Welcome to Sastobazaar, where shopping meets convenience! Dive into a seamless online shopping experience with a myriad of features designed to make your purchase journey enjoyable and hassle-free.
 
 ![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/86ca6f73-be26-4bdb-8f21-813afc901952)
-![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/e4e9a3a1-e10b-40bb-bd5b-76f8a997beb7)
-![image](https://github.com/KriteshTimsina/sastobazaar-ecommerce/assets/103115789/01f726cf-1941-48de-89d5-ed13aca0f5b3)
 
 
 ##Contributing
