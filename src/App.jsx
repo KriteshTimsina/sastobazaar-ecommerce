@@ -13,6 +13,7 @@ import Protected from "./utils/ProtectedRoute";
 import Checkout from "./pages/checkout/Checkout";
 import Success from "./components/checkout/Success";
 import Error from "./pages/404/Error";
+import Footer from "./components/Footer";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -54,6 +55,8 @@ function App() {
               <Route path="*" element={<Error />} />
             </Routes>
           </div>
+
+          <Footer />
         </Router>
       </CartProvider>
     </div>
