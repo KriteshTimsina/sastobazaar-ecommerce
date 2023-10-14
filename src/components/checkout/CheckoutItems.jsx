@@ -23,7 +23,7 @@ const CheckoutItems = ({ items }) => {
                   Quantity-{item.quantity}
                 </span>
               </div>
-              <p className="text-lg font-bold">Rs. {getLocalPrice(item.product.price)}</p>
+              <p className="text-lg font-bold">Rs. {getLocalPrice(item.product.price).toLocaleString()}</p>
             </div>
           </div>
         );

@@ -49,7 +49,7 @@ const Product = () => {
           <div>
             <div className="flex justify-between items-center px-7 gap-2">
               <h2 className="font-semibold text-lg">{data.title}</h2>
-              <p className="text-secondary">Rs. {getLocalPrice(data.price)}</p>
+              <p className="text-secondary">Rs. {getLocalPrice(data.price).toLocaleString()}</p>
             </div>
             <div className="flex justify-center items-center px-7">
               <p>{data.description}</p>

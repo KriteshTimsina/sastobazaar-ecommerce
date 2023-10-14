@@ -36,7 +36,7 @@ const Card = ({ products }) => {
               </h4>
               <div>
                 <div className="discount-price">
-                  <h4 className="text-secondary">Rs. {getLocalPrice(product.price)}</h4>
+                  <h4 className="text-secondary prose prose-lg">Rs. {getLocalPrice(product.price).toLocaleString()}</h4>
                 </div>
               </div>
             </div>

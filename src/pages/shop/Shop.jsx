@@ -95,7 +95,7 @@ const Shop = () => {
                         <div>
                           <h2>{product.title}</h2>
                           <Rating rating={product.rating.rate} />
-                          <p className="text-secondary">Rs. {getLocalPrice(product.price)}</p>
+                          <p className="text-secondary">Rs. {getLocalPrice(product.price).toLocaleString()}</p>
                         </div>
                       </div>
                     ))}
