@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { getLocalPrice } from "../../utils/common";
+
 let SERVICE_CHARGE = 10;
 
 const Cart = () => {
@@ -107,7 +109,7 @@ const Cart = () => {
                       </div>
                       <div className="flex flex-col items-center justify-center ">
                         <p className="font-semibold text-secondary">
-                          ${item.product.price * item.quantity}
+                          Rs. {getLocalPrice(item.product.price * item.quantity)}
                         </p>
                         <h2 className="text-slate-500">Qty:{item.quantity}</h2>
                       </div>
@@ -125,7 +127,7 @@ const Cart = () => {
             <div className="flex flex-col">
               <div className="flex justify-between gap-5 text-slate-500">
                 <p>SUBTOTAL</p>
-                <p>${subTotal.toFixed(2)}</p>
+                <p>Rs. {getLocalPrice(subTotal).toFixed(2)}</p>
               </div>
               <div className="flex justify-between gap-5 text-slate-500">
                 <p>SERVICE CHARGE</p>
@@ -139,7 +141,7 @@ const Cart = () => {
               <hr />
               <div className="flex justify-between gap-5 text-slate-500 border-t-[1px] border-[#e4e4e4]">
                 <p>TOTAL</p>
-                <p>${(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)}</p>
+                <p>Rs. {getLocalPrice(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)}</p>
               </div>
               <div className="flex flex-col justify-center gap-2 mt-2">
                 <button
@@ -173,7 +175,7 @@ const Cart = () => {
               <div className="">
                 <p>
                   SUBTOTAL:{" "}
-                  <span className="text-secondary">${subTotal.toFixed(2)}</span>
+                  <span className="text-secondary">Rs. {getLocalPrice(subTotal).toFixed(2)}</span>
                 </p>
                 <p>
                   ADDITIONAL:{" "}
@@ -184,7 +186,7 @@ const Cart = () => {
                 <p className="font-semibold text-black dark:text-white">
                   TOTAL:
                   <span className="text-secondary">
-                    ${(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)}
+                    Rs. {getLocalPrice(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)}
                   </span>
                 </p>
               </div>

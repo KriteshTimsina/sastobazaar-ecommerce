@@ -7,6 +7,7 @@ import Rating from "../../components/Rating";
 import { IoMdArrowBack } from "react-icons/io";
 import { cartContext } from "../../context/cartContext";
 import { fetcher } from "../../utils/fetcher.jsx";
+import { getLocalPrice } from "../../utils/common";
 
 const Product = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ const Product = () => {
           <div>
             <div className="flex justify-between items-center px-7 gap-2">
               <h2 className="font-semibold text-lg">{data.title}</h2>
-              <p className="text-secondary">${data.price}</p>
+              <p className="text-secondary">Rs. {getLocalPrice(data.price)}</p>
             </div>
             <div className="flex justify-center items-center px-7">
               <p>{data.description}</p>

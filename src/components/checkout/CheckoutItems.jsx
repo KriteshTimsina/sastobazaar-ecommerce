@@ -1,5 +1,7 @@
 import React from "react";
 
+import { getLocalPrice } from "../../utils/common";
+
 const CheckoutItems = ({ items }) => {
   return (
     <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
@@ -21,7 +23,7 @@ const CheckoutItems = ({ items }) => {
                   Quantity-{item.quantity}
                 </span>
               </div>
-              <p className="text-lg font-bold">${item.product.price}</p>
+              <p className="text-lg font-bold">Rs. {getLocalPrice(item.product.price)}</p>
             </div>
           </div>
         );
