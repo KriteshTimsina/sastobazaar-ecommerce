@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AiFillHeart, AiOutlineEye } from "react-icons/ai";
 import Rating from "./Rating";
 import { cartContext } from "../context/cartContext";
+import { getLocalPrice } from "../utils/common";
 
 const Card = ({ products }) => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Card = ({ products }) => {
               </h4>
               <div>
                 <div className="discount-price">
-                  <h4 className="text-secondary">${product.price}</h4>
+                  <h4 className="text-secondary">Rs. {getLocalPrice(product.price).toLocaleString()}</h4>
                 </div>
               </div>
             </div>

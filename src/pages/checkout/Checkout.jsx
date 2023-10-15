@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import CheckoutItems from "../../components/checkout/CheckoutItems";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+import { getLocalPrice } from "../../utils/common";
+
 const Checkout = () => {
   const { state: items } = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("pay");
@@ -15,6 +17,7 @@ const Checkout = () => {
   const [billingZip, setBillingZip] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  let SERVICE_CHARGE = 10;
 
   const validateForm = () => {
     let valid = true;
@@ -377,7 +380,15 @@ const Checkout = () => {
                   Subtotal
                 </p>
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  ${items.subTotal.toFixed(2)}
+                  Rs. {parseFloat(getLocalPrice(items.subTotal).toFixed(2)).toLocaleString()}
+                </p>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  Service Charges
+                </p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Rs. {parseFloat(getLocalPrice(SERVICE_CHARGE).toFixed(2)).toLocaleString()}
                 </p>
               </div>
               <div className="flex items-center justify-between">
@@ -385,7 +396,7 @@ const Checkout = () => {
                   Tax
                 </p>
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  ${items.taxAmount.toFixed(2)}
+                  Rs. {parseFloat(getLocalPrice(items.taxAmount).toFixed(2)).toLocaleString()}
                 </p>
               </div>
             </div>
@@ -394,7 +405,7 @@ const Checkout = () => {
                 Total
               </p>
               <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                ${(items.subTotal + items.taxAmount).toFixed(2)}
+                Rs. {parseFloat(getLocalPrice(items.subTotal + SERVICE_CHARGE + items.taxAmount).toFixed(2)).toLocaleString()}
               </p>
             </div>
           </div>

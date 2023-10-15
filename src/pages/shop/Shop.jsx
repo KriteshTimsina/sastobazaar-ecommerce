@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar";
 import Sort from "../../components/Sort";
 
+import { getLocalPrice } from "../../utils/common";
+
 const Shop = () => {
   const { data } = useSWR(API_BASE_URL + "products?limit=15", fetcher);
   const [products, setProducts] = useState(data);
@@ -93,7 +95,7 @@ const Shop = () => {
                         <div>
                           <h2>{product.title}</h2>
                           <Rating rating={product.rating.rate} />
-                          <p className="text-secondary">${product.price}</p>
+                          <p className="text-secondary">Rs. {getLocalPrice(product.price).toLocaleString()}</p>
                         </div>
                       </div>
                     ))}

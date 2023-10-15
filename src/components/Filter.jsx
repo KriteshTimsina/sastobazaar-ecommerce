@@ -17,7 +17,7 @@ const Filter = () => {
       <div className="flex justify-between items-center">
         <button className="bg-primary text-white text-base p-2">FILTER</button>
         <p className="text-base dark:text-darktext">
-          <span className="text-gray-600 dark:text-gray-200">Price:</span> $
+          <span className="text-gray-600 dark:text-gray-200">Price:</span> Rs.
           {filteredRange}
         </p>
       </div>
