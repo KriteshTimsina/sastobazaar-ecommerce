@@ -131,11 +131,11 @@ const Cart = () => {
               </div>
               <div className="flex justify-between gap-5 text-slate-500">
                 <p>SERVICE CHARGE</p>
-                <p>${SERVICE_CHARGE}</p>
+                <p>Rs. {getLocalPrice(SERVICE_CHARGE).toLocaleString()}</p>
               </div>
               <div className="flex justify-between gap-5 text-slate-500">
                 <p>TAX</p>
-                <p>${taxAmount}</p>
+                <p>Rs. {getLocalPrice(taxAmount).toLocaleString()}</p>
               </div>
               <br />
               <hr />
@@ -180,7 +180,7 @@ const Cart = () => {
                 <p>
                   ADDITIONAL:{" "}
                   <span className="text-secondary">
-                    ${(SERVICE_CHARGE + taxAmount).toFixed(2)}
+                    Rs. {getLocalPrice(SERVICE_CHARGE + taxAmount).toLocaleString().toFixed(2)}
                   </span>
                 </p>
                 <p className="font-semibold text-black dark:text-white">
