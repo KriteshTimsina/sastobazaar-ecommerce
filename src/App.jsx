@@ -11,7 +11,7 @@ import { useTheme } from "./context/ThemeContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import Protected from "./utils/ProtectedRoute";
 import Checkout from "./pages/checkout/Checkout";
-import Success from "./components/checkout/Success";
+import Success from "./pages/checkout/Success";
 import Error from "./pages/404/Error";
 import Footer from "./components/Footer";
 function App() {
@@ -45,9 +45,9 @@ function App() {
               <Route
                 path="/cart"
                 element={
-                  <Protected {...{ isAuthenticated, loginWithRedirect }}>
-                    <Cart />
-                  </Protected>
+                  // <Protected {...{ isAuthenticated, loginWithRedirect }}>
+                  <Cart />
+                  // </Protected>
                 }
               />
               <Route path="/checkout" element={<Checkout />} />
