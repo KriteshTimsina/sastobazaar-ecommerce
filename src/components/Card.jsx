@@ -17,12 +17,14 @@ const Card = ({ products }) => {
         return (
           <div
             key={product.id}
+            onClick={()=> console.log(product.id)}
             className="cursor-pointer relative w-[300px] h-[250px] flex flex-col justify-center items-center border-[#e4e4e4] border-[0.8px] border-solid rounded-md hover:shadow-card group transition "
           >
             <div className="h-[150px] w-[150px]">
               <img
                 src={product.image}
                 alt="Items__Image"
+                onClick={() => handleProductClick(product.id)}
                 className="h-full w-full rounded-full object-cover group-hover:scale-105 transition duration-300"
               />
             </div>
@@ -44,16 +46,15 @@ const Card = ({ products }) => {
               <p>({product.rating.count})</p>
             </div>
             <div
-              className="absolute -right-5 top-0 cursor-pointer
-              bg-pink-300 text-white p-1 text-3xl flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 group-hover:right-0 transition-all "
+              className="absolute -right-5 top-[1px] cursor-pointer rounded-md bg-pink-100 text-white p-1 text-3xl flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 group-hover:right-0 transition-all"
             >
-              <AiFillHeart title="Favourite" className="text-red-500" />
-              <div className="bg-primary p-1 text-white">
+              <AiFillHeart title="Favourite" className="text-red-500" onClick={()=> alert("WishList Feature in Progress!")}/>
+              {/* <div className="p-1 text-white">
                 <AiOutlineEye
                   onClick={() => handleProductClick(product.id)}
                   title="view product"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         );
