@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/home/Home.jsx";
 import Shop from "./pages/shop/Shop.jsx";
@@ -19,45 +24,44 @@ function App() {
   const [toggleProfile, setToggleProfile] = useState(false);
   const { isDarkTheme } = useTheme();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-
+  const { pathname } = useLocation();
+  console.log(pathname);
   return (
     <div className={`${isDarkTheme ? "dark" : "light"}`}>
       <CartProvider>
-        <Router>
-          <ScrollToTop />
-          <Navbar
-            {...{
-              isNavbarExtended,
-              setIsNavbarExtended,
-              toggleProfile,
-              setToggleProfile,
-            }}
-          />
-          <div
-            onClick={() => {
-              setIsNavbarExtended(false), setToggleProfile(false);
-            }}
-          >
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/product" element={<Shop />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route
-                path="/cart"
-                element={
-                  // <Protected {...{ isAuthenticated, loginWithRedirect }}>
+        <ScrollToTop />
+        <Navbar
+          {...{
+            isNavbarExtended,
+            setIsNavbarExtended,
+            toggleProfile,
+            setToggleProfile,
+          }}
+        />
+        <div
+          onClick={() => {
+            setIsNavbarExtended(false), setToggleProfile(false);
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product" element={<Shop />} />
+            <Route path="/product/:id" element={<Product />} />
+            <Route
+              path="/cart"
+              element={
+                <Protected {...{ isAuthenticated, loginWithRedirect }}>
                   <Cart />
-                  // </Protected>
-                }
-              />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/checkout/success" element={<Success />} />
-              <Route path="*" element={<Error />} />
-            </Routes>
-          </div>
+                </Protected>
+              }
+            />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/success" element={<Success />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </div>
 
-          <Footer />
-        </Router>
+        {(pathname === "/product" || pathname === "/") && <Footer />}
       </CartProvider>
     </div>
   );
