@@ -127,7 +127,7 @@ const Cart = () => {
             <div className="flex flex-col">
               <div className="flex justify-between gap-5 text-slate-500">
                 <p>SUBTOTAL</p>
-                <p>Rs. {getLocalPrice(subTotal).toFixed(2).toLocaleString()}</p>
+                <p>Rs. {parseFloat(getLocalPrice(subTotal).toFixed(2)).toLocaleString()}</p>
               </div>
               <div className="flex justify-between gap-5 text-slate-500">
                 <p>SERVICE CHARGE</p>
@@ -141,7 +141,7 @@ const Cart = () => {
               <hr />
               <div className="flex justify-between gap-5 text-slate-500 border-t-[1px] border-[#e4e4e4]">
                 <p>TOTAL</p>
-                <p>Rs. {getLocalPrice(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2).toLocaleString()}</p>
+                <p>Rs. {parseFloat(getLocalPrice(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)).toLocaleString()}</p>
               </div>
               <div className="flex flex-col justify-center gap-2 mt-2">
                 <button
@@ -175,18 +175,18 @@ const Cart = () => {
               <div className="">
                 <p>
                   SUBTOTAL:{" "}
-                  <span className="text-secondary">Rs. {getLocalPrice(subTotal).toFixed(2).toLocaleString()}</span>
+                  <span className="text-secondary">Rs. {parseFloat(getLocalPrice(subTotal).toFixed(2)).toLocaleString()}</span>
                 </p>
                 <p>
                   ADDITIONAL:{" "}
                   <span className="text-secondary">
-                    Rs. {getLocalPrice(SERVICE_CHARGE + taxAmount).toLocaleString().toFixed(2)}
+                    Rs. {parseFloat(getLocalPrice(SERVICE_CHARGE + taxAmount).toFixed(2)).toLocaleString()}
                   </span>
                 </p>
                 <p className="font-semibold text-black dark:text-white">
                   TOTAL:
                   <span className="text-secondary">
-                    Rs. {getLocalPrice(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2).toLocaleString()}
+                    Rs. {parseFloat(getLocalPrice(subTotal + SERVICE_CHARGE + taxAmount).toFixed(2)).toLocaleString()}
                   </span>
                 </p>
               </div>
