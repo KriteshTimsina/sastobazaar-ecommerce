@@ -17,10 +17,10 @@ const Cart = () => {
 
   useEffect(() => {
     handleTotal();
-  }, []);
+  }, [cart]);
   useEffect(() => {
     calculateTax();
-  }, [subTotal]);
+  }, [subTotal, cart]);
 
   const handleCheckout = () => {
     navigate("/checkout", { state: { cart, subTotal, taxAmount } });
