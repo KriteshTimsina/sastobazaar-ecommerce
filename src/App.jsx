@@ -19,6 +19,7 @@ import Checkout from "./pages/checkout/Checkout";
 import Success from "./pages/checkout/Success";
 import Error from "./pages/404/Error";
 import Footer from "./components/Footer";
+import FAQ from "./components/FAQ";
 import Wishlist from "./pages/wishlist/WishlistPage";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
@@ -58,6 +59,7 @@ function App() {
               }
             />
             <Route path="/checkout" element={<Checkout />} />
+                 <Route path="/FAQ" element={<FAQ />} />
             <Route path="/checkout/success" element={<Success />} />
             <Route path="*" element={<Error />} />
           </Routes>
