@@ -53,8 +53,8 @@ const Footer = () => {
           <h1 className="font-bold text-lg">Help</h1>
           <div className=" text-slate-300 flex flex-col gap-1 ">
             <p>About us</p>
-            <p><Link to="./FAQ.jsx" target="_blank">
-               Footer
+            <p><Link to="/FAQ" target="_blank">
+               FAQ
             </Link></p>
             <p>How it works</p>
             <p>Privacy policy</p>
