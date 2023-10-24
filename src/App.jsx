@@ -20,13 +20,13 @@ import Success from "./pages/checkout/Success";
 import Error from "./pages/404/Error";
 import Footer from "./components/Footer";
 import Wishlist from "./pages/wishlist/WishlistPage";
+import FAQ from "./pages/faq/FAQ";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
   const { isDarkTheme } = useTheme();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <div className={`${isDarkTheme ? "dark" : "light"}`}>
       <CartProvider>
@@ -59,6 +59,7 @@ function App() {
             />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/checkout/success" element={<Success />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </div>
