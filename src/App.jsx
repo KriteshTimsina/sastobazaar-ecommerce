@@ -19,6 +19,7 @@ import Checkout from "./pages/checkout/Checkout";
 import Success from "./pages/checkout/Success";
 import Error from "./pages/404/Error";
 import Footer from "./components/Footer";
+import Wishlist from "./pages/wishlist/WishlistPage";
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -47,6 +48,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/product" element={<Shop />} />
             <Route path="/product/:id" element={<Product />} />
+            <Route path='/wishlist' element={<Wishlist />} />
             <Route
               path="/cart"
               element={

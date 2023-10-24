@@ -33,16 +33,16 @@ const Navbar = ({
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 bg-gray-900 border-gray-200 shadow-sm shadow-white">
       <div className="flex flex-wrap items-center justify-start max-w-screen-xl pt-3 pl-0 pb-3 mx-auto md:justify-around">
-      <button
-            onClick={toggleHamburgerMenu}
-            data-collapse-toggle="navbar-default"
-            type="button"
-            className="relative inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover-bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover-bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
-          >
-            <RxHamburgerMenu size={25} />
-          </button>
+        <button
+          onClick={toggleHamburgerMenu}
+          data-collapse-toggle="navbar-default"
+          type="button"
+          className="relative inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover-bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover-bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <RxHamburgerMenu size={25} />
+        </button>
         <Link
           to="/"
           className="flex items-center self-center text-2xl font-semibold text-white uppercase"
@@ -58,7 +58,6 @@ const Navbar = ({
             onChange={toggleTheme}
             className="text-yellow-400 dark:text-gray-500"
           />
-        
           {isNavbarExtended && (
             <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 flex flex-col items-center justify-center">
               <button
@@ -76,6 +75,9 @@ const Navbar = ({
                 </Link>
                 <Link to="/cart" className="text-white cursor-pointer" onClick={closeHamburgerMenu}>
                   Cart
+                </Link>
+                <Link to="/wishlist" className="text-white cursor-pointer" onClick={closeHamburgerMenu}>
+                  Wishlist
                 </Link>
                 {!isAuthenticated && (
                   <button
@@ -135,6 +137,18 @@ const Navbar = ({
                 onClick={closeHamburgerMenu} // Close hamburger menu when Cart is clicked
               >
                 Cart
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                style={({ isActive }) => ({
+                  color: isActive ? "#3b82f6" : "white",
+                })}
+                to="/wishlist"
+                className="block py-2 pl-3 pr-4 rounded text-w md:hover-bg-transparent md:border-0 md:hover-text-blue-700 md:p-0 dark:text-white md:dark-text-blue-500 dark-bg-gray-700 dark-text-white md:dark-bg-transparent"
+                onClick={closeHamburgerMenu} // Close hamburger menu when Cart is clicked
+              >
+                Wishlist
               </NavLink>
             </li>
             <li>
