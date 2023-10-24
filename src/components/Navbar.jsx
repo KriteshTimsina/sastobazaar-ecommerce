@@ -58,7 +58,6 @@ const Navbar = ({
             onChange={toggleTheme}
             className="text-yellow-400 dark:text-gray-500"
           />
-
           {isNavbarExtended && (
             <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 flex flex-col items-center justify-center">
               <button

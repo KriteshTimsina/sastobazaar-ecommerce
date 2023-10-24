@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AiFillAmazonCircle, AiFillHeart, AiOutlineEye, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineEye, AiOutlineHeart } from "react-icons/ai";
 import Rating from "./Rating";
 import { cartContext } from "../context/cartContext";
 import { getLocalPrice } from "../utils/common";
@@ -9,14 +9,11 @@ const Card = ({ products, onRemoveWishlist }) => {
   const navigate = useNavigate();
   const [wishlist, setwishlist] = useState(JSON.parse(localStorage?.getItem("wishlist")) || []);
 
-  console.log(wishlist, 'wl')
   function handleProductClick(id) {
     navigate(`/product/${id}`);
   }
   function handleWishlistClick(product) {
-    console.log("click", product);
     const index = wishlist.find(item => item.id === product.id) !== undefined;
-    console.log(index)
     if (!index) {
       const confirmation = confirm("Do you want to add this item to wishlist ?");
       if (confirmation) {
@@ -31,7 +28,6 @@ const Card = ({ products, onRemoveWishlist }) => {
       if (confirmation) {
         const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
         setwishlist(updatedWishlist);
-        console.log(updatedWishlist, "updated")
         if (onRemoveWishlist) onRemoveWishlist(product.id);
         localStorage.setItem("wishlist", JSON.stringify([...updatedWishlist]))
       }
@@ -80,7 +76,6 @@ const Card = ({ products, onRemoveWishlist }) => {
                 <AiFillHeart
                   onClick={() => handleWishlistClick(product)}
                   title="Favourite" className="text-red-500" />}
-              {console.log(products.find(item => item.id === product.id), 'g')}
               <div className="bg-primary p-1 text-white">
                 <AiOutlineEye
                   onClick={() => handleProductClick(product.id)}
