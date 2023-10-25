@@ -23,7 +23,7 @@ const Rating = ({ rating }) => {
     id = id + 1;
   }
 
-  return <div className="flex text-orange-500">{ratings}</div>;
+  return <div className="flex text-orange-500 text-2xl">{ratings}</div>;
 };
 
 export default Rating;

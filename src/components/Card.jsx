@@ -17,6 +17,7 @@ const Card = ({ products }) => {
       {products.map((product) => {
         return (
           <div
+          // onClick={() => handleProductClick(product.id)}
             key={product.id}
             className="cursor-pointer relative w-[300px] h-[250px] flex flex-col justify-center items-center border-[#e4e4e4] border-[0.8px] border-solid rounded-md hover:shadow-card group transition "
           >
