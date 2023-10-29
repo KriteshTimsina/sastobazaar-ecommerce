@@ -45,10 +45,22 @@ const FAQ = () => {
     // Add more FAQ items here
   ]);
 
+  // state to manage which FAQ should be display or not
+  const [openItems, setOpenItems] = useState(new Array(faqData.length).fill(false));
+
   const toggleFAQ = (index) => {
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems[index].classList.toggle('active');
+    const updatedOpenItems = [...openItems];
+    
+    // whenever user click on the particular index of the FAQ question we set its value to true
+    updatedOpenItems[index] = !updatedOpenItems[index];
+    
+    setOpenItems(updatedOpenItems);
   };
+
+  // const toggleFAQ = (index) => {
+  //   const faqItems = document.querySelectorAll('.faq-item');
+  //   faqItems[index].classList.toggle('active');
+  // };
 
   return (
     <div className="max-w-xl mx-auto p-4 pt-navtop">
@@ -61,7 +73,7 @@ const FAQ = () => {
           >
             {faqItem.question}
           </button>
-          <div className="faq-answer p-4" style={{ display: 'none' }}>
+          <div className={`faq-answer p-4 ${openItems[index] ? 'visible' : 'hidden' }`}>
             {faqItem.answer}
           </div>
         </div>
