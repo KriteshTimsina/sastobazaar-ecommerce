@@ -63,10 +63,10 @@ const FAQ = () => {
   // };
 
   return (
-    <div className="max-w-xl mx-auto p-4 pt-navtop">
-      <h1 className="text-2xl font-bold mb-4">Frequently Asked Questions</h1>
+    <div className=" min-h-screen p-4 pt-navtop dark:bg-darkbg dark:text-darktext">
+      <h1 className="text-2xl max-w-xl mx-auto font-bold mb-4 ">Frequently Asked Questions</h1>
       {faqData.map((faqItem, index) => (
-        <div key={index} className="faq-item border rounded-md mb-4">
+        <div key={index} className=" max-w-xl mx-auto faq-item border rounded-md mb-4 ">
           <button
             className="faq-question w-full p-4 text-left font-semibold cursor-pointer"
             onClick={() => toggleFAQ(index)}
