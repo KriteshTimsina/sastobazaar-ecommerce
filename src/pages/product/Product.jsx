@@ -31,7 +31,7 @@ const Product = () => {
           <BeatLoader color="#3b82f6" />
         </div>
       ) : (
-        <div className="relative flex flex-col md:flex-row items-center justify-center gap-3 bg-white text-black p-6 rounded-lg shadow-md">
+        <div className="relative flex flex-col md:flex-row items-center justify-center gap-3 bg-white text-black p-6 rounded-lg shadow-md dark:bg-darkbg dark:text-darktext">
           <Link
             to="/product"
             className="absolute -top-8 text-2xl left-5 md:left-0 text-primary hover:text-blue-700 transition"
@@ -55,7 +55,7 @@ const Product = () => {
               <p className="font-semibold text-xl">Quantity: </p>
               <input
                 onChange={(event) => setQuantity(parseInt(event.target.value))}
-                className="bg-white text-black placeholder-gray-800 indent-1 text-xl"
+                className="bg-white text-black placeholder-gray-800 indent-1 text-xl dark:bg-darkbg dark:text-darktext"
                 min="1"
                 max="100"
                 type="number"
