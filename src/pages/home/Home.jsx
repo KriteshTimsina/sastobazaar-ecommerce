@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Swiper from "../../components/Swiper";
 import Offers from "../../components/Offers";
 import Footer from "../../components/Footer";
+import Map from "../../components/Map";
 const Home = () => {
   return (
     <div className="min-h-screen pt-14 md:pt-12 dark:bg-darkbg dark:text-darktext ">
@@ -60,8 +61,13 @@ const Home = () => {
         <h2 className="text-3xl italic font-bold uppercase">Sasto Bazaar</h2>
         <p className="text-lg">One stop for your needs</p>
       </div>
+     
       <Offers />
       {/* <Footer /> */}
+      <div className="flex flex-col items-center md:items-center mb-4 mt-3">
+        <h2 className=" italic font-bold uppercase ">We're available all across Nepal</h2>
+      </div>
+      <Map/>
     </div>
   );
 };
