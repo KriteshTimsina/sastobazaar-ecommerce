@@ -23,7 +23,7 @@ export default function App() {
             <img
               src="https://assets.ajio.com/cms/AJIO/WEB/05062023-UHP-D-Sponsor-P7-BHPC-upto60%20(1).jpg"
               alt="SastoBazaar"
-              className="object-fill w-full h-[250px] sm:h-[200px] md:h-full "
+              className="object-fill w-full h-[150px] sm:h-[200px] md:h-full "
             />
           </Link>
         </div>
@@ -34,7 +34,7 @@ export default function App() {
             <img
               src="https://assets.ajio.com/cms/AJIO/WEB/05062023-UHP-D-Main-P2-LevisArbunore-Flat60.jpg"
               alt="SastoBazaar"
-              className="object-fill w-full h-[250px] sm:h-[200px] md:h-full "
+              className="object-fill w-full h-[150px] sm:h-[200px] md:h-full "
             />
           </Link>
         </div>
@@ -45,7 +45,7 @@ export default function App() {
             <img
               src="https://assets.ajio.com/cms/AJIO/WEB/05062023-UHP-D-Main-P6-JohnPlayersLeeCooper-Starting499.jpg"
               alt="SastoBazaar"
-              className="object-fill w-full h-[250px] sm:h-[200px] md:h-full "
+              className="object-fill w-full h-[150px] sm:h-[200px] md:h-full "
             />
           </Link>
         </div>
@@ -56,7 +56,7 @@ export default function App() {
             <img
               src="https://assets.ajio.com/cms/AJIO/WEB/05062023-UHP-D-Main-P4-ONLYJackJones-Min60extra35.jpg"
               alt="SastoBazaar"
-              className="object-fill w-full h-[250px] sm:h-[200px] md:h-full "
+              className="object-fill w-full h-[150px] sm:h-[200px] md:h-full "
             />
           </Link>
         </div>
