@@ -9,12 +9,12 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-
   "dependencies": {
     "@auth0/auth0-react": "^2.1.0",
+    "@heroicons/react": "^2.0.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.8.0",
+    "react-icons": "^4.11.0",
     "react-router-dom": "^6.11.1",
     "react-spinners": "^0.13.8",
     "react-toggle-dark-mode": "^1.1.1",

@@ -21,6 +21,8 @@ import Error from "./pages/404/Error";
 import Footer from "./components/Footer";
 import Wishlist from "./pages/wishlist/WishlistPage";
 import FAQ from "./pages/faq/FAQ";
+import AboutUs from "./pages/about_us/AboutUs";
+
 function App() {
   const [isNavbarExtended, setIsNavbarExtended] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -61,6 +63,7 @@ function App() {
             <Route path="/checkout/success" element={<Success />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="*" element={<Error />} />
+            <Route path="/about_us" element={<AboutUs />} />
           </Routes>
         </div>
 
