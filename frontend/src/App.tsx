@@ -1,9 +1,11 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { BASE_URL } from "./constants/constants";
+import { AiFillDelete } from "react-icons/ai";
+import { RxCross1 } from "react-icons/rx";
 
 type ITodo = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   isUpdated: boolean;
@@ -17,7 +19,6 @@ const App = () => {
   const [createTodo, setCreateTodo] = useState(false);
   const [form, setForm] = useState(initialFormData);
   const [todos, setTodos] = useState<ITodo[]>([]);
-  const [loading, setLoading] = useState(false);
   const { title, description } = form;
 
   useEffect(() => {
@@ -51,17 +52,26 @@ const App = () => {
 
   const getAllTodos = async () => {
     try {
-      setLoading(true);
       const res = await fetch(BASE_URL);
       const data = await res.json();
       if (data.status) {
-        setLoading(false);
         setTodos(data.todos);
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      console.log(data);
+      if (data.status) {
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -78,17 +88,28 @@ const App = () => {
           Create Todo
         </button>
         <div className="w-full mb-5 flex flex-col gap-2">
-          {todos.map((todo) => {
-            return (
-              <div
-                key={todo.id}
-                className="bg-sky-300 flex gap-2 items-center text-white w-[96%] mx-auto rounded-md px-2 text-lg cursor-pointer"
-              >
-                <input type="radio" />
-                <h2>{todo.title}</h2>
-              </div>
-            );
-          })}
+          {todos.length === 0 ? (
+            <h2 className="text-center text-lg text-slate-600">
+              Todo's currently empty
+            </h2>
+          ) : (
+            todos &&
+            todos.map((todo) => {
+              return (
+                <div
+                  key={todo._id}
+                  className="bg-sky-300 flex gap-2 items-center text-white w-[96%] mx-auto rounded-md px-2 text-lg cursor-pointer"
+                >
+                  <input type="radio" />
+                  <h2>{todo.title}</h2>
+                  <AiFillDelete
+                    onClick={() => handleDelete(todo._id)}
+                    className="text-red-400 hover:text-red-500+"
+                  />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
       {createTodo ? (
@@ -98,9 +119,9 @@ const App = () => {
         >
           <button
             onClick={() => setCreateTodo(false)}
-            className="absolute right-3 top-1 text-3xl text-neutral-700 hover:text-red-500 transition-all"
+            className="absolute right-3 top-2 text-3xl text-neutral-700 hover:text-red-500 transition-all"
           >
-            x
+            <RxCross1 size={25} />
           </button>
           <section className="flex flex-col gap-2">
             <label className="text-neutral-700" htmlFor="title">
