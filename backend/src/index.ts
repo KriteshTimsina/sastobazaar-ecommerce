@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./db";
 import todoRouter from "./routes/todo.route";
 import { errorHandler, notFound } from "./middleware/error";
-
+import bodyParser from "body-parser";
 const app = express();
 
 dotenv.config();
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/api", todoRouter);
 

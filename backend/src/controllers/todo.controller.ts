@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, Request, Response } from "express";
+import { Request, Response } from "express";
 import { Todo } from "../models/todo.model";
 import expressAsyncHandler from "express-async-handler";
 
@@ -19,9 +19,8 @@ export const getAllTodo = expressAsyncHandler(
 
 export const createTodo = expressAsyncHandler(
   async (req: Request, res: Response) => {
-    const { title, description } = req.body;
     try {
-      const todos = await Todo.create({ title, description });
+      const todos = await Todo.create(req.body);
       res.json({
         status: true,
         message: "Todo Created",
