@@ -8,6 +8,7 @@ import {
 import { toast } from "react-toastify";
 import { BASE_URL } from "./constants/constants";
 import { AiFillDelete } from "react-icons/ai";
+//@ts-ignore
 import useId from "react-use-uuid";
 import { RxCross1 } from "react-icons/rx";
 
