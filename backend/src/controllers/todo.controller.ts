@@ -5,7 +5,7 @@ import expressAsyncHandler from "express-async-handler";
 export const getAllTodo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
-      const todos = await Todo.find({});
+      const todos = await Todo.find();
       res.json({
         status: true,
         message: "All todos found",
@@ -19,8 +19,14 @@ export const getAllTodo = expressAsyncHandler(
 
 export const createTodo = expressAsyncHandler(
   async (req: Request, res: Response) => {
+    const { title, description, userId } = req.body;
     try {
-      const todos = await Todo.create(req.body);
+      const todos = await Todo.create({
+        title,
+        description,
+        userId,
+      });
+      todos.save();
       res.json({
         status: true,
         message: "Todo Created",

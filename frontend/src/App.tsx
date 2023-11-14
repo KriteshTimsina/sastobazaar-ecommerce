@@ -1,7 +1,14 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 import { BASE_URL } from "./constants/constants";
 import { AiFillDelete } from "react-icons/ai";
+import useId from "react-use-uuid";
 import { RxCross1 } from "react-icons/rx";
 
 type ITodo = {
@@ -20,13 +27,19 @@ const App = () => {
   const [form, setForm] = useState(initialFormData);
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [isDeleteable, setIsDeleteable] = useState(false);
   const [deleteText, setDeleteText] = useState("");
+  const userId = useId();
   const { title, description } = form;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getAllTodos();
-  }, [todos]);
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("userId")) {
+      localStorage.setItem("userId", userId);
+    }
+  }, []);
 
   const onFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,11 +52,12 @@ const App = () => {
     e.preventDefault();
     const res = await fetch(BASE_URL, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ title, description, userId }),
     });
     const data = await res.json();
     if (data.status) {
@@ -55,10 +69,16 @@ const App = () => {
 
   const getAllTodos = async () => {
     try {
-      const res = await fetch(BASE_URL);
+      const res = await fetch(BASE_URL, {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await res.json();
       if (data.status) {
-        setTodos(data.todos);
+        const userTodos = data.todos.filter(
+          (todo: any) => todo.userId === localStorage.getItem("userId")
+        );
+        setTodos(userTodos);
       }
     } catch (error) {
       console.log(error);
@@ -69,7 +89,6 @@ const App = () => {
     try {
       const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
       const data = await res.json();
-      console.log(data);
       if (data.status) {
         toast.success(data.message);
       }
@@ -84,7 +103,7 @@ const App = () => {
 
   const deleteAllTodos = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (deleteText === "delete") {
+    if (deleteText.toLowerCase() === "delete") {
       const res = await fetch(BASE_URL, { method: "DELETE" });
       const data = await res.json();
       if (data.status) {
