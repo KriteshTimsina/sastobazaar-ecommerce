@@ -5,7 +5,7 @@ import expressAsyncHandler from "express-async-handler";
 export const getAllTodo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
-      const todos = await Todo.find();
+      const todos = await Todo.find({}).sort({ createdAt: "desc" });
       res.json({
         status: true,
         message: "All todos found",

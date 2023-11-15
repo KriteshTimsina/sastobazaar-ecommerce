@@ -1,16 +1,11 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { BASE_URL } from "./constants/constants";
 import { AiFillDelete } from "react-icons/ai";
 //@ts-ignore
 import useId from "react-use-uuid";
 import { RxCross1 } from "react-icons/rx";
+import { createPortal } from "react-dom";
 
 type ITodo = {
   _id: string;
@@ -18,6 +13,7 @@ type ITodo = {
   description: string;
   isUpdated: boolean;
   isChanged: boolean;
+  userId: string;
 };
 const initialFormData = {
   title: "",
@@ -29,18 +25,29 @@ const App = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteText, setDeleteText] = useState("");
-  const userId = useId();
+  const id = useId();
+  const [userId, setUserId] = useState(id);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const { title, description } = form;
 
-  useLayoutEffect(() => {
-    getAllTodos();
+  useEffect(() => {
+    if (userId !== null || userId.length > 0) {
+      getAllTodos();
+    }
+    setIsSuccess(false);
+  }, [userId, isSuccess]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      setUserId(userId);
+    }
   }, []);
 
   useEffect(() => {
-    if (!localStorage.getItem("userId")) {
-      localStorage.setItem("userId", userId);
-    }
-  }, []);
+    localStorage.setItem("userId", userId);
+  }, [userId]);
 
   const onFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,6 +70,7 @@ const App = () => {
     const data = await res.json();
     if (data.status) {
       toast.success(data.message);
+      setIsSuccess(true);
       setCreateTodo(false);
       setForm(initialFormData);
     }
@@ -76,10 +84,10 @@ const App = () => {
       });
       const data = await res.json();
       if (data.status) {
-        const userTodos = data.todos.filter(
-          (todo: any) => todo.userId === localStorage.getItem("userId")
+        const filteredData = data.todos.filter(
+          (todo: any) => todo.userId == userId
         );
-        setTodos(userTodos);
+        setTodos(filteredData);
       }
     } catch (error) {
       console.log(error);
@@ -91,6 +99,7 @@ const App = () => {
       const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.status) {
+        setIsSuccess(true);
         toast.success(data.message);
       }
     } catch (error) {
@@ -116,6 +125,12 @@ const App = () => {
 
   return (
     <div className="flex justify-center items-center h-screen ">
+      {createPortal(
+        <h2 className="absolute top-5 right-5 font-semibold">
+          User ID: {userId}
+        </h2>,
+        document.body
+      )}
       <div className="bg-slate-300 shadow-md  gap-5 rounded-xl flex flex-col items-center w-3/4">
         <h3 className="text-xl text-white uppercase font-bold rounded-xl bg-sky-300 w-full flex justify-center items-center h-14">
           All todos
