@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+import { Request, Response, NextFunction } from "express";
 import { Error } from "mongoose";
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
@@ -8,7 +8,6 @@ export const notFound = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // Error Handler
-
 export const errorHandler = (
   err: Error,
   req: Request,
