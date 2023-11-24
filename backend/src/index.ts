@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./db";
 import { errorHandler, notFound } from "./middleware/error";
 import bodyParser from "body-parser";
-import { User } from "./models/user.model";
+import userRouter from "./routes/user.router";
 
 const app = express();
 
@@ -17,10 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post("/api/register", async (req, res) => {
-  const user = await User.create({ username: "ram" });
-  res.json({ user });
-});
+app.use("/users", userRouter);
 
 //error middlewares
 app.use(notFound);
