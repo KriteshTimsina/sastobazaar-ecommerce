@@ -5,6 +5,7 @@ import connectDB from "./db";
 import { errorHandler, notFound } from "./middleware/error";
 import bodyParser from "body-parser";
 import userRouter from "./routes/user.router";
+import postRouter from "./routes/post.router";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/user", userRouter);
+app.use("/post", postRouter);
 
 //error middlewares
 app.use(notFound);

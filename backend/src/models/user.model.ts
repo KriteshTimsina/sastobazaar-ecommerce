@@ -2,14 +2,13 @@ import mongoose, { Mongoose, Schema, Document, Model } from "mongoose";
 import bcrypt from "bcrypt";
 
 export interface IUser {
+  id: string;
   username: string;
   password: string;
   email: string;
   avatar: string;
-  checkForPasswordMatch: (t: string) => Promise<boolean>;
+  checkForPasswordMatch: any;
 }
-
-// export interface IUserModel extends IUser, Model<IUser> {}
 
 const userSchema = new Schema<IUser>(
   {

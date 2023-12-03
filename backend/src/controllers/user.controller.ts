@@ -5,7 +5,7 @@ import { generateToken } from "../utils/jwt";
 
 import { Request as ExpressRequest } from "express";
 
-interface Request extends ExpressRequest {
+export interface Request extends ExpressRequest {
   user?: IUser;
 }
 

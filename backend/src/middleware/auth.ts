@@ -5,7 +5,7 @@ import { Request as ExpressRequest } from "express";
 import { IUser } from "../models/user.model"; // Import your IUser interface
 
 interface Request extends ExpressRequest {
-  user?: any;
+  user: any;
 }
 
 export const authenticated = expressAsyncHandler(
@@ -18,11 +18,7 @@ export const authenticated = expressAsyncHandler(
           const decoded = verifyToken(token);
           if (typeof decoded === "object" && "id" in decoded) {
             const foundUser = await User.findById(decoded.id);
-            // const user = {
-            //   email: foundUser?.email,
-            //   avatar: foundUser?.avatar,
-            //   username: foundUser?.username,
-            // };
+
             req.user = foundUser;
             next();
           }
