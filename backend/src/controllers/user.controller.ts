@@ -23,12 +23,14 @@ export const register = expressAsyncHandler(
         res.json({
           status: true,
           message: "User Registered Successfully",
-          user: {
-            _id: user?._id,
-            username: user?.username,
-            email: user?.email,
-            token,
-          },
+          user,
+          token,
+          // user: {
+          //   _id: user?._id,
+          //   username: user?.username,
+          //   email: user?.email,
+          //   token,
+          // },
         });
       } else {
         throw new Error("User already exist.");
@@ -53,18 +55,18 @@ export const login = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email }).select("+password").exec();
       if (user) {
         const isPasswordMatched = await user.checkForPasswordMatch(password);
         if (isPasswordMatched) {
+          const filteredUser = await User.findById(user.id);
           const token = generateToken(user._id);
           if (token) {
             res.json({
               status: true,
               message: "Login successfully",
-              email: user.email,
-              username: user.username,
               token,
+              user: filteredUser,
             });
           } else throw new Error("Errror logging in user.");
         } else throw new Error("Invalid Password");
@@ -78,13 +80,16 @@ export const login = expressAsyncHandler(
 export const getUserInfo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
-      res.json({
-        status: true,
-        message: "User info found",
-        user: req.user,
-      });
+      if (req.user) {
+        res.json({
+          status: true,
+          message: "User info found",
+          user: req.user,
+        });
+      }
+      throw new Error("Not authenticated");
     } catch (error: any) {
-      throw new Error("HI" + error.message);
+      throw new Error(error.message);
     }
   }
 );

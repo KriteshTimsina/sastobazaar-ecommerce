@@ -5,27 +5,38 @@ export interface IUser {
   username: string;
   password: string;
   email: string;
+  avatar: string;
   checkForPasswordMatch: (t: string) => Promise<boolean>;
 }
 
 // export interface IUserModel extends IUser, Model<IUser> {}
 
-const userSchema = new Schema<IUser>({
-  username: {
-    type: String,
-    required: [true, "Username is required"],
-    trim: true,
+const userSchema = new Schema<IUser>(
+  {
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      select: false,
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    avatar: {
+      type: String,
+      default:
+        "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png",
+    },
   },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-  },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-  },
-});
+
+  { timestamps: true }
+);
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {

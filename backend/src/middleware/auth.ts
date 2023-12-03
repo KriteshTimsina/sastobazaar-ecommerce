@@ -17,8 +17,13 @@ export const authenticated = expressAsyncHandler(
         if (token) {
           const decoded = verifyToken(token);
           if (typeof decoded === "object" && "id" in decoded) {
-            const user = await User.findById(decoded.id);
-            req.user = user;
+            const foundUser = await User.findById(decoded.id);
+            // const user = {
+            //   email: foundUser?.email,
+            //   avatar: foundUser?.avatar,
+            //   username: foundUser?.username,
+            // };
+            req.user = foundUser;
             next();
           }
         }
