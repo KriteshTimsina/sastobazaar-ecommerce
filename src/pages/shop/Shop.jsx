@@ -73,7 +73,7 @@ const Shop = () => {
             <Sort {...{ sortItems, setSortItems, handleReset }} />
             <div className="flex-col hidden gap-3 sm:flex">
               <h3 className="text-lg font-semibold dark:text-darktext">
-                For Him
+                For You
               </h3>
               <div className="flex flex-col items-start gap-10 p-1 dark:text-darktext">
                 {products.length > 0 &&
@@ -93,7 +93,7 @@ const Shop = () => {
                         />
 
                         <div>
-                          <h2>{product.title}</h2>
+                          <h4>{product.title}</h4>
                           <Rating rating={product.rating.rate} />
                           <p className="text-secondary">Rs. {getLocalPrice(product.price).toLocaleString()}</p>
                         </div>
