@@ -42,3 +42,29 @@ export const deleteAllUser = expressAsyncHandler(
     }
   }
 );
+
+export const login = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    try {
+      const user = await User.findOne({ email });
+      if (user) {
+        const isPasswordMatched = await user.checkForPasswordMatch(password);
+        if (isPasswordMatched) {
+          const token = generateToken(user._id);
+          if (token) {
+            res.json({
+              status: true,
+              message: "Login successfully",
+              email: user.email,
+              username: user.username,
+              token,
+            });
+          } else throw new Error("Errror logging in user.");
+        } else throw new Error("Invalid Password");
+      } else throw new Error("User doesn't exists");
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+);

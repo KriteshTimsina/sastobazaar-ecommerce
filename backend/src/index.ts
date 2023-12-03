@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/users", userRouter);
+app.use("/user", userRouter);
 
 //error middlewares
 app.use(notFound);

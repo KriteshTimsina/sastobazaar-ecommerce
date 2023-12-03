@@ -1,10 +1,11 @@
-import { NextFunction } from "express";
-import mongoose, { Mongoose, Schema } from "mongoose";
+import mongoose, { Mongoose, Schema, Document } from "mongoose";
 import bcrypt from "bcrypt";
-interface IUser {
+
+interface IUser extends Document {
   username: string;
   password: string;
   email: string;
+  checkForPasswordMatch: (t: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>({
@@ -32,4 +33,10 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export const User = mongoose.model("User", userSchema);
+userSchema.methods.checkForPasswordMatch = async function (
+  enteredPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+export const User = mongoose.model<IUser>("User", userSchema);
