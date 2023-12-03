@@ -1,7 +1,13 @@
-import { Request, Response } from "express";
-import { User } from "../models/user.model";
+import { Response } from "express";
+import { IUser, User } from "../models/user.model";
 import expressAsyncHandler from "express-async-handler";
-import { generateToken } from "../utils/generateToken";
+import { generateToken } from "../utils/jwt";
+
+import { Request as ExpressRequest } from "express";
+
+interface Request extends ExpressRequest {
+  user?: IUser;
+}
 
 export const register = expressAsyncHandler(
   async (req: Request, res: Response) => {
@@ -65,6 +71,20 @@ export const login = expressAsyncHandler(
       } else throw new Error("User doesn't exists");
     } catch (error: any) {
       throw new Error(error.message);
+    }
+  }
+);
+
+export const getUserInfo = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      res.json({
+        status: true,
+        message: "User info found",
+        user: req.user,
+      });
+    } catch (error: any) {
+      throw new Error("HI" + error.message);
     }
   }
 );
