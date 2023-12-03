@@ -42,11 +42,11 @@ const Product = () => {
             <img
               className="max-w-full md:max-w-md lg:max-w-lg h-80 rounded-md"
               src={data.image}
-              alt={data.title}
+              alt={data.title} 
             />
           </div>
           <div className="flex flex-col w-full md:w-1/2 ml-0 md:ml-10 mb-6 md:mb-0">
-            <h2 className="text-3xl font-semibold mb-4">{data.title}</h2>
+            <h2 className="text-3xl font-semibold mb-4">{data.title}</h2> 
             <div className="flex justify-between items-center mb-4">
               <Rating rating={data.rating.rate} id={data.id} />
             </div>
