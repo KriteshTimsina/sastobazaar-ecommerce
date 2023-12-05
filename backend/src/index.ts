@@ -7,6 +7,14 @@ import bodyParser from "body-parser";
 import userRoutes from "./routes/user.routes";
 import productRoutes from "./routes/product.routes";
 
+import fs from "fs";
+
+const dir = "./uploads";
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
+}
+
 const app = express();
 
 dotenv.config();
@@ -16,7 +24,8 @@ const PORT = process.env.PORT || 8000;
 //middlewares
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);

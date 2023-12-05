@@ -2,6 +2,8 @@ import { Response } from "express";
 import { IUser, User } from "../models/user.model";
 import expressAsyncHandler from "express-async-handler";
 import { generateToken } from "../utils/jwt";
+import fs from "fs";
+const dir = "./uploads";
 
 import { Request as ExpressRequest } from "express";
 
@@ -17,7 +19,11 @@ export const register = expressAsyncHandler(
         $or: [{ username }, { email }],
       });
       if (!existingUser) {
-        const user = await User.create({ username, email, password });
+        const user = await User.create({
+          username,
+          email,
+          password,
+        });
         const token = generateToken(user._id);
 
         res.json({
@@ -25,12 +31,6 @@ export const register = expressAsyncHandler(
           message: "User Registered Successfully",
           user,
           token,
-          // user: {
-          //   _id: user?._id,
-          //   username: user?.username,
-          //   email: user?.email,
-          //   token,
-          // },
         });
       } else {
         throw new Error("User already exist.");
