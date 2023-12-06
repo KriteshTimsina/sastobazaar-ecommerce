@@ -8,12 +8,13 @@ import userRoutes from "./routes/user.routes";
 import productRoutes from "./routes/product.routes";
 
 import fs from "fs";
+import { upload } from "./middleware/multer";
 
-const dir = "./uploads";
+// const dir = "./uploads";
 
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir, { recursive: true });
-}
+// if (!fs.existsSync(dir)) {
+//   fs.mkdirSync(dir, { recursive: true });
+// }
 
 const app = express();
 
@@ -24,11 +25,16 @@ const PORT = process.env.PORT || 8000;
 //middlewares
 app.use(cors());
 app.use(express.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
+
+app.use("/test",upload.single("test"),(req,res)=>{
+  console.log(req.file)
+  console.log(req.body)
+ res.send("HI")
+})
 
 //error middlewares
 app.use(notFound);
