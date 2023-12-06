@@ -4,6 +4,7 @@ import expressAsyncHandler from "express-async-handler";
 import { generateToken } from "../utils/jwt";
 
 import { Request as ExpressRequest } from "express";
+import path from "path";
 
 export interface Request extends ExpressRequest {
   user?: IUser;
@@ -84,6 +85,8 @@ export const getUserInfo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
       if (req.user) {
+       const avatar = path.join(__dirname, `../../${req.user.avatar}`); 
+       req.user.avatar = avatar
         res.json({
           status: true,
           message: "User info found",
