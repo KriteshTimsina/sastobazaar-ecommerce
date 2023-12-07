@@ -13,10 +13,8 @@ export interface Request extends ExpressRequest {
 export const register = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
-    const avatar = req.file.path
-    if(!avatar){
-      throw new Error("Select a file");
-    }
+    // const avatar = req.file.path 
+    
     try {
       const existingUser = await User.findOne({
         $or: [{ username }, { email }],
@@ -26,7 +24,7 @@ export const register = expressAsyncHandler(
           username,
           email,
           password,
-          avatar
+          // avatar:avatar ??""
         });
         const token = generateToken(user._id);
 

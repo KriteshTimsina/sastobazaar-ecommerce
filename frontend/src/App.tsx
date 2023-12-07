@@ -1,5 +1,7 @@
+import Register from "./pages/auth/Register";
+
 const App = () => {
-  return <div>App</div>;
+  return <Register />
 };
 
 export default App;
