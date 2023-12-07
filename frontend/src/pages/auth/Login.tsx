@@ -1,12 +1,10 @@
 import { useState } from "react"
 import { Link } from "react-router-dom";
 
-const Register = () => {
+const Login = () => {
     const [formdata,setFormdata] = useState({
-        username:"",
         email:"",
         password:"",
-        passwordConfirmation:"",
     });
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState("")
@@ -19,7 +17,7 @@ const Register = () => {
         }))
     }
 
-    const registerUser = async  (e:React.FormEvent<HTMLFormElement>)=>{
+    const loginUser = async  (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         try {
             setLoading(true);
@@ -48,24 +46,8 @@ const Register = () => {
             </a>
         </div>
         <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
-            <form onSubmit={registerUser}>
-                <div>
-                    <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-gray-700 undefined"
-                    >
-                        Username
-                    </label>
-                    <div className="flex flex-col items-start">
-                        <input
-                        value={formdata.username}
-                        onChange={handleChangeText}
-                            type="text"
-                            name="username"
-                            className="border-slate-500 border-2 p-2 block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        />
-                    </div>
-                </div>
+            <form onSubmit={loginUser}>
+            
                 <div className="mt-4">
                     <label
                         htmlFor="email"
@@ -100,23 +82,7 @@ const Register = () => {
                         />
                     </div>
                 </div>
-                <div className="mt-4">
-                    <label
-                        htmlFor="password_confirmation"
-                        className="block text-sm font-medium text-gray-700 undefined"
-                    >
-                        Confirm Password
-                    </label>
-                    <div className="flex flex-col items-start">
-                        <input
-                        value={formdata.passwordConfirmation}
-                        onChange={handleChangeText}
-                            type="password"
-                            name="passwordConfirmation"
-                            className=" border-slate-500 border-2 p-2 block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        />
-                    </div>
-                </div>
+                
                 <a
                     href="#"
                     className="text-xs text-purple-600 hover:underline"
@@ -125,15 +91,15 @@ const Register = () => {
                 </a>
                 <div className="flex items-center mt-4">
                     <button type="submit" className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
-                        Register
+                        Login
                     </button>
                 </div>
             </form>
             <div className="mt-4 text-grey-600">
-                Already have an account?{" "}
+                Don't have an account?{" "}
                 <span>
-                    <Link className="text-purple-600 hover:underline" to="/login">
-                        Log in
+                    <Link to={"/register"} className="text-purple-600 hover:underline" >
+                        Register
                     </Link>
                 </span>
             </div>
@@ -178,4 +144,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Login
