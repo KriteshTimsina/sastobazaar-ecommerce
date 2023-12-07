@@ -1,8 +1,46 @@
-import React from 'react'
+import { useEffect, useState } from "react";
 
-const UserProfile = () => {
+const UserProfile = ({token}:any) => {
+   
+    const [user,setUser] = useState()
+    const [loading,setLoading] = useState(false)
+
+    useEffect(() => {
+        if(token)
+        {
+
+            getUserInfo(token)
+        }
+    
+     
+    }, [])
+    console.log(user)
+
+    const getUserInfo = async(token:string)=>{
+        try {
+            setLoading(true)
+            const res= await fetch("http://localhost:8000/user/me",{
+                method:"GET",
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+            const user = await res.json()
+            if(user){
+                setLoading(false)
+                setUser(user.user)
+            }
+        } catch (error) {
+            setLoading(false)
+        }
+    }
+
+    if(loading || !user)
+    {
+        return <div>Loafding</div>
+    }
   return (
-    <div className="relative mx-auto mt-20 mb-6 w-full min-w-0 max-w-md break-words bg-white rounded-xl shadow-lg  md:max-w-2xl">
+    <div className="relative mx-auto mt-20 mb-6 w-full min-w-0 max-w-md break-words bg-white rounded-xl shadow-lg md:max-w-2xl">
       <div className="px-6">
         <div className="flex flex-wrap justify-center">
           <div className="flex justify-center w-full">
@@ -39,7 +77,7 @@ const UserProfile = () => {
         </div>
         <div className="mt-2 text-center">
           <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">
-            Mike Thompson
+            {user.username}
           </h3>
           <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
             <i className="mr-2 opacity-75 fas fa-map-marker-alt text-slate-400"></i>
