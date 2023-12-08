@@ -13,7 +13,6 @@ export interface Request extends ExpressRequest {
 export const register = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
-    // const avatar = req.file.path 
     
     try {
       const existingUser = await User.findOne({
@@ -24,15 +23,17 @@ export const register = expressAsyncHandler(
           username,
           email,
           password,
-          // avatar:avatar ??""
         });
         const token = generateToken(user._id);
 
         res.json({
           status: true,
           message: "User Registered Successfully",
-          user,
-          token,
+          user:{
+            token,
+            userId:user._id
+          }
+          
         });
       } else {
         throw new Error("User already exist.");
@@ -61,14 +62,15 @@ export const login = expressAsyncHandler(
       if (user) {
         const isPasswordMatched = await user.checkForPasswordMatch(password);
         if (isPasswordMatched) {
-          const filteredUser = await User.findById(user.id);
           const token = generateToken(user._id);
           if (token) {
             res.json({
               status: true,
               message: "Login successfully",
-              token,
-              user: filteredUser,
+              user: {
+                token,
+                userId:user._id
+              },
             });
           } else throw new Error("Errror logging in user.");
         } else throw new Error("Invalid Password");
@@ -83,8 +85,8 @@ export const getUserInfo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
       if (req.user) {
-       const avatar = path.join(__dirname, `../../${req.user.avatar}`); 
-       req.user.avatar = avatar
+      //  const avatar = path.join(__dirname, `../../${req.user.avatar}`); 
+      //  req.user.avatar = avatar
         res.json({
           status: true,
           message: "User info found",

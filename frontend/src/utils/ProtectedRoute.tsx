@@ -1,9 +1,13 @@
 import {Outlet,Navigate} from "react-router-dom"
+import { useUser } from "../contexts/UserContext"
 
-const ProtectedRoute = ({token}:any) => {
-  if(token){
-    return <Outlet />
+const ProtectedRoute = () => {
+  const {user} = useUser();
+  console.log(user,"Y")
+
+  if(user===null){
+    return <Navigate to={"/login"} />
   }
-  else <Navigate to={"/login"} />
+  else return <Outlet />
 }
 export default ProtectedRoute

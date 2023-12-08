@@ -1,53 +1,54 @@
 import { useEffect, useState } from "react";
+import { useUser } from "../../contexts/UserContext";
+import { IUser } from "../../constants/types";
+import Loading from "../../components/Loading";
 
-const UserProfile = ({token}:any) => {
-   
-    const [user,setUser] = useState()
+const UserProfile = () => {
+    const [userInfo,setUserInfo] = useState<IUser>()
     const [loading,setLoading] = useState(false)
+    const {user} = useUser()
 
     useEffect(() => {
-        if(token)
-        {
-
-            getUserInfo(token)
-        }
-    
-     
+      if(user.token !==""){
+        getUserInfo()
+      }
     }, [])
-    console.log(user)
 
-    const getUserInfo = async(token:string)=>{
+    console.log(user,"HUI")
+
+    const getUserInfo = async()=>{
         try {
             setLoading(true)
             const res= await fetch("http://localhost:8000/user/me",{
                 method:"GET",
                 headers:{
-                    Authorization:`Bearer ${token}`
+                    Authorization:`Bearer ${user.token}`
                 }
             })
-            const user = await res.json()
-            if(user){
+            console.log(res)
+            const data = await res.json()
+            console.log("YAY",data)
+            if(data.status){
                 setLoading(false)
-                setUser(user.user)
+                setUserInfo(data.user)
             }
         } catch (error) {
             setLoading(false)
         }
     }
 
-    if(loading || !user)
-    {
-        return <div>Loafding</div>
+    if(loading){
+        return <Loading />
     }
-  return (
+  else return (
     <div className="relative mx-auto mt-20 mb-6 w-full min-w-0 max-w-md break-words bg-white rounded-xl shadow-lg md:max-w-2xl">
       <div className="px-6">
         <div className="flex flex-wrap justify-center">
           <div className="flex justify-center w-full">
             <div className="relative">
               <img
-                src="https://github.com/creativetimofficial/soft-ui-dashboard-tailwind/blob/main/build/assets/img/team-2.jpg?raw=true"
-                className="shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"
+                src={userInfo?.avatar}
+                className="bg-white shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"
               />
             </div>
           </div>
@@ -77,7 +78,7 @@ const UserProfile = ({token}:any) => {
         </div>
         <div className="mt-2 text-center">
           <h3 className="mb-1 text-2xl font-bold leading-normal text-slate-700">
-            {user.username}
+            {userInfo?.username ??""}
           </h3>
           <div className="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
             <i className="mr-2 opacity-75 fas fa-map-marker-alt text-slate-400"></i>
@@ -93,7 +94,7 @@ const UserProfile = ({token}:any) => {
                 and records all of his own music, giving it a warm.
               </p>
               <a
-                href="javascript:;"
+                href="#"
                 className="font-normal text-slate-700 hover:text-slate-400"
               >
                 Follow Account

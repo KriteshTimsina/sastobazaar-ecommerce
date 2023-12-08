@@ -36,7 +36,7 @@ const Register = () => {
             })
             const user = await data.json()
             if(user.status){
-                saveUserToken(user.token);
+                saveUserToken(user.user);
                 navigate("/")
             }
             console.log(user)
@@ -48,11 +48,11 @@ const Register = () => {
     <div>
     <div className="flex flex-col items-center pt-6 min-h-screen bg-gray-50 sm:justify-center sm:pt-0">
         <div>
-            <a href="/">
+            <Link to={"/"} >
                 <h3 className="text-4xl font-bold text-purple-600">
                     Dhadey biralo 🐈
                 </h3>
-            </a>
+            </Link>
         </div>
         <div className="overflow-hidden px-6 py-4 mt-6 w-full bg-white shadow-md sm:max-w-lg sm:rounded-lg">
             <form onSubmit={registerUser}>

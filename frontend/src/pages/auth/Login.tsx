@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 const Login = () => {
     const [formdata,setFormdata] = useState({
@@ -8,6 +9,9 @@ const Login = () => {
     });
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState("")
+    const {saveUserToken,user} = useUser()
+    const navigate = useNavigate()
+
 
     const handleChangeText = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name,value} = e.target
@@ -21,7 +25,7 @@ const Login = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const data = await fetch("http://localhost:8000/user/register",{
+            const data = await fetch("http://localhost:8000/user/login",{
                 method:"POST",
                 body:JSON.stringify(formdata),
                     headers: {
@@ -30,22 +34,26 @@ const Login = () => {
                       },
             })
             const user = await data.json()
+           if(user.status){
             console.log(user)
+            saveUserToken(user.user)
+            navigate("/")
+           }
         } catch (error) {
             setLoading(false)
         }
     }
   return (
     <div>
-    <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
+    <div className="flex flex-col items-center pt-6 min-h-screen bg-gray-50 sm:justify-center sm:pt-0">
         <div>
-            <a href="/">
+            <Link to={"/"}>
                 <h3 className="text-4xl font-bold text-purple-600">
                     Dhadey biralo 🐈
                 </h3>
-            </a>
+            </Link>
         </div>
-        <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
+        <div className="overflow-hidden px-6 py-4 mt-6 w-full bg-white shadow-md sm:max-w-lg sm:rounded-lg">
             <form onSubmit={loginUser}>
             
                 <div className="mt-4">
@@ -61,7 +69,7 @@ const Login = () => {
                         onChange={handleChangeText}
                             type="email"
                             name="email"
-                            className=" border-slate-500 border-2 p-2 block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="block p-2 mt-1 w-full rounded-md border-2 shadow-sm border-slate-500 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
                     </div>
                 </div>
@@ -78,7 +86,7 @@ const Login = () => {
                         onChange={handleChangeText}
                             type="password"
                             name="password"
-                            className=" border-slate-500 border-2 p-2 block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="block p-2 mt-1 w-full rounded-md border-2 shadow-sm border-slate-500 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
                     </div>
                 </div>
@@ -90,7 +98,7 @@ const Login = () => {
                     Forget Password?
                 </a>
                 <div className="flex items-center mt-4">
-                    <button type="submit" className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                    <button type="submit" className="px-4 py-2 w-full tracking-wide text-white bg-purple-700 rounded-md transition-colors duration-200 transform hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
                         Login
                     </button>
                 </div>
@@ -103,16 +111,16 @@ const Login = () => {
                     </Link>
                 </span>
             </div>
-            {/* <div className="flex items-center w-full my-4">
+            {/* <div className="flex items-center my-4 w-full">
                 <hr className="w-full" />
-                <p className="px-3 ">OR</p>
+                <p className="px-3">OR</p>
                 <hr className="w-full" />
             </div>
             <div className="my-6 space-y-2">
                 <button
                     aria-label="Login with Google"
                     type="button"
-                    className="flex items-center justify-center w-full p-2 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
+                    className="flex justify-center items-center p-2 space-x-4 w-full rounded-md border focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +134,7 @@ const Login = () => {
                 <button
                     aria-label="Login with GitHub"
                     role="button"
-                    className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
+                    className="flex justify-center items-center p-4 space-x-4 w-full rounded-md border focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

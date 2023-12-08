@@ -1,28 +1,36 @@
-import React,{createContext,useContext, useEffect, useState} from 'react'
+import { createContext, useContext, useEffect, useState } from "react";
+import { IUserCredentials, UserContextType } from "../constants/types";
+
+const UserContext = createContext<UserContextType | any>(undefined);
+
+const UserProvider = ({ children }: { children: JSX.Element }) => {
+  const [user, setUser] = useState<IUserCredentials>(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
 
-const UserContext = createContext<any>(null)
+  const saveUserToken = (userInfo: IUserCredentials) => {
+    if (userInfo) {
+      console.log(userInfo,"THIS???")
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ token: userInfo.token, userId: userInfo.userId })
+      );
+      setUser(userInfo);
+    }
+  };
 
-const UserProvider = ({children}:any) => {
+  return ( <UserContext.Provider value={{ user, saveUserToken }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-const [user,setUser] = useState("")
 
-const saveUserToken = (token:string)=>{
-    setUser(token);
-    localStorage.setItem("user",token)
-}
+export const useUser = (): {
+  user: IUserCredentials;
+  saveUserToken: (user: IUserCredentials) => void;
+} => useContext(UserContext);
 
-  return <UserContext.Provider value={{user,setUser,saveUserToken}}>
-    {children}
-  </UserContext.Provider>
-}
-
-export default UserProvider
-
-export const useUser = ():{
-    user:string;
-    setUser:any;
-    saveUserToken:any;
-}=>{
-    return useContext(UserContext)
-}
+export default UserProvider;
