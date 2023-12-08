@@ -99,3 +99,32 @@ export const getUserInfo = expressAsyncHandler(
     }
   }
 );
+export const editUser = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    const {username} = req.body;
+    const avatar = req.file.path;
+    try {
+      if (req.user) {
+         const imageUrl = path.join(__dirname, `../../${avatar}`); 
+      const updatedUser = await User.findByIdAndUpdate(req?.user._id,{username,avatar:imageUrl},{new:true})
+    
+        if(updatedUser){
+          res.json({
+            status: true,
+            message: "User info updated successfully",
+            updatedUser
+          });
+        // }
+        // else throw new Error("Error updating user")
+        
+      }
+      else throw new Error("Error updating user")
+    }
+      throw new Error("Not authenticated");
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+);
+
+

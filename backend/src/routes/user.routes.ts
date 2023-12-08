@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   deleteAllUser,
+  editUser,
   getUserInfo,
   login,
   register,
@@ -11,9 +12,10 @@ import { upload } from "../middleware/multer";
 
 const router = Router();
 
-router.post("/register",upload.single("avatar"), register);
+router.post("/register", register);
 router.post("/login", login);
 router.get("/me", authenticated, getUserInfo);
+router.put("/edit", authenticated,upload.single("avatar"), editUser);
 router.delete("/delete-all", deleteAllUser);
 
 export default router;
