@@ -27,7 +27,7 @@ export const authenticated = expressAsyncHandler(
         throw new Error("Token is expired, please login");
       }
     } else {
-      throw new Error("No auth token");
+      throw new Error("Unauthorized. You cannot perform this action");
     }
   }
 );

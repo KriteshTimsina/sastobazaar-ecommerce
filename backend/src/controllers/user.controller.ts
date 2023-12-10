@@ -99,6 +99,8 @@ export const getUserInfo = expressAsyncHandler(
     }
   }
 );
+
+
 export const editUser = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const {username} = req.body;
@@ -113,10 +115,7 @@ export const editUser = expressAsyncHandler(
             status: true,
             message: "User info updated successfully",
             updatedUser
-          });
-        // }
-        // else throw new Error("Error updating user")
-        
+          });        
       }
       else throw new Error("Error updating user")
     }

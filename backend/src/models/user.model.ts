@@ -7,8 +7,10 @@ export interface IUser {
   password: string;
   email: string;
   avatar: string;
+  role: string;
   checkForPasswordMatch: any;
 }
+
 
 const userSchema = new Schema<IUser>(
   {
@@ -26,6 +28,11 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, "Email is required"],
       unique: true,
+    },
+    role: {
+      type: String,
+      enum: ["user","admin"],
+      default:"user",
     },
     avatar: {
       type: String,

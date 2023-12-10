@@ -26,11 +26,11 @@ const productSchema = new Schema<ProductDocument>(
     },
     image: {
       type: String,
+      required:[true,"Upload an image"],
       default:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKYKpb7CsZpzmzL6F-751Bacm0WZ3FjzAFZIBqkFjwg&s",
     },
   },
-
   { timestamps: true }
 );
 
