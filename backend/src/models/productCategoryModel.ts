@@ -1,5 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
+const subcategorySchema = new Schema({
+  name:{
+    type:String, 
+    required:true
+  }
+})
+
 const productCategorySchema = new Schema(
   {
     title: {
@@ -8,6 +15,7 @@ const productCategorySchema = new Schema(
       unique: true,
       index: true,
     },
+    subCategories:[subcategorySchema]
   },
   { timestamps: true }
 );
