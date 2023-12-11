@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/user", userRoutes);
-app.use("/products", productRoutes);
+app.use("/product", productRoutes);
 
 
 //error middlewares

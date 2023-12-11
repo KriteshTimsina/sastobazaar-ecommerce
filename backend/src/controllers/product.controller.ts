@@ -9,7 +9,7 @@ export const createProduct = expressAsyncHandler(async (req: Request, res) => {
       description: req.body.description,
       title: req.body.title,
       price: req.body.price,
-      image
+      image,
     });
     res.json({
       status: true,
@@ -29,3 +29,20 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
     throw new Error(error.message);
   }
 });
+
+export const getSingleProduct = expressAsyncHandler(
+  async (req: Request, res) => {
+    try {
+      const { id } = req.params;
+      const product = await Product.findById(id);
+      console.log(product)
+      if (product) {
+        res.json({ status: true, message: "Product found", product });
+      } else {
+        throw new Error("Failed to get product");
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+);
