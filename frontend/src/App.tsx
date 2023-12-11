@@ -6,6 +6,8 @@ import  { useUser } from "./contexts/UserContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { useEffect } from "react";
 import Dashboard from "./pages/dashboard/Dashboard";
+import Sidebar from "./components/Sidebar";
+import ProductsListing from "./pages/product/ProductsListing";
 
 
 const App = () => {
@@ -20,14 +22,17 @@ const App = () => {
 
   return (
       <BrowserRouter>
+        <Sidebar>
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoute  />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/products" element={<ProductsListing />} />
             <Route path="/user/:id" element={<UserProfile />} />
           </Route>
         </Routes>
+        </Sidebar>
       </BrowserRouter>
   );
 };
