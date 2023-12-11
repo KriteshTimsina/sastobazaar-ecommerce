@@ -5,6 +5,7 @@ import connectDB from "./db";
 import { errorHandler, notFound } from "./middleware/error";
 import userRoutes from "./routes/user.routes";
 import productRoutes from "./routes/product.routes";
+import categoryRoutes from "./routes/category.routes"
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);
+app.use("/category", categoryRoutes);
 
 
 //error middlewares
