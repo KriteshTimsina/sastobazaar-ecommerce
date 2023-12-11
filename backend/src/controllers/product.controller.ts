@@ -1,15 +1,28 @@
 import expressAsyncHandler from "express-async-handler";
 import { Product } from "../models/product.model";
-import { Request } from "./user.controller";
+// import { Request } from "./user.controller";
+import { Request } from "express";
+import { ProductCategory } from "../models/productCategoryModel";
 
-export const createProduct = expressAsyncHandler(async (req: Request, res) => {
+export const createProduct = expressAsyncHandler(async (req:any, res,next): Promise<any>  => {
   const image = req.file.path;
   try {
+    const category = await ProductCategory.findById(req.body.categoryId);
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    const subCategory = category.subCategories.find(sub => sub._id.toString() === req.body.subCategoryId);
+    if (!subCategory) {
+      return res.status(404).json({ error: 'Subcategory not found' });
+    }
     const product = await Product.create({
       description: req.body.description,
       title: req.body.title,
       price: req.body.price,
       image,
+      category:category.title,
+      subCategory:subCategory.name,
     });
     res.json({
       status: true,

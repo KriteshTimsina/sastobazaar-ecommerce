@@ -6,6 +6,8 @@ export interface ProductDocument {
   description: string;
   price: number;
   image: string;
+  category:any,
+  subCategory:any
 }
 
 const productSchema = new Schema<ProductDocument>(
@@ -29,6 +31,16 @@ const productSchema = new Schema<ProductDocument>(
       required:[true,"Upload an image"],
       default:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKYKpb7CsZpzmzL6F-751Bacm0WZ3FjzAFZIBqkFjwg&s",
+    },
+    category:{
+      type:String,
+      required:true,
+      ref:"ProductCategory"
+    },
+    subCategory:{
+      type:String,
+      required:true,
+      ref:"ProductCategory.subCategories"
     },
   },
   { timestamps: true }

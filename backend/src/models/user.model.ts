@@ -9,6 +9,7 @@ export interface IUser {
   avatar: string;
   role: string;
   checkForPasswordMatch: any;
+  productCategory:any
 }
 
 
