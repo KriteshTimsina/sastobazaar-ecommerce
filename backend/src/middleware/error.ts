@@ -21,4 +21,5 @@ export const errorHandler = (
     message: err?.message,
     stack: err?.stack,
   });
+  return
 };

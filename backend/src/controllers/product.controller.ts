@@ -59,3 +59,30 @@ export const getSingleProduct = expressAsyncHandler(
     }
   }
 );
+
+
+export const deleteProduct  = expressAsyncHandler(async(req,res)=>{
+  try {
+    const {id} = req.params;
+
+    const foundProduct = await Product.findById(id)
+    if(!foundProduct){
+      throw new Error("No product found")
+    }
+   const product = await Product.findByIdAndDelete(id);
+
+   if(!product){
+    throw new Product("Error deleting product")
+   }
+
+   res.json({
+    status:true,
+    message:"Product Deleted Successfully",
+    product
+   })
+
+
+  } catch (error:any) {
+    throw new Error(error.message)
+  }
+})
