@@ -3,7 +3,6 @@ import { useUser } from "../contexts/UserContext"
 
 const ProtectedRoute = () => {
   const {user} = useUser();
-  console.log(user,"Y")
 
   if(user===null){
     return <Navigate to={"/login"} />

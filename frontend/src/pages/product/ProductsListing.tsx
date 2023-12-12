@@ -3,7 +3,7 @@ import { HashLoader } from "react-spinners";
 import { IoAddOutline } from "react-icons/io5";
 import AddProductSidebar from "./components/AddProductSidebar";
 export type IProduct = {
-  id: string;
+  _id: string;
   title: string;
   price: number;
   category: string;
@@ -122,7 +122,7 @@ const ProductsListing = () => {
               )}
               {!loading && products && products.length > 0 ? (
                 products.map((product) => (
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <tr key={product._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="p-4 w-4">
                       <div className="flex items-center">
                         <input
