@@ -7,7 +7,7 @@ import isAdmin from "../middleware/admin";
 
 const router = Router();
 
-router.get("",authenticated,isAdmin, getAllCategories);
+router.get("", getAllCategories);
 router.get("/:id",authenticated,isAdmin, getSingleCategory);
 router.post("",authenticated,isAdmin, createCategory);
 router.put("/:id",authenticated,isAdmin, editCategory);
