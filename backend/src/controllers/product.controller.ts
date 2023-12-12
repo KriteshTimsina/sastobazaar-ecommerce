@@ -48,7 +48,6 @@ export const getSingleProduct = expressAsyncHandler(
     try {
       const { id } = req.params;
       const product = await Product.findById(id);
-      console.log(product)
       if (product) {
         res.json({ status: true, message: "Product found", product });
       } else {
@@ -64,7 +63,6 @@ export const getSingleProduct = expressAsyncHandler(
 export const deleteProduct  = expressAsyncHandler(async(req,res)=>{
   try {
     const {id} = req.params;
-
     const foundProduct = await Product.findById(id)
     if(!foundProduct){
       throw new Error("No product found")
@@ -77,7 +75,7 @@ export const deleteProduct  = expressAsyncHandler(async(req,res)=>{
 
    res.json({
     status:true,
-    message:"Product Deleted Successfully",
+    message:"Product Deleted successfully",
     product
    })
 
