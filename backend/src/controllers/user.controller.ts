@@ -83,16 +83,15 @@ export const login = expressAsyncHandler(
 export const getUserInfo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
-      if (req.user) {
-        //  const avatar = path.join(__dirname, `../../${req.user.avatar}`);
-        //  req.user.avatar = avatar
-        res.json({
+      const user = await User.findById(req.user._id)
+      if (user) {
+        res.status(201).json({
           status: true,
           message: "User info found",
-          user: req.user,
+          user,
         });
       }
-      throw new Error("Not authenticated");
+      throw new Error("User not found");
     } catch (error: any) {
       throw new Error(error.message);
     }
