@@ -9,14 +9,17 @@ export type IProduct = {
   price: number;
   category: string;
   subCategory: string;
+  image:string
 };
 const ProductsListing = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showProductForm, setShowProductForm] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const productIdRef = useRef("")
-const {user} = useUser()
+  const productIdRef = useRef("");
+  const { user } = useUser();
+
+  console.log(products)
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -26,7 +29,10 @@ const {user} = useUser()
       setLoading(true);
       const response = await fetch("http://localhost:8000/product");
       const data = await response.json();
-      setLoading(false);
+      setTimeout(()=>{
+        setLoading(false);
+
+      },4000)
       if (data.status) {
         setProducts(data.product);
       }
@@ -35,31 +41,35 @@ const {user} = useUser()
     }
   };
 
-  const askForDeletePermission = (id:string)=>{
-    setShowDeleteConfirmation(true)
-    productIdRef.current = id
-  }
+  const askForDeletePermission = (id: string) => {
+    setShowDeleteConfirmation(true);
+    productIdRef.current = id;
+  };
 
-
-  const deleteProduct = async ()=>{
+  const deleteProduct = async () => {
     try {
-      const res = await fetch("http://localhost:8000/product/"+productIdRef.current, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const res = await fetch(
+        "http://localhost:8000/product/" + productIdRef.current,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const result = await res.json();
-      if(result.status){
-        toast.success(result.message)
-        const filteredProduct = products.filter(product=> product._id !== result.product._id);
-        setProducts(filteredProduct)
-        setShowDeleteConfirmation(false)
+      if (result.status) {
+        toast.success(result.message);
+        const filteredProduct = products.filter(
+          (product) => product._id !== result.product._id
+        );
+        setProducts(filteredProduct);
+        setShowDeleteConfirmation(false);
       }
-    } catch (error:any) {
-      toast.error(error.message)
+    } catch (error: any) {
+      toast.error(error.message);
     }
-  }
+  };
   return (
     <>
       <div>
@@ -106,9 +116,7 @@ const {user} = useUser()
               >
                 Add new product
               </button>
-              {/* <button>
-                <IoAddOutline size={30} color={"white"} />
-              </button> */}
+             
             </div>
           </div>
           <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
@@ -136,24 +144,23 @@ const {user} = useUser()
             </thead>
             <tbody>
               {loading && (
-                <center>
-                  <HashLoader />
-                </center>
+                <tr className="w-full">
+                 <td> <HashLoader /></td>
+                </tr>
               )}
               {!loading && products && products.length > 0 ? (
-                products.map((product,index) => (
+                products.map((product, index) => (
                   <tr
                     key={product._id}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    <td className="p-4 w-4">
-                     {index+1}
-                    </td>
+                    <td className="p-4 w-4">{index + 1}</td>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      {product.title}
+                      <p>{product.title}</p>
+                      {/* <img src={product.} alt="" /> */}
                     </th>
                     <td className="px-6 py-4">{product.category}</td>
                     <td className="px-6 py-4">{product.subCategory}</td>
@@ -166,7 +173,7 @@ const {user} = useUser()
                         Edit
                       </a>
                       <button
-                        onClick={()=>askForDeletePermission(product._id)}
+                        onClick={() => askForDeletePermission(product._id)}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline"
                       >
                         Delete
@@ -180,7 +187,7 @@ const {user} = useUser()
             </tbody>
           </table>
         </div>
-        <AddProductSidebar {...{ showProductForm, setShowProductForm }} />
+        <AddProductSidebar {...{ showProductForm, setShowProductForm,setProducts }} />
         <div
           id="drawer-delete-product-default"
           className={`overflow-y-auto fixed top-0 right-0 z-40 p-4 w-full max-w-xs h-screen bg-white transition-transform  dark:bg-gray-800 ${
@@ -240,7 +247,7 @@ const {user} = useUser()
             Yes, I'm sure
           </button>
           <button
-            onClick={()=>setShowDeleteConfirmation(false)}
+            onClick={() => setShowDeleteConfirmation(false)}
             className="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 border border-gray-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2.5 text-center dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             data-drawer-hide="drawer-delete-product-default"
           >

@@ -8,8 +8,8 @@ export interface IUser {
   email: string;
   avatar: string;
   role: string;
+  isActive:boolean;
   checkForPasswordMatch: any;
-  productCategory:any
 }
 
 
@@ -40,6 +40,10 @@ const userSchema = new Schema<IUser>(
       default:
         "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png",
     },
+    isActive:{
+      type:Boolean,
+      default:true
+    }
   },
 
   { timestamps: true }

@@ -13,7 +13,7 @@ export interface Request extends ExpressRequest {
 export const register = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
-    
+
     try {
       const existingUser = await User.findOne({
         $or: [{ username }, { email }],
@@ -29,11 +29,10 @@ export const register = expressAsyncHandler(
         res.json({
           status: true,
           message: "User Registered Successfully",
-          user:{
+          user: {
             token,
-            userId:user._id
-          }
-          
+            userId: user._id,
+          },
         });
       } else {
         throw new Error("User already exist.");
@@ -69,7 +68,7 @@ export const login = expressAsyncHandler(
               message: "Login successfully",
               user: {
                 token,
-                userId:user._id
+                userId: user._id,
               },
             });
           } else throw new Error("Errror logging in user.");
@@ -85,8 +84,8 @@ export const getUserInfo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
       if (req.user) {
-      //  const avatar = path.join(__dirname, `../../${req.user.avatar}`); 
-      //  req.user.avatar = avatar
+        //  const avatar = path.join(__dirname, `../../${req.user.avatar}`);
+        //  req.user.avatar = avatar
         res.json({
           status: true,
           message: "User info found",
@@ -100,25 +99,34 @@ export const getUserInfo = expressAsyncHandler(
   }
 );
 
+export const getAllUsers = expressAsyncHandler(async (req, res) => {
+  const user = await User.find();
+  if (user) {
+    res.json({ status: true, user });
+  }
+});
 
 export const editUser = expressAsyncHandler(
   async (req: Request, res: Response) => {
-    const {username} = req.body;
+    const { username } = req.body;
     const avatar = req.file.path;
     try {
       if (req.user) {
-         const imageUrl = path.join(__dirname, `../../${avatar}`); 
-      const updatedUser = await User.findByIdAndUpdate(req?.user._id,{username,avatar:imageUrl},{new:true})
-    
-        if(updatedUser){
+        const imageUrl = path.join(__dirname, `../../${avatar}`);
+        const updatedUser = await User.findByIdAndUpdate(
+          req?.user._id,
+          { username, avatar: imageUrl },
+          { new: true }
+        );
+
+        if (updatedUser) {
           res.json({
             status: true,
             message: "User info updated successfully",
-            updatedUser
-          });        
+            updatedUser,
+          });
+        } else throw new Error("Error updating user");
       }
-      else throw new Error("Error updating user")
-    }
       throw new Error("Not authenticated");
     } catch (error: any) {
       throw new Error(error.message);
@@ -126,4 +134,44 @@ export const editUser = expressAsyncHandler(
   }
 );
 
+export const blockUser = expressAsyncHandler(async (req: Request, res) => {
+  try {
+    const { id } = req.params;
 
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        isActive: false,
+      },
+      { new: true }
+    );
+
+    if (user) {
+      res.json({ status: true, message: "User blocked successfully" });
+    }
+    throw new Error("Error blocking user");
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+});
+
+export const unblockUser = expressAsyncHandler(async (req: Request, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        isActive: true,
+      },
+      { new: true }
+    );
+
+    if (user) {
+      res.json({ status: true, message: "User unblocked successfully" });
+    }
+    throw new Error("Error unblocking user");
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+});

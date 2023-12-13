@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import toast from "react-hot-toast";
+import { IProduct } from "../ProductsListing";
 
 type FormData = {
   title: string;
@@ -10,7 +11,7 @@ type FormData = {
   categoryId: string;
 };
 
-const AddProductSidebar = ({ showProductForm, setShowProductForm }: any) => {
+const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: any) => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -94,9 +95,10 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm }: any) => {
       });
       const result = await res.json();
       if(result.status){
+        setProducts((prev:any) => [...prev,result.product])
         toast.success(result.message)
+        setShowProductForm(false)
       }
-    console.log(result,"ADDING PRODUCT")
    } catch (error) {
     setLoading(false)
     toast.error("Failed to add product")
