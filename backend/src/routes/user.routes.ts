@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   blockUser,
+  changePassword,
   deleteAllUser,
   editUser,
   getAllUsers,
@@ -24,5 +25,6 @@ router.put("/block/:id", authenticated, isAdmin, blockUser);
 router.put("/unblock/:id", authenticated, isAdmin, unblockUser);
 router.get("/",authenticated,isAdmin, getAllUsers);
 router.delete("/delete-all",authenticated,isAdmin, deleteAllUser);
+router.put("/change-password",authenticated, changePassword);
 
 export default router;

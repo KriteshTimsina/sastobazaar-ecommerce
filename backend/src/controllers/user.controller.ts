@@ -83,7 +83,7 @@ export const login = expressAsyncHandler(
 export const getUserInfo = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
-      const user = await User.findById(req.user._id)
+      const user = await User.findById(req.user._id);
       if (user) {
         res.status(201).json({
           status: true,
@@ -170,6 +170,28 @@ export const unblockUser = expressAsyncHandler(async (req: Request, res) => {
       res.json({ status: true, message: "User unblocked successfully" });
     }
     throw new Error("Error unblocking user");
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+});
+export const changePassword = expressAsyncHandler(async (req: Request, res) => {
+  try {
+    const { newPassword, oldPassword } = req.body;
+
+    const user = await User.findById(req.user._id).select("password");
+
+    if (!user) {
+      throw new Error("User not found. Please login or signup");
+    }
+    const isPasswordMatched = await user.checkForPasswordMatch(oldPassword);
+
+    if (isPasswordMatched) {
+      user.password = newPassword;
+      await user.save();
+      res
+        .status(200)
+        .json({ status: true, message: "password changed successfully" });
+    } else throw new Error("Old password is incorrect");
   } catch (error: any) {
     throw new Error(error.message);
   }
