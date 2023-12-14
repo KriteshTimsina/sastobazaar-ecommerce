@@ -5,15 +5,20 @@ import {
   deleteProduct,
   getAllProduct,
   getSingleProduct,
+  updateProduct,
 } from "../controllers/product.controller";
 import { upload } from "../middleware/multer";
 import isAdmin from "../middleware/admin";
 
 const router = Router();
 
-router.post("", authenticated, isAdmin, upload.single("image"), createProduct);
-router.delete("/:id",authenticated,isAdmin,deleteProduct);
 router.get("", getAllProduct);
 router.get("/:id",getSingleProduct);
+
+//admin access only
+router.post("", authenticated, isAdmin, upload.single("image"), createProduct);
+router.delete("/:id",authenticated,isAdmin,deleteProduct);
+router.patch("/:id",authenticated,isAdmin,updateProduct);
+
 
 export default router;

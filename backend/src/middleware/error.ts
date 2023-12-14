@@ -12,7 +12,6 @@ export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
 ) => {
   const statuscode = res.statusCode == 200 ? 500 : res.statusCode;
   res.status(statuscode);

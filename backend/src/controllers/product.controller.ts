@@ -43,7 +43,7 @@ export const createProduct = expressAsyncHandler(
 export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
     const product = await Product.find();
-    if(product){
+    if (product) {
       res.json({ status: true, message: "Products found", product });
     }
     // const image = path.join(__dirname, `../../${product.image}`);
@@ -86,6 +86,37 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
       message: "Product Deleted successfully",
       product,
     });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+});
+
+export const updateProduct = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { title, description, price, categoryId, subCategoryId } = req.body;
+  console.log(req.body);
+  try {
+    const productExists = await Product.findById(id);
+
+    console.log(productExists);
+    if (!productExists) {
+      throw new Error("Product doesn't exists.");
+    }
+
+    const updateProduct = await Product.findByIdAndUpdate(
+      { _id: id },
+      {
+        title,
+        description,
+        price,
+        category: categoryId,
+        subCategory: subCategoryId,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json({status:true,message:"Product updated successfully",updateProduct});
   } catch (error: any) {
     throw new Error(error.message);
   }
