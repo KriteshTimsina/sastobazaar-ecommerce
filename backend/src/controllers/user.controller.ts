@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { IUser, User } from "../models/user.model";
+import { IUser, User } from "../models/userModel";
 import expressAsyncHandler from "express-async-handler";
 import { generateToken } from "../utils/jwt";
 

@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import { Request } from "../controllers/user.controller";
-import { User } from "../models/user.model";
+import { User } from "../models/userModel";
 
 const isAdmin = expressAsyncHandler(async(req:Request,res,next)=>{
     const {email} = req.user;

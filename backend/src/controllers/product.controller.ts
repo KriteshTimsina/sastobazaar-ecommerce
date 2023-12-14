@@ -1,10 +1,10 @@
 import expressAsyncHandler from "express-async-handler";
-import { Product } from "../models/product.model";
+import { Product } from "../models/productModel";
 // import { Request } from "./user.controller";
 import { Request } from "express";
 import { ProductCategory } from "../models/productCategoryModel";
 import path from "path";
-import { ProductDocument } from "../models/product.model";
+import { ProductDocument } from "../models/productModel";
 
 export const createProduct = expressAsyncHandler(
   async (req: any, res, next): Promise<any> => {
@@ -59,9 +59,8 @@ export const getSingleProduct = expressAsyncHandler(
       const product = await Product.findById(id);
       if (product) {
         res.json({ status: true, message: "Product found", product });
-      } else {
-        throw new Error("Failed to get product");
       }
+      throw new Error("Failed to get product");
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -102,27 +101,33 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
       throw new Error("Product doesn't exists.");
     }
 
-    const category = await ProductCategory.findById({_id:categoryId})
+    const category = await ProductCategory.findById({ _id: categoryId });
 
-    if(category){
-      const subCategory = category.subCategories.find(sub=>sub._id.toString() === subCategoryId)
-      if(subCategory){
-    const updateProduct = await Product.findByIdAndUpdate(
-      { _id: id },
-      {
-        title,
-        description,
-        price,
-        category: category.title,
-        subCategory: subCategory.name,
-      },
-      {
-        new: true,
+    if (category) {
+      const subCategory = category.subCategories.find(
+        (sub) => sub._id.toString() === subCategoryId
+      );
+      if (subCategory) {
+        const updateProduct = await Product.findByIdAndUpdate(
+          { _id: id },
+          {
+            title,
+            description,
+            price,
+            category: category.title,
+            subCategory: subCategory.name,
+          },
+          {
+            new: true,
+          }
+        );
+        res.json({
+          status: true,
+          message: "Product updated successfully",
+          updateProduct,
+        });
       }
-    );
-    res.json({status:true,message:"Product updated successfully",updateProduct});
-  }}
-
+    }
   } catch (error: any) {
     throw new Error(error.message);
   }

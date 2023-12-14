@@ -1,8 +1,8 @@
 import expressAsyncHandler from "express-async-handler";
 import { verifyToken } from "../utils/jwt";
-import { User } from "../models/user.model";
+import { User } from "../models/userModel";
 import { Request as ExpressRequest } from "express";
-import { IUser } from "../models/user.model"; // Import your IUser interface
+import { IUser } from "../models/userModel"; // Import your IUser interface
 
 interface Request extends ExpressRequest {
   user: any;
