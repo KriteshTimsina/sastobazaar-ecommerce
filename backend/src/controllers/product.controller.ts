@@ -98,25 +98,31 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
   try {
     const productExists = await Product.findById(id);
 
-    console.log(productExists);
     if (!productExists) {
       throw new Error("Product doesn't exists.");
     }
 
+    const category = await ProductCategory.findById({_id:categoryId})
+
+    if(category){
+      const subCategory = category.subCategories.find(sub=>sub._id.toString() === subCategoryId)
+      if(subCategory){
     const updateProduct = await Product.findByIdAndUpdate(
       { _id: id },
       {
         title,
         description,
         price,
-        category: categoryId,
-        subCategory: subCategoryId,
+        category: category.title,
+        subCategory: subCategory.name,
       },
       {
         new: true,
       }
     );
     res.json({status:true,message:"Product updated successfully",updateProduct});
+  }}
+
   } catch (error: any) {
     throw new Error(error.message);
   }
