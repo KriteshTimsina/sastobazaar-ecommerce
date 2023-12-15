@@ -6,6 +6,7 @@ import { errorHandler, notFound } from "./middleware/error";
 import userRoutes from "./routes/user.routes";
 import productRoutes from "./routes/product.routes";
 import categoryRoutes from "./routes/category.routes"
+import carouselRoutes from "./routes/carouselRoutes"
 
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
+app.use("/carousel", carouselRoutes);
 
 //error middlewares
 app.use(notFound);
