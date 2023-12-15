@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes";
 import productRoutes from "./routes/product.routes";
 import categoryRoutes from "./routes/category.routes"
 import dynamicContentRoutes from "./routes/dynamicContentRoutes"
+import cartRoutes from "./routes/cartRoutes"
 
 
 const app = express();
@@ -23,7 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
+app.use("/cart", cartRoutes);
 app.use("/dynamic-content", dynamicContentRoutes);
+
 
 //error middlewares
 app.use(notFound);
