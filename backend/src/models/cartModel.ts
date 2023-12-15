@@ -8,7 +8,10 @@ const cartSchema = new Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
         },
-        quantity:Number
+        quantity:{
+          type:Number,
+          default:1
+        }
       },
     ],
     totalAmount:{
@@ -18,6 +21,7 @@ const cartSchema = new Schema(
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        
       }
   },
   { timestamps: true }
