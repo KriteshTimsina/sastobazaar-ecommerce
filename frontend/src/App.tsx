@@ -29,7 +29,6 @@ const App = () => {
           <Route element={<ProtectedRoute  />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/products" element={<ProductsListing />} />
-            <Route path="/user/:id" element={<UserProfile />} />
           </Route>
         </Routes>
         </Sidebar>

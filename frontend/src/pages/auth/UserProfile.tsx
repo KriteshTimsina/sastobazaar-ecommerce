@@ -18,7 +18,6 @@ const UserProfile = () => {
     }
   }, []);
 
-  console.log(user, "HUI");
 
   const getUserInfo = async () => {
     try {
@@ -29,9 +28,8 @@ const UserProfile = () => {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      console.log(res);
       const data = await res.json();
-      console.log("YAY", data);
+      console.log(data);
       if (data.status) {
         setLoading(false);
         setUserInfo(data.user);

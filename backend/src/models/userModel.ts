@@ -8,10 +8,9 @@ export interface IUser {
   email: string;
   avatar: string;
   role: string;
-  isActive:boolean;
+  isActive: boolean;
   checkForPasswordMatch: any;
 }
-
 
 const userSchema = new Schema<IUser>(
   {
@@ -23,7 +22,7 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: [true, "Password is required"],
-      select:false
+      select: false,
     },
     email: {
       type: String,
@@ -32,18 +31,18 @@ const userSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["user","admin"],
-      default:"user",
+      enum: ["user", "admin"],
+      default: "user",
     },
     avatar: {
       type: String,
       default:
-        "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png",
+        "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=626&ext=jpg&ga=GA1.1.393839023.1702357779&semt=ais",
     },
-    isActive:{
-      type:Boolean,
-      default:true
-    }
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   { timestamps: true }

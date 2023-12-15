@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom"
-import { useUser } from "../../contexts/UserContext"
+import UserProfile from "../auth/UserProfile"
 
 const Dashboard = () => {
-  const {user} = useUser()
   return (
     <div>
-      HI 
-      <Link to={`/user/${user.userId}`}>Visit profile</Link>
+     <UserProfile />
     </div>
   )
 }

@@ -23,7 +23,6 @@ app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
 
-
 //error middlewares
 app.use(notFound);
 app.use(errorHandler);

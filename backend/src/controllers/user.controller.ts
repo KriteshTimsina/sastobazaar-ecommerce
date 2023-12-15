@@ -5,6 +5,7 @@ import { generateToken } from "../utils/jwt";
 
 import { Request as ExpressRequest } from "express";
 import path from "path";
+import { uploadToCloud } from "../utils/cloudinary";
 
 export interface Request extends ExpressRequest {
   user?: IUser;
@@ -108,13 +109,18 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
 export const editUser = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const { username } = req.body;
-    const avatar = req.file.path;
+    const { path } = req.file;
+    console.log(path);
     try {
-      if (req.user) {
-        const imageUrl = path.join(__dirname, `../../${avatar}`);
+      const user = await User.findById(req.user._id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      const image = await uploadToCloud(path);
+      if (image) {
         const updatedUser = await User.findByIdAndUpdate(
           req?.user._id,
-          { username, avatar: imageUrl },
+          { username, avatar: image ?? user.avatar },
           { new: true }
         );
 
@@ -124,11 +130,10 @@ export const editUser = expressAsyncHandler(
             message: "User info updated successfully",
             updatedUser,
           });
-        } else throw new Error("Error updating user");
+        }
       }
-      throw new Error("Not authenticated");
     } catch (error: any) {
-      throw new Error(error.message);
+      throw new Error(error);
     }
   }
 );
@@ -174,6 +179,7 @@ export const unblockUser = expressAsyncHandler(async (req: Request, res) => {
     throw new Error(error.message);
   }
 });
+
 export const changePassword = expressAsyncHandler(async (req: Request, res) => {
   try {
     const { newPassword, oldPassword } = req.body;
