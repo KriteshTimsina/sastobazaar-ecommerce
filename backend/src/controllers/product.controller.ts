@@ -102,13 +102,25 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
 export const updateProduct = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, description, price, categoryId, subCategoryId } = req.body;
-  console.log(req.body);
+  const files = req.files;
+  const images =[];
+
+  // console.log(id,req.body,req.files,"PATA")
   try {
     const productExists = await Product.findById(id);
+
+    console.log(productExists)
 
     if (!productExists) {
       throw new Error("Product doesn't exists.");
     }
+    
+    for(const file in files){
+          const image = await uploadToCloud(files[file].path)
+          if(image){
+              images.push(image)
+          }
+         }
 
     const category = await ProductCategory.findById({ _id: categoryId });
 
@@ -117,14 +129,16 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
         (sub) => sub._id.toString() === subCategoryId
       );
       if (subCategory) {
+        
         const updateProduct = await Product.findByIdAndUpdate(
-          { _id: id },
+          { _id: productExists._id },
           {
             title,
             description,
             price,
-            category: category.title,
+            category: category.title ,
             subCategory: subCategory.name,
+            images
           },
           {
             new: true,
@@ -137,7 +151,11 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
         });
       }
     }
+    else{
+
+    }
   } catch (error: any) {
+    console.log("ERE?")
     throw new Error(error.message);
   }
 });
