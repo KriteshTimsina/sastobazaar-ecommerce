@@ -9,7 +9,7 @@ export type IProduct = {
   price: number;
   category: string;
   subCategory: string;
-  image:string
+  images: string[];
 };
 const ProductsListing = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -19,7 +19,7 @@ const ProductsListing = () => {
   const productIdRef = useRef("");
   const { user } = useUser();
 
-  console.log(products)
+  console.log(products);
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -29,10 +29,9 @@ const ProductsListing = () => {
       setLoading(true);
       const response = await fetch("http://localhost:8000/product");
       const data = await response.json();
-      setTimeout(()=>{
+      setTimeout(() => {
         setLoading(false);
-
-      },4000)
+      }, 4000);
       if (data.status) {
         setProducts(data.product);
       }
@@ -116,7 +115,6 @@ const ProductsListing = () => {
               >
                 Add new product
               </button>
-             
             </div>
           </div>
           <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
@@ -145,33 +143,39 @@ const ProductsListing = () => {
             <tbody>
               {loading && (
                 <tr className="w-full">
-                 <td> <HashLoader /></td>
+                  <td>
+                    {" "}
+                    <HashLoader />
+                  </td>
                 </tr>
               )}
               {!loading && products && products.length > 0 ? (
                 products.map((product, index) => (
                   <tr
                     key={product._id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
                     <td className="p-4 w-4">{index + 1}</td>
-                    <th
+                    <td
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="flex gap-3 items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
+                      <img
+                        width={30}
+                        height={30}
+                        className="object-cover bg-gray-400 rounded-full"
+                        src={product.images[0] ?? ""}
+                        alt={product.title}
+                      />
                       <p>{product.title}</p>
-                      {/* <img src={product.} alt="" /> */}
-                    </th>
+                    </td>
                     <td className="px-6 py-4">{product.category}</td>
                     <td className="px-6 py-4">{product.subCategory}</td>
                     <td className="px-6 py-4">Rs {product.price}</td>
-                    <td className="flex gap-3 items-center px-6 py-4">
-                      <a
-                        href="#"
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                      >
+                    <td className="px-6 py-4 space-x-3">
+                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                         Edit
-                      </a>
+                      </button>
                       <button
                         onClick={() => askForDeletePermission(product._id)}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -187,7 +191,9 @@ const ProductsListing = () => {
             </tbody>
           </table>
         </div>
-        <AddProductSidebar {...{ showProductForm, setShowProductForm,setProducts }} />
+        <AddProductSidebar
+          {...{ showProductForm, setShowProductForm, setProducts }}
+        />
         <div
           id="drawer-delete-product-default"
           className={`overflow-y-auto fixed top-0 right-0 z-40 p-4 w-full max-w-xs h-screen bg-white transition-transform  dark:bg-gray-800 ${

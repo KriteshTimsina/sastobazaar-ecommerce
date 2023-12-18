@@ -16,7 +16,7 @@ router.get("", getAllProduct);
 router.get("/:id",getSingleProduct);
 
 //admin access only
-router.post("", authenticated, isAdmin, upload.single("image"), createProduct);
+router.post("", authenticated, isAdmin, upload.array("images",5), createProduct);
 router.delete("/:id",authenticated,isAdmin,deleteProduct);
 router.patch("/:id",authenticated,isAdmin,updateProduct);
 

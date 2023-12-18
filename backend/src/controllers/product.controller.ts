@@ -5,10 +5,12 @@ import { Request } from "express";
 import { ProductCategory } from "../models/productCategoryModel";
 import path from "path";
 import { ProductDocument } from "../models/productModel";
+import { uploadToCloud } from "../utils/cloudinary";
 
 export const createProduct = expressAsyncHandler(
-  async (req: any, res, next): Promise<any> => {
-    const image = req.file.path;
+  async (req: Request, res, next): Promise<any> => {
+    const files = req.files;
+    const images = []
     try {
       const category = await ProductCategory.findById(req.body.categoryId);
       if (!category) {
@@ -21,11 +23,18 @@ export const createProduct = expressAsyncHandler(
       if (!subCategory) {
         return res.status(404).json({ error: "Subcategory not found" });
       }
+
+      for(const file in files){
+        const image = await uploadToCloud(files[file].path)
+        if(image){
+            images.push(image)
+        }
+       }
       const product = await Product.create({
         description: req.body.description,
         title: req.body.title,
         price: req.body.price,
-        image,
+        images,
         category: category.title,
         subCategory: subCategory.name,
       });
