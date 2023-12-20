@@ -11,7 +11,14 @@ type FormData = {
   categoryId: string;
 };
 
-const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: any) => {
+type IProp = {
+    showEditProductForm:any,
+    setShowEditProductForm:any,
+    setProducts:any,
+    selectedProduct:any
+}
+
+const EditProductSidebar = ({ showEditProductForm, setShowEditProductForm ,setProducts,selectedProduct:product}: IProp) => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,6 +31,17 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: 
     subCategoryId: "",
   });
   const [image,setImage] = useState<File>();
+
+  useEffect(()=>{
+    if(product){
+        setFormData(prev =>({
+            ...prev,
+            title:product.title,
+            description:product.description,
+            price:product.price
+        }))
+    }
+  },[product])
   
   useEffect(() => {
     getAllCategories();
@@ -94,7 +112,7 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: 
       if(result.status){
         setProducts((prev:any) => [...prev,result.product])
         toast.success(result.message)
-        setShowProductForm(false)
+        setShowEditProductForm(false)
       }
    } catch (error) {
     setLoading(false)
@@ -106,7 +124,7 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: 
     <div
       id="drawer-create-product-default"
       className={`overflow-y-auto fixed top-0 right-0 z-40 p-4 w-full max-w-xs h-screen bg-white transition-transform  dark:bg-gray-800 ${
-        showProductForm ? "":"translate-x-full"}`}
+        showEditProductForm ? "":"translate-x-full"}`}
       tabIndex={-1}
       aria-labelledby="drawer-label"
       aria-hidden="true"
@@ -115,10 +133,10 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: 
         id="drawer-label"
         className="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400"
       >
-        New Product
+        Update Product
       </h5>
       <button
-        onClick={() => setShowProductForm(false)}
+        onClick={() => setShowEditProductForm(false)}
         type="button"
         data-drawer-dismiss="drawer-create-product-default"
         aria-controls="drawer-create-product-default"
@@ -281,7 +299,7 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: 
               Add product
             </button>
             <button
-            onClick={() => setShowProductForm(false)}
+            onClick={() => setShowEditProductForm(false)}
               type="button"
               data-drawer-dismiss="drawer-create-product-default"
               aria-controls="drawer-create-product-default"
@@ -311,4 +329,4 @@ const AddProductSidebar = ({ showProductForm, setShowProductForm ,setProducts}: 
   );
 };
 
-export default AddProductSidebar;
+export default EditProductSidebar;

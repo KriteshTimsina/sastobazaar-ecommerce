@@ -3,6 +3,7 @@ import { HashLoader } from "react-spinners";
 import AddProductSidebar from "./components/AddProductSidebar";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
+import EditProductSidebar from "./components/EditProductSidebar";
 export type IProduct = {
   _id: string;
   title: string;
@@ -10,16 +11,18 @@ export type IProduct = {
   category: string;
   subCategory: string;
   images: string[];
+  description:string
 };
 const ProductsListing = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showProductForm, setShowProductForm] = useState(false);
+  const [showEditProductForm, setShowEditProductForm] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedProduct,setSelectedProduct] = useState<IProduct>()
   const productIdRef = useRef("");
   const { user } = useUser();
 
-  console.log(products);
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -173,7 +176,10 @@ const ProductsListing = () => {
                     <td className="px-6 py-4">{product.subCategory}</td>
                     <td className="px-6 py-4">Rs {product.price}</td>
                     <td className="px-6 py-4 space-x-3">
-                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    <button onClick={() => {
+                      setShowEditProductForm(true) 
+                      setSelectedProduct(product)}
+                      } className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                         Edit
                       </button>
                       <button
@@ -193,6 +199,9 @@ const ProductsListing = () => {
         </div>
         <AddProductSidebar
           {...{ showProductForm, setShowProductForm, setProducts }}
+        />
+        <EditProductSidebar
+          {...{ showEditProductForm, setShowEditProductForm, setProducts,selectedProduct }}
         />
         <div
           id="drawer-delete-product-default"
