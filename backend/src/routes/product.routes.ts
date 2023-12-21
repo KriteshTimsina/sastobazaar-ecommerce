@@ -6,7 +6,7 @@ import {
   getAllProduct,
   getSingleProduct,
   updateProduct,
-} from "../controllers/product.controller";
+} from "../controllers/productController";
 import { upload } from "../middleware/multer";
 import isAdmin from "../middleware/admin";
 

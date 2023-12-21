@@ -49,6 +49,7 @@ export const createProduct = expressAsyncHandler(
   }
 );
 
+
 export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
     const product = await Product.find();
@@ -101,7 +102,7 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
 
 export const updateProduct = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { title, description, price, categoryId, subCategoryId } = req.body;
+  const { title, description, price, categoryId, subCategoryId,quantity } = req.body;
   const files = req.files;
   const images =[];
 
@@ -138,7 +139,8 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
             price,
             category: category.title ,
             subCategory: subCategory.name,
-            images
+            images,
+            quantity
           },
           {
             new: true,
