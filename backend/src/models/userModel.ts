@@ -9,6 +9,7 @@ export interface IUser {
   avatar: string;
   role: string;
   isActive: boolean;
+  wishlist:string[];
   checkForPasswordMatch: any;
 }
 
@@ -43,6 +44,12 @@ const userSchema = new Schema<IUser>(
       type: Boolean,
       default: true,
     },
+    wishlist:[
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Product"
+      },
+    ]
   },
 
   { timestamps: true }

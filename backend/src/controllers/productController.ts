@@ -1,11 +1,12 @@
 import expressAsyncHandler from "express-async-handler";
 import { Product } from "../models/productModel";
 // import { Request } from "./user.controller";
-import { Request } from "express";
 import { ProductCategory } from "../models/productCategoryModel";
 import path from "path";
 import { ProductDocument } from "../models/productModel";
 import { uploadToCloud } from "../utils/cloudinary";
+import { Request } from "./user.controller";
+import { User } from "../models/userModel";
 
 export const createProduct = expressAsyncHandler(
   async (req: Request, res, next): Promise<any> => {
@@ -161,3 +162,42 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
+
+
+export const addToWishlist = expressAsyncHandler(async(req:Request,res)=>{
+  try {
+      const {_id} = req.user;
+      const {productId} = req.body
+
+      const userExists = await User.findById(_id)
+      console.log(userExists)
+      const alreadyAdded  =  userExists.wishlist.find((id) =>id.toString()===productId);
+
+      if(alreadyAdded){
+        let user = await User.findByIdAndUpdate(
+          userExists._id,
+          {
+            $pull: { wishlist: productId },
+          },
+          {
+            new: true,
+          }
+        );
+        res.json({status:true,message:"Removed from wishlist",user});
+      }
+      else{
+        let user = await User.findByIdAndUpdate(
+          userExists._id,
+          {
+            $push: { wishlist: productId },
+          },
+          {
+            new: true,
+          }
+        );
+        res.json({status:true,message:"Added to wishlist",user});
+      }
+  } catch (error) {
+    throw new Error(error)
+  }
+})
