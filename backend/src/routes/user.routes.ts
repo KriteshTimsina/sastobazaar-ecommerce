@@ -6,6 +6,7 @@ import {
   editUser,
   getAllUsers,
   getUserInfo,
+  getUserWishlists,
   login,
   register,
   unblockUser,
@@ -20,6 +21,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.get("/me", authenticated, getUserInfo);
 router.put("/edit", authenticated, upload.single("avatar"), editUser);
+router.get("/wishlist", authenticated,getUserWishlists);
 
 router.put("/block/:id", authenticated, isAdmin, blockUser);
 router.put("/unblock/:id", authenticated, isAdmin, unblockUser);
