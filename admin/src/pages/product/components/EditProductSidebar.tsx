@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import toast from "react-hot-toast";
 import { IProduct } from "../ProductsListing";
-import ImagePicker, { ImagePickerProps } from "../../../components/ImagePicker";
 
 type FormData = {
   title: string;
@@ -12,15 +11,18 @@ type FormData = {
   categoryId: string;
 };
 
-const AddProductSidebar = ({
-  showProductForm,
-  setShowProductForm,
-  setProducts,
-}: any) => {
+type IProp = {
+    showEditProductForm:any,
+    setShowEditProductForm:any,
+    setProducts:any,
+    selectedProduct:any
+}
+
+const EditProductSidebar = ({ showEditProductForm, setShowEditProductForm ,setProducts,selectedProduct:product}: IProp) => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useUser();
+  const {user} = useUser()
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
@@ -30,12 +32,21 @@ const AddProductSidebar = ({
   });
   const [image,setImage] = useState<File>();
 
-
-
-
+  useEffect(()=>{
+    if(product){
+        setFormData(prev =>({
+            ...prev,
+            title:product.title,
+            description:product.description,
+            price:product.price
+        }))
+    }
+  },[product])
+  
   useEffect(() => {
     getAllCategories();
   }, []);
+
 
   const getAllCategories = async () => {
     try {
@@ -44,7 +55,8 @@ const AddProductSidebar = ({
       if (data.status) {
         setCategories(data.category);
       }
-    } catch (error) {}
+    } catch (error) {
+    }
   };
 
   const handleFormChange = (
@@ -68,67 +80,51 @@ const AddProductSidebar = ({
     }));
   };
 
-  const handleFileChange = (selectedImage: File) => {
-    setImage((prevImages) => [...prevImages, selectedImage]);
-    console.log(image);
-  };
-
-  const handleDelete = (index: number) => {
-    // Implement your deletion logic here
-    const updatedImages = [...image];
-    updatedImages.splice(index, 1);
-    setImage(updatedImages);
-  };
-
-  const imagePickerProps: ImagePickerProps = {
-    image: image,
-    handleFileChange: handleFileChange,
-    handleDelete: handleDelete,
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
   };
 
   const addProduct = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if (!image) {
-        return;
-      }
-      const data = new FormData();
+   try {
+     if (!image) {
+      return;
+    }
+    const data = new FormData();
+    data.append('image', image);
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    data.append('price', String(formData.price));
+    data.append('categoryId', formData.categoryId);
+    data.append('subCategoryId', formData.subCategoryId);
 
-      image.forEach((file, index) => {
-        data.append(`image${index + 1}`, file);
-      });
 
-      data.append("title", formData.title);
-      data.append("description", formData.description);
-      data.append("price", String(formData.price));
-      data.append("categoryId", formData.categoryId);
-      data.append("subCategoryId", formData.subCategoryId);
-
-      const res = await fetch("http://localhost:8000/product", {
+    const res = await fetch("http://localhost:8000/product", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
-        body: data,
+        body:data
       });
       const result = await res.json();
-      if (result.status) {
-        setProducts((prev: any) => [...prev, result.product]);
-        toast.success(result.message);
-        setShowProductForm(false);
+      if(result.status){
+        setProducts((prev:any) => [...prev,result.product])
+        toast.success(result.message)
+        setShowEditProductForm(false)
       }
-    } catch (error) {
-      setLoading(false);
-      toast.error("Failed to add product");
-    }
+   } catch (error) {
+    setLoading(false)
+    toast.error("Failed to add product")
+   }
   };
 
   return (
     <div
       id="drawer-create-product-default"
       className={`overflow-y-auto fixed top-0 right-0 z-40 p-4 w-full max-w-xs h-screen bg-white transition-transform  dark:bg-gray-800 ${
-        showProductForm ? "" : "translate-x-full"
-      }`}
+        showEditProductForm ? "":"translate-x-full"}`}
       tabIndex={-1}
       aria-labelledby="drawer-label"
       aria-hidden="true"
@@ -137,10 +133,10 @@ const AddProductSidebar = ({
         id="drawer-label"
         className="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400"
       >
-        New Product
+        Update Product
       </h5>
       <button
-        onClick={() => setShowProductForm(false)}
+        onClick={() => setShowEditProductForm(false)}
         type="button"
         data-drawer-dismiss="drawer-create-product-default"
         aria-controls="drawer-create-product-default"
@@ -219,9 +215,31 @@ const AddProductSidebar = ({
               required
             ></textarea>
           </div>
-
-          <ImagePicker {...imagePickerProps} />
-
+         
+          <div>
+            <label
+              htmlFor="description"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Image
+            </label>
+            <button
+              type="button"
+              className="inline-flex relative items-center px-3 py-2 w-full text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            >
+              <input required accept="image/*" type="file" onChange={handleFileChange} className="absolute top-0 right-0 bottom-0 left-0 opacity-0" />
+              <svg
+                className="mr-2 -ml-1 w-4 h-4"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"></path>
+                <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
+              </svg>
+              Upload picture
+            </button>
+          </div>
           <div>
             <label
               htmlFor="category"
@@ -232,6 +250,7 @@ const AddProductSidebar = ({
             <select
               onChange={handleFormChange}
               value={formData.categoryId}
+              required
               name="categoryId"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             >
@@ -280,7 +299,7 @@ const AddProductSidebar = ({
               Add product
             </button>
             <button
-            onClick={() => setShowProductForm(false)}
+            onClick={() => setShowEditProductForm(false)}
               type="button"
               data-drawer-dismiss="drawer-create-product-default"
               aria-controls="drawer-create-product-default"
@@ -310,4 +329,4 @@ const AddProductSidebar = ({
   );
 };
 
-export default AddProductSidebar;
+export default EditProductSidebar;

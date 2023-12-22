@@ -202,3 +202,23 @@ export const changePassword = expressAsyncHandler(async (req: Request, res) => {
     throw new Error(error.message);
   }
 });
+
+export const getUserWishlists = expressAsyncHandler(async(req:Request,res)=>{
+  try {
+    const {_id} = req.user
+    const user = await User.findById(_id).populate("wishlist")
+
+    if(!user){
+      throw new Error("User not found. Login")
+
+    }
+    res.json({
+      status:true,
+      message:"Products Wishlist found",
+      wishlists:user.wishlist
+    })
+
+      } catch (error) {
+    throw new Error(error)
+  }
+})

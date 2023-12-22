@@ -6,8 +6,9 @@ export interface ProductDocument {
   description: string;
   price: number;
   images: string[];
-  category:any,
-  subCategory:any
+  category:string;
+  subCategory:string;
+  quantity:number;
 }
 
 const productSchema = new Schema<ProductDocument>(
@@ -40,6 +41,10 @@ const productSchema = new Schema<ProductDocument>(
       required:true,
       ref:"ProductCategory.subCategories"
     },
+    quantity:{
+      type:Number,
+      default:1
+    }
   },
   { timestamps: true }
 );
