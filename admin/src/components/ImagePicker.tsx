@@ -18,7 +18,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
     if (e.target.files) {
       const newFiles: File[] = Array.from(e.target.files);
       setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
-      handleFileChange(newFiles[0]); 
+      handleFileChange(newFiles[0]);
     }
   };
 
