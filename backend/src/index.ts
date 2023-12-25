@@ -8,6 +8,7 @@ import productRoutes from "./routes/product.routes";
 import categoryRoutes from "./routes/category.routes"
 import dynamicContentRoutes from "./routes/dynamicContentRoutes"
 import cartRoutes from "./routes/cartRoutes"
+import path from "path";
 
 
 const app = express();
@@ -20,13 +21,18 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.resolve('./public')));
+
+app.get("/",(req,res)=>{
+  // console.log(path.join(__dirname+'./'))
+  res.sendFile("public/index.html");
+})
 
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/cart", cartRoutes);
 app.use("/dynamic-content", dynamicContentRoutes);
-
 
 //error middlewares
 app.use(notFound);

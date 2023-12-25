@@ -28,9 +28,9 @@ const AddProductSidebar = ({
     categoryId: "",
     subCategoryId: "",
   });
-  const [image,setImage] = useState<File>();
+  const [image,setImage] = useState<any>([]);
 
-
+console.log(image,"Y")
 
 
   useEffect(() => {
@@ -69,12 +69,11 @@ const AddProductSidebar = ({
   };
 
   const handleFileChange = (selectedImage: File) => {
-    setImage((prevImages) => [...prevImages, selectedImage]);
+    setImage((prevImages:any) => [...prevImages, selectedImage]);
     console.log(image);
   };
 
   const handleDelete = (index: number) => {
-    // Implement your deletion logic here
     const updatedImages = [...image];
     updatedImages.splice(index, 1);
     setImage(updatedImages);
@@ -94,7 +93,7 @@ const AddProductSidebar = ({
       }
       const data = new FormData();
 
-      image.forEach((file, index) => {
+      image.forEach((file:any, index:any) => {
         data.append(`image${index + 1}`, file);
       });
 
@@ -127,8 +126,7 @@ const AddProductSidebar = ({
     <div
       id="drawer-create-product-default"
       className={`overflow-y-auto fixed top-0 right-0 z-40 p-4 w-full max-w-xs h-screen bg-white transition-transform  dark:bg-gray-800 ${
-        showProductForm ? "" : "translate-x-full"
-      }`}
+        showProductForm ? "":"translate-x-full"}`}
       tabIndex={-1}
       aria-labelledby="drawer-label"
       aria-hidden="true"
