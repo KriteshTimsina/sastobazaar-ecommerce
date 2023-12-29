@@ -3,6 +3,7 @@ import { useUser } from "../../../contexts/UserContext";
 import toast from "react-hot-toast";
 import { IProduct } from "../ProductsListing";
 import ImagePicker, { ImagePickerProps } from "../../../components/ImagePicker";
+import { url } from "../../../constants/base_url";
 
 type FormData = {
   title: string;
@@ -39,7 +40,7 @@ console.log(image,"Y")
 
   const getAllCategories = async () => {
     try {
-      const response = await fetch("http://localhost:8000/category");
+      const response = await fetch(url+"/category");
       const data = await response.json();
       if (data.status) {
         setCategories(data.category);
@@ -103,7 +104,7 @@ console.log(image,"Y")
       data.append("categoryId", formData.categoryId);
       data.append("subCategoryId", formData.subCategoryId);
 
-      const res = await fetch("http://localhost:8000/product", {
+      const res = await fetch(url+"/product", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${user.token}`,

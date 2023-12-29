@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link ,useNavigate} from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
+import { url } from "../../constants/base_url";
 
 const Register = () => {
     const [formdata,setFormdata] = useState({
@@ -26,7 +27,7 @@ const Register = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const data = await fetch("http://localhost:8000/user/register",{
+            const data = await fetch(url+"/user/register",{
                 method:"POST",
                 body:JSON.stringify(formdata),
                     headers: {

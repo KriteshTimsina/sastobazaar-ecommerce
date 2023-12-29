@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import toast from "react-hot-toast";
 import { IProduct } from "../ProductsListing";
+import { url } from "../../../constants/base_url";
 
 type FormData = {
   title: string;
@@ -50,7 +51,7 @@ const EditProductSidebar = ({ showEditProductForm, setShowEditProductForm ,setPr
 
   const getAllCategories = async () => {
     try {
-      const response = await fetch("http://localhost:8000/category");
+      const response = await fetch(url+"/category");
       const data = await response.json();
       if (data.status) {
         setCategories(data.category);
@@ -101,7 +102,7 @@ const EditProductSidebar = ({ showEditProductForm, setShowEditProductForm ,setPr
     data.append('subCategoryId', formData.subCategoryId);
 
 
-    const res = await fetch("http://localhost:8000/product", {
+    const res = await fetch(url+"/product", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${user.token}`,

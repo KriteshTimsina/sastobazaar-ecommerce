@@ -4,6 +4,7 @@ import { IUser } from "../../constants/types";
 import Loading from "../../components/Loading";
 import { PiNotePencilFill } from "react-icons/pi";
 import { VscSave } from "react-icons/vsc";
+import { url } from "../../constants/base_url";
 
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState<IUser>();
@@ -22,7 +23,7 @@ const UserProfile = () => {
   const getUserInfo = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8000/user/me", {
+      const res = await fetch(url+"/user/me", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${user.token}`,

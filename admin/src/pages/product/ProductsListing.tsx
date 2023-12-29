@@ -4,6 +4,7 @@ import AddProductSidebar from "./components/AddProductSidebar";
 import { useUser } from "../../contexts/UserContext";
 import toast from "react-hot-toast";
 import EditProductSidebar from "./components/EditProductSidebar";
+import { url } from "../../constants/base_url";
 export type IProduct = {
   _id: string;
   title: string;
@@ -30,7 +31,7 @@ const ProductsListing = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:8000/product");
+      const response = await fetch(url+"/product");
       const data = await response.json();
       setTimeout(() => {
         setLoading(false);
@@ -51,7 +52,7 @@ const ProductsListing = () => {
   const deleteProduct = async () => {
     try {
       const res = await fetch(
-        "http://localhost:8000/product/" + productIdRef.current,
+       url+"/product/" + productIdRef.current,
         {
           method: "DELETE",
           headers: {
