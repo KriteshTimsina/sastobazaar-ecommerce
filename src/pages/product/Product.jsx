@@ -14,6 +14,7 @@ const Product = () => {
   const { setCart } = useContext(cartContext);
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [wishlist, setWishlist] = useState(JSON.parse(localStorage?.getItem("wishlist")) || []);
   const { data } = useSWR(API_BASE_URL + `products/${id}`, fetcher);
 
   const addToCart = (product) => {
@@ -22,6 +23,16 @@ const Product = () => {
       { product: product, quantity: quantity },
     ]);
     navigate("/cart");
+  };
+
+  const addToWishlist = (product) => {
+    if (!wishlist.find(item => item.id === product.id)) {
+      const confirmation = window.confirm("Do you want to add this item to wishlist ?");
+      if (confirmation) {
+        setWishlist((prev) => [...prev, product]);
+        localStorage.setItem("wishlist", JSON.stringify([...wishlist, product]));
+      }
+    }
   };
 
   return (
@@ -65,7 +76,7 @@ const Product = () => {
                 required
               />
             </div>
-            <div className="flex justify-start items-center">
+            <div className="flex justify-start items-center mb-4">
               <p className="text-secondary text-3xl font-semibold">
                 Rs. {getLocalPrice(data.price).toLocaleString()}
               </p>
@@ -73,9 +84,15 @@ const Product = () => {
             <div className="flex justify-center md:justify-start mt-6">
               <button
                 onClick={() => addToCart(data)}
-                className="bg-primary text-white w-full md:w-1/2 py-3 text-xl rounded-xl"
+                className="bg-primary text-white w-full md:w-1/2 py-3 text-xl rounded-xl mr-2"
               >
                 Add to Cart
+              </button>
+              <button
+                onClick={() => addToWishlist(data)}
+                className="bg-primary text-white w-full md:w-1/2 py-3 text-xl rounded-xl"
+              >
+                Add to Wishlist
               </button>
             </div>
           </div>
