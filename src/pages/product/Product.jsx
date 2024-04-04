@@ -14,24 +14,23 @@ const Product = () => {
   const { setCart } = useContext(cartContext);
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [wishlist, setWishlist] = useState(JSON.parse(localStorage?.getItem("wishlist")) || []);
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage?.getItem("wishlist")) || []
+  );
   const { data } = useSWR(API_BASE_URL + `products/${id}`, fetcher);
 
   const addToCart = (product) => {
-    setCart((prev) => [
-      ...prev,
-      { product: product, quantity: quantity },
-    ]);
+    setCart((prev) => [...prev, { product: product, quantity: quantity }]);
     navigate("/cart");
   };
 
   const addToWishlist = (product) => {
-    if (!wishlist.find(item => item.id === product.id)) {
-      const confirmation = window.confirm("Do you want to add this item to wishlist ?");
-      if (confirmation) {
-        setWishlist((prev) => [...prev, product]);
-        localStorage.setItem("wishlist", JSON.stringify([...wishlist, product]));
-      }
+    if (!wishlist.find((item) => item.id === product.id)) {
+      setWishlist((prev) => [...prev, product]);
+      localStorage.setItem("wishlist", JSON.stringify([...wishlist, product]));
+    } else {
+      // If item is already in wishlist, navigate to the wishlist page
+      navigate("/wishlist");
     }
   };
 
@@ -65,7 +64,9 @@ const Product = () => {
             <div className="flex justify-start items-center mb-4">
               <p className="font-semibold text-xl">Quantity: </p>
               <input
-                onChange={(event) => setQuantity(parseInt(event.target.value))}
+                onChange={(event) =>
+                  setQuantity(parseInt(event.target.value))
+                }
                 className="bg-white text-black placeholder-gray-800 indent-1 text-xl dark:bg-darkbg dark:text-darktext"
                 min="1"
                 max="100"
@@ -92,7 +93,10 @@ const Product = () => {
                 onClick={() => addToWishlist(data)}
                 className="bg-primary text-white w-full md:w-1/2 py-3 text-xl rounded-xl"
               >
-                Add to Wishlist
+                {/* Conditionally render button text */}
+                {wishlist.find((item) => item.id === data.id)
+                  ? "View Wishlist"
+                  : "Add to Wishlist"}
               </button>
             </div>
           </div>

@@ -15,22 +15,16 @@ const Card = ({ products, onRemoveWishlist }) => {
   function handleWishlistClick(product) {
     const index = wishlist.find(item => item.id === product.id) !== undefined;
     if (!index) {
-      const confirmation = confirm("Do you want to add this item to wishlist ?");
-      if (confirmation) {
         setwishlist((prev) => {
           return [...prev, product];
         });
         localStorage.setItem("wishlist", JSON.stringify([...wishlist, product]));
-      }
     }
     else {
-      const confirmation = confirm("Do you want to remove this item?");
-      if (confirmation) {
         const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
         setwishlist(updatedWishlist);
         if (onRemoveWishlist) onRemoveWishlist(product.id);
         localStorage.setItem("wishlist", JSON.stringify([...updatedWishlist]))
-      }
     }
   }
 
