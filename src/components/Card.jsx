@@ -13,12 +13,13 @@ const Card = ({ products, onRemoveWishlist }) => {
   }
 
   function handleWishlistClick(product) {
-    const index = wishlist.find(item => item.id === product.id) !== undefined;
-    if (!index) {
+    const isProductInWishlist = wishlist.find(item => item.id === product.id) !== undefined;
+    if (!isProductInWishlist) {
       const confirmation = window.confirm("Do you want to add this item to the wishlist?");
       if (confirmation) {
-        setWishlist((prev) => [...prev, product]);
-        localStorage.setItem("wishlist", JSON.stringify([...wishlist, product]));
+        const updatedWishlist = [...wishlist, product];
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
       }
     } else {
       const confirmation = window.confirm("Do you want to remove this item?");
@@ -26,7 +27,7 @@ const Card = ({ products, onRemoveWishlist }) => {
         const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
         setWishlist(updatedWishlist);
         if (onRemoveWishlist) onRemoveWishlist(product.id);
-        localStorage.setItem("wishlist", JSON.stringify([...updatedWishlist]));
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
       }
     }
   }
@@ -66,12 +67,11 @@ const Card = ({ products, onRemoveWishlist }) => {
               <div className="group-hover:opacity-100 transition-all">
                 {wishlist.find((item) => item.id === product.id) !== undefined ? (
                   <AiFillHeart
-                  onClick={() => handleWishlistClick(product)}
-                  title="Favourite"
-                  className="text-red-500 cursor-pointer"
-                />
+                    onClick={() => handleWishlistClick(product)}
+                    title="Favourite"
+                    className="text-red-500 cursor-pointer"
+                  />
                 ) : (
-                  
                   <AiOutlineHeart
                     onClick={() => handleWishlistClick(product)}
                     title="Un-Favourite"
