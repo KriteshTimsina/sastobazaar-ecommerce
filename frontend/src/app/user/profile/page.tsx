@@ -10,17 +10,17 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/hooks/use-toast"
+// import { toast } from "@/hooks/use-toast"
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false)
 
   const handleSave = () => {
     setIsEditing(false)
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been updated successfully.",
-    })
+    // toast({
+    //   title: "Profile updated",
+    //   description: "Your profile has been updated successfully.",
+    // })
   }
 
   return (
