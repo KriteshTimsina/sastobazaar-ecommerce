@@ -1,21 +1,42 @@
-import Link from "next/link"
-import { ArrowUpRight, DollarSign, Package, ShoppingCart, Users } from "lucide-react"
+import Link from "next/link";
+import {
+  ArrowUpRight,
+  DollarSign,
+  Package,
+  ShoppingCart,
+  Users,
+} from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { categorySales, getRecentOrders, monthlySales, products, users } from "@/lib/data"
-import { BarChart, LineChart } from "@/components/ui/chart"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import {
+  // categorySales,
+  getRecentOrders,
+  // monthlySales,
+  products,
+  users,
+} from "@/lib/data";
+// import { BarChart, LineChart } from "@/components/ui/chart"
 
 export default function AdminDashboard() {
-  const recentOrders = getRecentOrders(5)
+  const recentOrders = getRecentOrders(5);
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Overview of your store performance and recent activity</p>
+        <p className="text-muted-foreground">
+          Overview of your store performance and recent activity
+        </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -26,7 +47,9 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+            <p className="text-xs text-muted-foreground">
+              +20.1% from last month
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -36,7 +59,9 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{products.length}</div>
-            <p className="text-xs text-muted-foreground">+12 added this month</p>
+            <p className="text-xs text-muted-foreground">
+              +12 added this month
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -74,14 +99,14 @@ export default function AdminDashboard() {
                 <CardTitle>Revenue Over Time</CardTitle>
               </CardHeader>
               <CardContent className="pl-2">
-                <LineChart
+                {/* <LineChart
                   data={monthlySales}
                   index="month"
                   categories={["sales"]}
                   colors={["primary"]}
                   valueFormatter={(value: number) => `$${value.toLocaleString()}`}
                   className="aspect-[4/3]"
-                />
+                /> */}
               </CardContent>
             </Card>
             <Card className="lg:col-span-3">
@@ -89,14 +114,14 @@ export default function AdminDashboard() {
                 <CardTitle>Sales by Category</CardTitle>
               </CardHeader>
               <CardContent className="pl-2">
-                <BarChart
+                {/* <BarChart
                   data={categorySales}
                   index="category"
                   categories={["sales"]}
                   colors={["primary"]}
                   valueFormatter={(value: number) => `${value}%`}
                   className="aspect-[4/3]"
-                />
+                /> */}
               </CardContent>
             </Card>
           </div>
@@ -105,11 +130,15 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Analytics</CardTitle>
-              <CardDescription>Detailed analytics will be displayed here.</CardDescription>
+              <CardDescription>
+                Detailed analytics will be displayed here.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[400px] flex items-center justify-center border rounded-md">
-                <p className="text-muted-foreground">Analytics content will be displayed here.</p>
+                <p className="text-muted-foreground">
+                  Analytics content will be displayed here.
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -122,7 +151,9 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="h-[400px] flex items-center justify-center border rounded-md">
-                <p className="text-muted-foreground">Reports content will be displayed here.</p>
+                <p className="text-muted-foreground">
+                  Reports content will be displayed here.
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -133,19 +164,26 @@ export default function AdminDashboard() {
         <Card className="lg:col-span-4">
           <CardHeader>
             <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>Recent customer orders and their status</CardDescription>
+            <CardDescription>
+              Recent customer orders and their status
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between">
+                <div
+                  key={order.id}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center gap-4">
                     <div className="rounded-full bg-primary/10 p-2">
                       <ShoppingCart className="h-4 w-4 text-primary" />
                     </div>
                     <div>
                       <p className="text-sm font-medium">Order #{order.id}</p>
-                      <p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -154,13 +192,14 @@ export default function AdminDashboard() {
                         order.status === "delivered"
                           ? "default"
                           : order.status === "shipped"
-                            ? "secondary"
-                            : order.status === "processing"
-                              ? "outline"
-                              : "destructive"
+                          ? "secondary"
+                          : order.status === "processing"
+                          ? "outline"
+                          : "destructive"
                       }
                     >
-                      {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                      {order.status.charAt(0).toUpperCase() +
+                        order.status.slice(1)}
                     </Badge>
                     <p className="font-medium">${order.total.toFixed(2)}</p>
                     <Button variant="ghost" size="icon" asChild>
@@ -184,12 +223,17 @@ export default function AdminDashboard() {
         <Card className="lg:col-span-3">
           <CardHeader>
             <CardTitle>Top Selling Products</CardTitle>
-            <CardDescription>Your best performing products this month</CardDescription>
+            <CardDescription>
+              Your best performing products this month
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {products.slice(0, 5).map((product) => (
-                <div key={product.id} className="flex items-center justify-between">
+                <div
+                  key={product.id}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center gap-4">
                     <div className="rounded-full bg-primary/10 p-2">
                       <Package className="h-4 w-4 text-primary" />
@@ -197,13 +241,16 @@ export default function AdminDashboard() {
                     <div>
                       <p className="text-sm font-medium">{product.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+                        {product.category.charAt(0).toUpperCase() +
+                          product.category.slice(1)}
                       </p>
                     </div>
                   </div>
                   <div>
                     <p className="font-medium">${product.price.toFixed(2)}</p>
-                    <p className="text-xs text-right text-muted-foreground">{product.stock} in stock</p>
+                    <p className="text-xs text-right text-muted-foreground">
+                      {product.stock} in stock
+                    </p>
                   </div>
                 </div>
               ))}
@@ -217,6 +264,5 @@ export default function AdminDashboard() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

@@ -1,5 +1,7 @@
 // import { auth } from "@/auth";
 
+// import { auth } from "@/app/auth";
+
 // interface FetchError extends Error {
 //   status?: number;
 //   data?: any;
@@ -18,9 +20,11 @@ const fetcher = async <T>(
 
     const headers = {
       ...options.headers,
-      // ...(token?.accessToken && {
+      // ...(token?.user?.token && {
       //   Authorization: token.accessToken,
       // }),
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NTlhMjY4ZGFhM2IyMzlmNzAwMzYwNiIsImlhdCI6MTc0MzM5MDI5NSwiZXhwIjoxNzQzNDc2Njk1fQ.cKqyz_BO5DGk8IFVtgILNKDa8WNMY3NQq3IYVITUJUY",
       "Content-Type": "application/json",
     };
 

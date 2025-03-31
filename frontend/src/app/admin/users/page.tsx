@@ -1,13 +1,20 @@
-"use client"
+// "use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+// import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  // TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,47 +22,63 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { users } from "@/lib/data"
+} from "@/components/ui/dropdown-menu";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogFooter,
+//   DialogHeader,
+//   DialogTitle,
+// } from "@/components/ui/dialog";
+// import { Badge } from "@/components/ui/badge";
+// import { users } from "@/lib/data";
+// import { useSession } from "next-auth/react";
+import fetcher from "@/lib/fetcher";
+import { URL } from "@/lib/constants";
+import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
+import { APIResponse, User } from "@/types";
+import { Badge } from "@/components/ui/badge";
 
-export default function UsersPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
+export default async function UsersPage() {
+  const usersResponse = await fetcher<APIResponse<{ user: User[] }>>(URL.USERS);
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  // const [searchQuery, setSearchQuery] = useState("")
+  // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  // const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
 
-  const handleDeleteClick = (userId: string) => {
-    setSelectedUserId(userId)
-    setDeleteDialogOpen(true)
-  }
+  // const filteredUsers = users.filter(
+  //   (user) =>
+  //     user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     user.email.toLowerCase().includes(searchQuery.toLowerCase()),
+  // )
 
-  const handleDeleteConfirm = () => {
-    // In a real app, you would delete the user here
-    console.log(`Deleting user ${selectedUserId}`)
-    setDeleteDialogOpen(false)
-    setSelectedUserId(null)
-  }
+  // const handleDeleteClick = (userId: string) => {
+  //   setSelectedUserId(userId)
+  //   setDeleteDialogOpen(true)
+  // }
 
+  // const handleDeleteConfirm = () => {
+  //   // In a real app, you would delete the user here
+  //   console.log(`Deleting user ${selectedUserId}`)
+  //   setDeleteDialogOpen(false)
+  //   setSelectedUserId(null)
+  // }
+
+  // const session = useSession();
+  // console.log(session, "S");
+
+  if (!usersResponse.status) throw new Error("/admin/users ");
+
+  const users = usersResponse.user;
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-          <p className="text-muted-foreground">Manage your users and their permissions</p>
+          <p className="text-muted-foreground">
+            Manage your users and their permissions
+          </p>
         </div>
         <Button asChild>
           <Link href="/admin/users/new">
@@ -72,8 +95,8 @@ export default function UsersPage() {
             type="search"
             placeholder="Search users..."
             className="pl-8"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            // value={searchQuery}
+            // onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -91,21 +114,30 @@ export default function UsersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredUsers.map((user) => (
-              <TableRow key={user.id}>
+            {users.map((user) => (
+              <TableRow key={user._id}>
                 <TableCell>
                   <div className="relative h-8 w-8 overflow-hidden rounded-full">
-                    <Image src={user.avatar || "/placeholder.svg"} alt={user.name} fill className="object-cover" />
+                    <Image
+                      src={user.avatar}
+                      alt={user.username}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                 </TableCell>
-                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell className="font-medium">{user.username}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  <Badge variant={user.role === "admin" ? "default" : "outline"}>
+                  <Badge
+                    variant={user.role === "admin" ? "default" : "outline"}
+                  >
                     {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                   </Badge>
                 </TableCell>
-                <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -118,14 +150,14 @@ export default function UsersPage() {
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link href={`/admin/users/${user.id}`}>
+                        <Link href={`/admin/users/${user._id}`}>
                           <Edit className="mr-2 h-4 w-4" />
                           Edit
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600 focus:text-red-600"
-                        onClick={() => handleDeleteClick(user.id)}
+                        // onClick={() => handleDeleteClick(user.id)}
                       >
                         <Trash className="mr-2 h-4 w-4" />
                         Delete
@@ -135,7 +167,7 @@ export default function UsersPage() {
                 </TableCell>
               </TableRow>
             ))}
-            {filteredUsers.length === 0 && (
+            {users.length === 0 && (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
                   No users found.
@@ -146,7 +178,7 @@ export default function UsersPage() {
         </Table>
       </div>
 
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      {/* <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
@@ -164,8 +196,7 @@ export default function UsersPage() {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
-  )
+  );
 }
-
