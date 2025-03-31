@@ -73,6 +73,7 @@ export const login = expressAsyncHandler(
                 username: user.username,
                 email: user.email,
                 avatar: user.avatar,
+                role: user.role,
               },
             });
           } else throw new Error("Errror logging in user.");

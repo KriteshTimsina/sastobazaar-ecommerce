@@ -8,12 +8,14 @@ import { URL } from "@/lib/constants";
 declare module "next-auth" {
   interface Session {
     user: {
-      token: string;
+      token: any;
+      role: any;
     } & DefaultSession["user"];
   }
 
   interface User {
     token: string;
+    role: string;
   }
 }
 
@@ -47,6 +49,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: userInfo?.email,
           image: "",
           name: userInfo.username,
+          role: userInfo.role,
         };
       },
     }),
@@ -56,6 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user && token.sub) {
         session.user.token = token.token;
         session.user.id = token.sub;
+        session.user.role = token.role;
       }
       return session;
     },
@@ -63,6 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       console.log(token, user);
       if (user) {
         token.token = user.token;
+        token.role = user.role;
       }
       return token;
     },
