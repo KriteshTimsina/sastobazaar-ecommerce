@@ -1,9 +1,21 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 import fetcher from "@/lib/fetcher";
 import type { APIResponse, LoginResponse } from "@/types";
 import { URL } from "@/lib/constants";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      token: string;
+    } & DefaultSession["user"];
+  }
+
+  interface User {
+    token: string;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -23,11 +35,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         );
 
-        console.log(user, "LOGIN");
-
-        // if (!user.status) {
-        //   return {};
-        // }
+        if (!user.status) {
+          throw new Error("Login Failed");
+        }
 
         const userInfo = user.user;
 
@@ -35,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: userInfo.userId,
           token: userInfo?.token,
           email: userInfo?.email,
-          image: userInfo.avatar,
+          image: "",
           name: userInfo.username,
         };
       },
@@ -43,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async session({ token, session }) {
-      if (session.user) {
+      if (session.user && token.sub) {
         session.user.token = token.token;
         session.user.id = token.sub;
       }
@@ -54,7 +64,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.token = user.token;
       }
-      // token.token = user.token;
       return token;
     },
   },

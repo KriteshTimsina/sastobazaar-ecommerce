@@ -1,6 +1,4 @@
-// import { auth } from "@/auth";
-
-// import { auth } from "@/app/auth";
+import { auth } from "@/app/auth";
 
 // interface FetchError extends Error {
 //   status?: number;
@@ -16,15 +14,15 @@ const fetcher = async <T>(
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
-    // const token = await auth();
+    const data = await auth();
+
+    const token = data?.user.token;
 
     const headers = {
       ...options.headers,
-      // ...(token?.user?.token && {
-      //   Authorization: token.accessToken,
-      // }),
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NTlhMjY4ZGFhM2IyMzlmNzAwMzYwNiIsImlhdCI6MTc0MzM5MDI5NSwiZXhwIjoxNzQzNDc2Njk1fQ.cKqyz_BO5DGk8IFVtgILNKDa8WNMY3NQq3IYVITUJUY",
+      ...(token && {
+        Authorization: `Bearer ${token}`,
+      }),
       "Content-Type": "application/json",
     };
 

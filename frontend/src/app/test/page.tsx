@@ -3,7 +3,7 @@ import { auth } from "@/app/auth";
 
 const Page = async () => {
   const data = await auth();
-  return <div>{JSON.stringify(data)}</div>;
+  return <div>{JSON.stringify(data?.user)}</div>;
 };
 
 export default Page;
