@@ -18,22 +18,13 @@ import {
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { categories } from "@/lib/data";
-import fetcher from "@/lib/fetcher";
-import { URL } from "@/lib/constants";
-import type { APIResponse, Product } from "@/types";
 
 import productFallbackImage from "@/assets/images/product-fallback.png";
+import { getAllProducts } from "@/app/actions/product";
 
 export default async function Home() {
-  const productsResponse = await fetcher<APIResponse<{ product: Product[] }>>(
-    URL.PRODUCTS
-  );
+  const products = await getAllProducts();
 
-  if (!productsResponse.status) {
-    //handle error
-  }
-
-  const products = productsResponse.product;
   return (
     <div className="flex flex-col gap-10 pb-10">
       {/* Hero Banner */}
