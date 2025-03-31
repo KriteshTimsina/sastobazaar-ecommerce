@@ -1,7 +1,7 @@
 "use server";
 
 import fetcher from "@/lib/fetcher";
-import type { APIResponse, Product } from "@/types";
+import type { APIResponse, Category, Product } from "@/types";
 import { URL } from "@/lib/constants";
 
 export async function getAllProducts() {
@@ -12,4 +12,14 @@ export async function getAllProducts() {
   const products = productsResponse.status ? productsResponse.product : [];
 
   return products;
+}
+
+export async function getAllCategories() {
+  const categoryResponse = await fetcher<APIResponse<{ category: Category[] }>>(
+    URL.CATEGORY
+  );
+
+  const categories = categoryResponse.status ? categoryResponse.category : [];
+
+  return categories;
 }

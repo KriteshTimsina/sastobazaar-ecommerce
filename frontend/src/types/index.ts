@@ -43,3 +43,10 @@ export interface Product {
   updatedAt: string;
   __v: number;
 }
+
+export interface Category {
+  title: string;
+  subCategories: Category[];
+  description: string;
+  _id: string;
+}
