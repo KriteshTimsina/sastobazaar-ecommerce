@@ -1,8 +1,4 @@
-// "use client";
-
 import Link from "next/link";
-import Image from "next/image";
-// import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,76 +6,22 @@ import {
   Table,
   TableBody,
   TableCell,
-  // TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogFooter,
-//   DialogHeader,
-//   DialogTitle,
-// } from "@/components/ui/dialog";
-// import { Badge } from "@/components/ui/badge";
-// import { users } from "@/lib/data";
-// import { useSession } from "next-auth/react";
+
 import fetcher from "@/lib/fetcher";
+import { Plus, Search } from "lucide-react";
+import { UserTable } from "@/components/admin/UserTable";
+
+import type { APIResponse, User } from "@/types";
 import { URL } from "@/lib/constants";
-import {
-  Edit,
-  MoreHorizontal,
-  Plus,
-  Search,
-  Shield,
-  Trash,
-} from "lucide-react";
-import { APIResponse, User } from "@/types";
-import { Badge } from "@/components/ui/badge";
-import { auth } from "@/app/auth";
 
 export default async function UsersPage() {
   const usersResponse = await fetcher<APIResponse<{ user: User[] }>>(URL.USERS);
-  // const user = await auth();
 
-  // console.log(user, "UUUUUUUUUUUUUUU");
-
-  // const [searchQuery, setSearchQuery] = useState("")
-  // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  // const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
-
-  // const filteredUsers = users.filter(
-  //   (user) =>
-  //     user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     user.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  // )
-
-  // const handleDeleteClick = (userId: string) => {
-  //   setSelectedUserId(userId)
-  //   setDeleteDialogOpen(true)
-  // }
-
-  // const handleDeleteConfirm = () => {
-  //   // In a real app, you would delete the user here
-  //   console.log(`Deleting user ${selectedUserId}`)
-  //   setDeleteDialogOpen(false)
-  //   setSelectedUserId(null)
-  // }
-
-  // const session = useSession();
-  // console.log(session, "S");
-
-  if (!usersResponse.status) throw new Error("/admin/users ");
+  if (!usersResponse.status) throw new Error("/admin/users error occured ");
 
   const users = usersResponse.user;
   return (
@@ -126,63 +68,7 @@ export default async function UsersPage() {
           </TableHeader>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user._id}>
-                <TableCell>
-                  <div className="overflow-hidden relative w-8 h-8 rounded-full">
-                    <Image
-                      src={user.avatar}
-                      alt={user.username}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </TableCell>
-                <TableCell className="font-medium">{user.username}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <Badge
-                    variant={user.role === "admin" ? "default" : "outline"}
-                  >
-                    {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  {new Date(user.createdAt).toLocaleDateString()}
-                </TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="w-4 h-4" />
-                        <span className="sr-only">Open menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                        <Link href={`/admin/users/${user._id}`}>
-                          <Edit className="mr-2 w-4 h-4" />
-                          Edit
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/admin/users/${user._id}`}>
-                          <Shield className="mr-2 w-4 h-4" />
-                          Make Admin
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="text-red-600 focus:text-red-600"
-                        // onClick={() => handleDeleteClick(user.id)}
-                      >
-                        <Trash className="mr-2 w-4 h-4" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
+              <UserTable key={user._id} user={user} />
             ))}
             {users.length === 0 && (
               <TableRow>
@@ -194,26 +80,6 @@ export default async function UsersPage() {
           </TableBody>
         </Table>
       </div>
-
-      {/* <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete the user account and remove their data from our
-              servers.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm}>
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog> */}
     </div>
   );
 }
