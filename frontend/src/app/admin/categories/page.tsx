@@ -66,24 +66,6 @@ const createNestedCategories = (): ExtendedCategory[] => {
           description: "Powerful laptops for work and gaming",
           image: "/placeholder.svg?height=200&width=200",
           productCount: 12,
-          subcategories: [
-            {
-              id: "1-2-1",
-              name: "Gaming Laptops",
-              slug: "gaming-laptops",
-              description: "High-performance laptops for gaming",
-              image: "/placeholder.svg?height=200&width=200",
-              productCount: 5,
-            },
-            {
-              id: "1-2-2",
-              name: "Business Laptops",
-              slug: "business-laptops",
-              description: "Reliable laptops for professional use",
-              image: "/placeholder.svg?height=200&width=200",
-              productCount: 7,
-            },
-          ],
         },
         {
           id: "1-3",
@@ -193,7 +175,7 @@ const CategoryRow = ({
     <>
       <TableRow>
         <TableCell style={{ paddingLeft }}>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center px-10 ">
             <div className="overflow-hidden relative w-8 h-8 rounded-md">
               <Image
                 src={productFallback}
