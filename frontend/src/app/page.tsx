@@ -14,20 +14,18 @@ import { Badge } from "@/components/ui/badge";
 import productFallbackImage from "@/assets/images/product-fallback.png";
 import { getAllProducts } from "@/app/actions/product";
 
+import banner from "@/assets/images/banner.jpg";
+
 export default async function Home() {
   const products = await getAllProducts();
+  console.log(products, "P");
 
   return (
     <div className="flex flex-col gap-10 pb-10 mx-auto">
       {/* Hero Banner */}
-      <section className="relative h-[500px] w-full">
-        <Image
-          src="/placeholder.svg?height=500&width=1200"
-          alt="Hero Banner"
-          fill
-          className="object-cover"
-        />
-        <div className="flex absolute inset-0 items-center bg-black/40">
+      <section className="relative h-[500px] w-full ">
+        <Image src={banner} alt="Hero Banner" fill className="object-cover" />
+        <div className="flex absolute inset-0 items-center px-10 bg-black/40">
           <div className="container">
             <div className="max-w-lg text-white">
               <h1 className="mb-4 text-4xl font-bold">
@@ -90,7 +88,7 @@ export default async function Home() {
       </section> */}
 
       {/* Featured Products */}
-      <section className="container">
+      <section className="container px-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Featured Products</h2>
           <Link
@@ -171,78 +169,6 @@ export default async function Home() {
               </CardFooter>
             </Card>
           ))}
-        </div>
-      </section>
-
-      {/* Bento Grid Products */}
-      <section className="container">
-        <h2 className="mb-6 text-2xl font-bold">Trending Now</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="md:col-span-2 md:row-span-2">
-            <div className="relative h-full min-h-[400px] rounded-lg overflow-hidden group">
-              <Image
-                src="/placeholder.svg?height=600&width=800"
-                alt="Featured Product"
-                fill
-                className="object-cover transition-transform group-hover:scale-105"
-              />
-              <div className="flex absolute inset-0 flex-col justify-end p-6 bg-gradient-to-t to-transparent from-black/70">
-                <Badge className="mb-2 w-fit">New Arrival</Badge>
-                <h3 className="mb-2 text-2xl font-bold text-white">
-                  Premium Wireless Earbuds
-                </h3>
-                <p className="mb-4 text-white/80">
-                  Experience crystal clear sound with our latest wireless
-                  earbuds.
-                </p>
-                <Button asChild className="w-fit">
-                  <Link href="/products/1">Shop Now</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-          {/* {products.slice(0, 3).map((product) => (
-            <Card key={product.id} className="overflow-hidden group">
-              <CardHeader className="p-0">
-                <div className="relative w-full h-48">
-                  <Image
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-              </CardHeader>
-              <CardContent className="p-4">
-                <h3 className="font-medium">{product.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground line-clamp-1">
-                  {product.description}
-                </p>
-              </CardContent>
-              <CardFooter className="p-4 pt-0">
-                <span className="font-bold">${product.price.toFixed(2)}</span>
-              </CardFooter>
-            </Card>
-          ))} */}
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto max-w-md text-center">
-          <h2 className="mb-2 text-2xl font-bold">Join Our Newsletter</h2>
-          <p className="mb-6 text-muted-foreground">
-            Subscribe to get special offers, free giveaways, and
-            once-in-a-lifetime deals.
-          </p>
-          <div className="flex gap-2">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="flex px-3 py-2 w-full h-10 text-sm rounded-md border border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-            <Button>Subscribe</Button>
-          </div>
         </div>
       </section>
     </div>

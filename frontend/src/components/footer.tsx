@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { APP_DATA } from "@/lib/constants";
+import Logo from "@/components/logo";
 
 export default function Footer() {
   return (
@@ -12,7 +13,7 @@ export default function Footer() {
       <div className="container py-10">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">{APP_DATA.NAME}</h3>
+            <Logo />
             <p className="text-sm text-muted-foreground">
               Your one-stop shop for all your shopping needs. Quality products,
               fast delivery, and excellent customer service.

@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./env";
+import { API_BASE_URL } from "@/lib/env";
 
 export const URL = {
   LOGIN: API_BASE_URL + "/user/login",
@@ -7,5 +7,5 @@ export const URL = {
 };
 
 export const APP_DATA = {
-  NAME: "SastoBazaar",
+  NAME: "Sasto Bazaar",
 };

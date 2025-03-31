@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { APP_DATA } from "@/lib/constants";
+import Logo from "@/components/logo";
 
 const mainNavItems = [
   {
@@ -109,9 +109,7 @@ export default function Header() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">{APP_DATA.NAME}</span>
-          </Link>
+          <Logo />
           <nav className="hidden gap-6 md:flex">
             {mainNavItems.map((item) => (
               <Link
