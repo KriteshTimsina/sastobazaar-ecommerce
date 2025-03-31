@@ -1,35 +1,9 @@
-import { URL } from "@/lib/constants";
-import fetcher from "@/lib/fetcher";
-import { APIResponse, LoginResponse } from "@/types";
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-    } & DefaultSession["user"];
-    token: string;
-  }
-
-  interface User {
-    token: string;
-  }
-}
-
-declare module "@auth/core/jwt" {
-  interface JWT {
-    id: string;
-    name: string;
-    email: string;
-    token: string;
-  }
-  interface User {
-    token: string;
-  }
-}
+import fetcher from "@/lib/fetcher";
+import type { APIResponse, LoginResponse } from "@/types";
+import { URL } from "@/lib/constants";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -40,7 +14,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const { email, password } = credentials;
-        // console.log(credentials, "x");
 
         const user = await fetcher<APIResponse<{ user: LoginResponse }>>(
           URL.LOGIN,
@@ -50,34 +23,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         );
 
-        if (!user.status) {
-          return {};
-        }
+        // if (!user.status) {
+        //   return {};
+        // }
 
         const userInfo = user.user;
-        console.log(userInfo, "UI");
 
         return {
-          email: "",
           id: userInfo.userId,
+          token: userInfo?.token,
+          email: "",
           image: "",
           name: "",
-          token: userInfo?.token,
         };
       },
     }),
   ],
-  session: { strategy: "jwt" },
   callbacks: {
     async session({ token, session }) {
-      if (token.sub && session.user) {
+      if (session.user) {
+        session.user.token = token.token;
         session.user.id = token.sub;
-        session.token = token?.token;
       }
       return session;
     },
     async jwt({ token, user }) {
-      token.token = user?.token;
+      console.log(token, user);
+      if (user) {
+        token.token = user.token;
+      }
+      // token.token = user.token;
       return token;
     },
   },

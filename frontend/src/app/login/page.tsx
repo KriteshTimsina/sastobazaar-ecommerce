@@ -37,7 +37,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container max-w-md py-12 mx-auto">
+    <div className="container py-12 mx-auto max-w-md">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
@@ -59,7 +59,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
+              <div className="flex justify-between items-center">
                 <Label htmlFor="password">Password</Label>
                 <Link
                   href="/forgot-password"
@@ -81,13 +81,13 @@ export default function LoginPage() {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-0 top-0 h-full px-3 py-2"
+                  className="absolute top-0 right-0 px-3 py-2 h-full"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="w-4 h-4" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="w-4 h-4" />
                   )}
                   <span className="sr-only">
                     {showPassword ? "Hide password" : "Show password"}
@@ -106,7 +106,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-sm text-center">
             <Separator className="my-4" />
             <p>
               Don&apos;t have an account?{" "}

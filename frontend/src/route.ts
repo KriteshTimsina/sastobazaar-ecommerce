@@ -1,1 +1,1 @@
-export const REDIRECT_URL = "/admin/users";
+export const REDIRECT_URL = "/test";

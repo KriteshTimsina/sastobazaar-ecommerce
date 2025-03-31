@@ -28,7 +28,6 @@ const fetcher = async <T>(
       "Content-Type": "application/json",
     };
 
-    console.log(options, "OPT");
     const response = await fetch(url, {
       ...options,
       headers,

@@ -36,12 +36,23 @@ import {
 // import { useSession } from "next-auth/react";
 import fetcher from "@/lib/fetcher";
 import { URL } from "@/lib/constants";
-import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
+import {
+  Edit,
+  MoreHorizontal,
+  Plus,
+  Search,
+  Shield,
+  Trash,
+} from "lucide-react";
 import { APIResponse, User } from "@/types";
 import { Badge } from "@/components/ui/badge";
+import { auth } from "@/app/auth";
 
 export default async function UsersPage() {
   const usersResponse = await fetcher<APIResponse<{ user: User[] }>>(URL.USERS);
+  // const user = await auth();
+
+  // console.log(user, "UUUUUUUUUUUUUUU");
 
   // const [searchQuery, setSearchQuery] = useState("")
   // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -73,7 +84,7 @@ export default async function UsersPage() {
   const users = usersResponse.user;
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Users</h1>
           <p className="text-muted-foreground">
@@ -82,13 +93,13 @@ export default async function UsersPage() {
         </div>
         <Button asChild>
           <Link href="/admin/users/new">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 w-4 h-4" />
             Add User
           </Link>
         </Button>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex gap-2 items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -117,7 +128,7 @@ export default async function UsersPage() {
             {users.map((user) => (
               <TableRow key={user._id}>
                 <TableCell>
-                  <div className="relative h-8 w-8 overflow-hidden rounded-full">
+                  <div className="overflow-hidden relative w-8 h-8 rounded-full">
                     <Image
                       src={user.avatar}
                       alt={user.username}
@@ -142,7 +153,7 @@ export default async function UsersPage() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
+                        <MoreHorizontal className="w-4 h-4" />
                         <span className="sr-only">Open menu</span>
                       </Button>
                     </DropdownMenuTrigger>
@@ -151,15 +162,21 @@ export default async function UsersPage() {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
                         <Link href={`/admin/users/${user._id}`}>
-                          <Edit className="mr-2 h-4 w-4" />
+                          <Edit className="mr-2 w-4 h-4" />
                           Edit
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href={`/admin/users/${user._id}`}>
+                          <Shield className="mr-2 w-4 h-4" />
+                          Make Admin
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600 focus:text-red-600"
                         // onClick={() => handleDeleteClick(user.id)}
                       >
-                        <Trash className="mr-2 h-4 w-4" />
+                        <Trash className="mr-2 w-4 h-4" />
                         Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
