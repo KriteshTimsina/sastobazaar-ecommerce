@@ -23,6 +23,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         );
 
+        console.log(user, "LOGIN");
+
         // if (!user.status) {
         //   return {};
         // }
@@ -32,9 +34,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return {
           id: userInfo.userId,
           token: userInfo?.token,
-          email: "",
-          image: "",
-          name: "",
+          email: userInfo?.email,
+          image: userInfo.avatar,
+          name: userInfo.username,
         };
       },
     }),

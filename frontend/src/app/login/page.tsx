@@ -32,7 +32,7 @@ export default function LoginPage() {
       email,
       password,
       // redirect: false,
-      redirectTo: REDIRECT_URL,
+      // redirectTo: REDIRECT_URL,
     });
   };
 

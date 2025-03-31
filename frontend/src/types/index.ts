@@ -11,6 +11,9 @@ export type APIResponse<T> = {
 export type LoginResponse = {
   token: string;
   userId: string;
+  username: string;
+  email: string;
+  avatar: string;
 };
 
 // {
