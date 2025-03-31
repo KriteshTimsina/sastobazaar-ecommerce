@@ -9,15 +9,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
-import { categories } from "@/lib/data";
 
 import productFallbackImage from "@/assets/images/product-fallback.png";
 import { getAllProducts } from "@/app/actions/product";
@@ -26,7 +18,7 @@ export default async function Home() {
   const products = await getAllProducts();
 
   return (
-    <div className="flex flex-col gap-10 pb-10">
+    <div className="flex flex-col gap-10 pb-10 mx-auto">
       {/* Hero Banner */}
       <section className="relative h-[500px] w-full">
         <Image
@@ -54,7 +46,7 @@ export default async function Home() {
       </section>
 
       {/* Categories Slider */}
-      <section className="container">
+      {/* <section className="container">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Shop by Category</h2>
           <Link
@@ -95,7 +87,7 @@ export default async function Home() {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-      </section>
+      </section> */}
 
       {/* Featured Products */}
       <section className="container">

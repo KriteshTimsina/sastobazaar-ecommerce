@@ -1,32 +1,33 @@
-import Link from "next/link"
-import { Facebook, Instagram, Twitter } from "lucide-react"
+import Link from "next/link";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { APP_DATA } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="bg-background border-t">
+    <footer className="px-10 border-t bg-background">
       <div className="container py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">NextShop</h3>
+            <h3 className="text-lg font-medium">{APP_DATA.NAME}</h3>
             <p className="text-sm text-muted-foreground">
-              Your one-stop shop for all your shopping needs. Quality products, fast delivery, and excellent customer
-              service.
+              Your one-stop shop for all your shopping needs. Quality products,
+              fast delivery, and excellent customer service.
             </p>
             <div className="flex space-x-4">
               <Button variant="ghost" size="icon">
-                <Facebook className="h-5 w-5" />
+                <Facebook className="w-5 h-5" />
                 <span className="sr-only">Facebook</span>
               </Button>
               <Button variant="ghost" size="icon">
-                <Twitter className="h-5 w-5" />
+                <Twitter className="w-5 h-5" />
                 <span className="sr-only">Twitter</span>
               </Button>
               <Button variant="ghost" size="icon">
-                <Instagram className="h-5 w-5" />
+                <Instagram className="w-5 h-5" />
                 <span className="sr-only">Instagram</span>
               </Button>
             </div>
@@ -40,22 +41,34 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=electronics" className="hover:underline">
+                <Link
+                  href="/products?category=electronics"
+                  className="hover:underline"
+                >
                   Electronics
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=clothing" className="hover:underline">
+                <Link
+                  href="/products?category=clothing"
+                  className="hover:underline"
+                >
                   Clothing
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=home-kitchen" className="hover:underline">
+                <Link
+                  href="/products?category=home-kitchen"
+                  className="hover:underline"
+                >
                   Home & Kitchen
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=beauty" className="hover:underline">
+                <Link
+                  href="/products?category=beauty"
+                  className="hover:underline"
+                >
                   Beauty
                 </Link>
               </li>
@@ -94,7 +107,8 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Newsletter</h3>
             <p className="text-sm text-muted-foreground">
-              Subscribe to our newsletter to receive updates and exclusive offers.
+              Subscribe to our newsletter to receive updates and exclusive
+              offers.
             </p>
             <div className="flex space-x-2">
               <Input type="email" placeholder="Your email" />
@@ -103,24 +117,33 @@ export default function Footer() {
           </div>
         </div>
         <Separator className="my-8" />
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col justify-between items-center md:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} NextShop. All rights reserved.
+            &copy; {new Date().getFullYear()} {APP_DATA.NAME}. All rights
+            reserved.
           </p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            <Link href="/terms" className="text-sm text-muted-foreground hover:underline">
+          <div className="flex mt-4 space-x-4 md:mt-0">
+            <Link
+              href="/terms"
+              className="text-sm text-muted-foreground hover:underline"
+            >
               Terms
             </Link>
-            <Link href="/privacy" className="text-sm text-muted-foreground hover:underline">
+            <Link
+              href="/privacy"
+              className="text-sm text-muted-foreground hover:underline"
+            >
               Privacy
             </Link>
-            <Link href="/cookies" className="text-sm text-muted-foreground hover:underline">
+            <Link
+              href="/cookies"
+              className="text-sm text-muted-foreground hover:underline"
+            >
               Cookies
             </Link>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
