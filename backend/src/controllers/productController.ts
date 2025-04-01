@@ -38,7 +38,7 @@ export const createProduct = expressAsyncHandler(
         price: req.body.price,
         images,
         category: category.title,
-        subCategory: subCategory.name,
+        subCategory: subCategory.title,
       });
       res.json({
         status: true,
@@ -143,7 +143,7 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
             description,
             price,
             category: category.title,
-            subCategory: subCategory.name,
+            subCategory: subCategory.title,
             images,
             quantity,
           },

@@ -1,11 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
 const subcategorySchema = new Schema({
-  name:{
-    type:String, 
-    required:true
-  }
-})
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: [true, "Description is required"],
+  },
+});
 
 const productCategorySchema = new Schema(
   {
@@ -15,10 +19,16 @@ const productCategorySchema = new Schema(
       unique: true,
       index: true,
     },
-    subCategories:[subcategorySchema]
+    subCategories: [subcategorySchema],
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+    },
   },
   { timestamps: true }
 );
 
-
-export const ProductCategory = mongoose.model("ProductCategory",productCategorySchema)
+export const ProductCategory = mongoose.model(
+  "ProductCategory",
+  productCategorySchema
+);
