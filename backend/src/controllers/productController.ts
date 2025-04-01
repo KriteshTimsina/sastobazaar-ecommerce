@@ -39,6 +39,7 @@ export const createProduct = expressAsyncHandler(
         images,
         category: category.title,
         subCategory: subCategory.title,
+        quantity: req.body.quantity,
       });
       res.json({
         status: true,
@@ -53,10 +54,11 @@ export const createProduct = expressAsyncHandler(
 
 export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
-    const { q } = req.query;
+    const { q = "" } = req.query;
     const product = await Product.find({
       title: { $regex: String(q), $options: "i" },
     });
+
     if (product) {
       res
         .status(STATUS.OK)
