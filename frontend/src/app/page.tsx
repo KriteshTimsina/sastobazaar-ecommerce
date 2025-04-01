@@ -9,16 +9,13 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
-import productFallbackImage from "@/assets/images/product-fallback.png";
 import { getAllProducts } from "@/app/actions/product";
 
 import banner from "@/assets/images/banner.jpg";
 
 export default async function Home() {
   const products = await getAllProducts();
-  console.log(products, "P");
 
   return (
     <div className="flex flex-col gap-10 pb-10 mx-auto">
@@ -104,7 +101,7 @@ export default async function Home() {
               <CardHeader className="p-0">
                 <div className="relative w-full h-48">
                   <Image
-                    src={productFallbackImage}
+                    src={product.images[0]}
                     alt={product.title}
                     fill
                     className="object-cover transition-transform group-hover:scale-105"

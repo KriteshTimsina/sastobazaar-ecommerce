@@ -23,7 +23,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Product } from "@/types";
-import productFallback from "@/assets/images/product-fallback.png";
 import StockAvailabilityStatus from "@/components/admin/StockAvailabilityStatus";
 
 type ProductTableProps = {
@@ -53,7 +52,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
         <TableCell>
           <div className="overflow-hidden relative w-10 h-10 rounded-md">
             <Image
-              src={productFallback}
+              src={product.images[0]}
               alt={product.title}
               fill
               className="object-cover"

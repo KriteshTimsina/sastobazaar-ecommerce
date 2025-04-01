@@ -1,13 +1,8 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, Search, ShoppingCart, User } from "lucide-react";
+import { Menu, ShoppingCart, User } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -19,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import Logo from "@/components/logo";
+import { BottomHeader } from "./shared/bottom-header";
 
 const mainNavItems = [
   {
@@ -66,14 +62,9 @@ const categoryNavItems = [
   },
 ];
 
-export default function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
-
+export default async function Header() {
   return (
     <header className="sticky top-0 z-50 px-10 w-full border-b bg-background">
-      {/* Top header */}
       <div className="container flex justify-between items-center h-16">
         <div className="flex gap-6 items-center md:gap-10">
           <Sheet>
@@ -116,8 +107,8 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  pathname === item.href && "text-primary"
+                  "text-sm font-medium transition-colors hover:text-primary"
+                  // pathname === item.href && "text-primary"
                 )}
               >
                 {item.title}
@@ -126,7 +117,7 @@ export default function Header() {
           </nav>
         </div>
         <div className="flex gap-2 items-center">
-          {isSearchOpen ? (
+          {/* {isSearchOpen ? (
             <div className="relative w-full max-w-sm">
               <Input
                 type="search"
@@ -154,7 +145,7 @@ export default function Header() {
               <Search className="w-5 h-5" />
               <span className="sr-only">Search</span>
             </Button>
-          )}
+          )} */}
           <Link href="/cart">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="w-5 h-5" />
@@ -190,33 +181,21 @@ export default function Header() {
               <DropdownMenuItem asChild>
                 <Link href="/user/profile">Profile</Link>
               </DropdownMenuItem>
-              {isAdmin && (
+              {/* {isAdmin && (
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link href="/admin/dashboard">Admin Dashboard</Link>
                   </DropdownMenuItem>
                 </>
-              )}
+              )} */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
 
+      <BottomHeader />
       {/* Bottom header - Categories */}
-      <div className="container hidden items-center h-10 md:flex">
-        <nav className="flex gap-4">
-          {categoryNavItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm transition-colors hover:text-primary"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
-      </div>
     </header>
   );
 }
