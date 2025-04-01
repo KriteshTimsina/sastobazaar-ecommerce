@@ -85,7 +85,7 @@ export default async function Home() {
       </section> */}
 
       {/* Featured Products */}
-      <section className="container px-10">
+      <section className="container mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Featured Products</h2>
           <Link
@@ -95,7 +95,7 @@ export default async function Home() {
             View All <ArrowRight className="ml-1 w-4 h-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
           {products.map((product) => (
             <Card key={product._id} className="overflow-hidden group">
               <CardHeader className="p-0">
