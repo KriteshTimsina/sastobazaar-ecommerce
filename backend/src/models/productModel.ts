@@ -1,17 +1,7 @@
 import mongoose, { Mongoose, Schema, Document, Model } from "mongoose";
+import { IProduct } from "../types/schemas";
 
-export interface ProductDocument {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  images: string[];
-  category:string;
-  subCategory:string;
-  quantity:number;
-}
-
-const productSchema = new Schema<ProductDocument>(
+const productSchema = new Schema<IProduct & Document>(
   {
     title: {
       type: String,
@@ -27,29 +17,30 @@ const productSchema = new Schema<ProductDocument>(
       type: Number,
       default: 0,
     },
+    discountedPrice: {
+      type: Number,
+      default: 0,
+    },
     images: {
-      type: [],
-      required:[true,"Upload an image"],
+      type: [String],
+      required: [true, "Upload an image"],
     },
-    category:{
-      type:String,
-      required:true,
-      ref:"ProductCategory"
+    category: {
+      type: String,
+      required: true,
+      ref: "ProductCategory",
     },
-    subCategory:{
-      type:String,
-      required:true,
-      ref:"ProductCategory.subCategories"
+    subCategory: {
+      type: String,
+      required: true,
+      ref: "ProductCategory.subCategories",
     },
-    quantity:{
-      type:Number,
-      default:1
-    }
+    quantity: {
+      type: Number,
+      default: 1,
+    },
   },
   { timestamps: true }
 );
 
-export const Product = mongoose.model<ProductDocument>(
-  "Product",
-  productSchema
-);
+export const Product = mongoose.model("Product", productSchema);

@@ -34,7 +34,6 @@ app.use("/dynamic-content", dynamicContentRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-//db connection
 connectDB()
   .then(() => {
     app.listen(PORT, () => {

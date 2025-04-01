@@ -1,9 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import { Product } from "../models/productModel";
-// import { Request } from "./user.controller";
 import { ProductCategory } from "../models/productCategoryModel";
 import path from "path";
-import { ProductDocument } from "../models/productModel";
 import { uploadToCloud } from "../utils/cloudinary";
 import { Request } from "./user.controller";
 import { User } from "../models/userModel";
