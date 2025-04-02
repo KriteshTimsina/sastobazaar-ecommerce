@@ -19,7 +19,11 @@ export const productValidationSchema = z
       .nonnegative("Discounted price cannot be negative")
       .max(9999999, "Discounted cannot be greater than 9999999")
       .default(0),
-    images: z.array(z.string()).default([]),
+    images: z
+      .array(z.string())
+      .default([
+        "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+      ]),
     categoryId: z
       .string({ required_error: "Select a category" })
       .length(24, "Invalid ID: Must be exactly 24 characters")

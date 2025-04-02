@@ -39,6 +39,11 @@ import { Separator } from "@/components/ui/separator";
 import { IProductInput, productValidationSchema } from "@/types/schema";
 import { type Category } from "@/types";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { clientFetcher } from "@/lib/fetcher";
+import { URL as API_URL } from "@/lib/constants";
+import { createProduct } from "@/lib/clientApi";
+import { toast } from "sonner";
 
 type ProductFormProps = {
   categories: Category[];
@@ -60,6 +65,13 @@ export default function ProductForm({ categories }: ProductFormProps) {
       discountedPrice: 0,
       images: [],
       isActive: true,
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (product: IProductInput) => createProduct(product),
+    onSuccess: (data) => {
+      toast.success(data.message);
     },
   });
 
@@ -91,12 +103,8 @@ export default function ProductForm({ categories }: ProductFormProps) {
     );
   };
 
-  const onSubmit = (data: IProductInput) => {
-    console.log(data);
-
-    return;
-
-    alert("Product created successfully!");
+  const onSubmit = (body: IProductInput) => {
+    mutate(body);
     router.push("/admin/products");
   };
 
@@ -426,7 +434,9 @@ export default function ProductForm({ categories }: ProductFormProps) {
           >
             Cancel
           </Button>
-          <Button type="submit">Create Product</Button>
+          <Button disabled={isPending} type="submit">
+            Create Product
+          </Button>
         </div>
       </form>
     </Form>
