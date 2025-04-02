@@ -6,19 +6,23 @@ import { uploadToCloud } from "../utils/cloudinary";
 import { Request } from "./user.controller";
 import { User } from "../models/userModel";
 import { STATUS } from "../utils/status";
+import { productValidationSchema } from "../types/schemas";
+import { z } from "zod";
 
 export const createProduct = expressAsyncHandler(
   async (req: Request, res, next): Promise<any> => {
     const files = req.files;
     const images = [];
+
     try {
-      const category = await ProductCategory.findById(req.body.categoryId);
+      const validatedData = productValidationSchema.parse(req.body);
+      const category = await ProductCategory.findById(validatedData.categoryId);
       if (!category) {
         return res.status(404).json({ error: "Category not found" });
       }
 
       const subCategory = category.subCategories.find(
-        (sub) => sub._id.toString() === req.body.subCategoryId
+        (sub) => sub._id.toString() === validatedData.subCategoryId
       );
       if (!subCategory) {
         return res.status(404).json({ error: "Subcategory not found" });
@@ -31,21 +35,30 @@ export const createProduct = expressAsyncHandler(
         }
       }
       const product = await Product.create({
-        description: req.body.description,
-        title: req.body.title,
-        price: req.body.price,
+        description: validatedData.description,
+        title: validatedData.title,
+        price: validatedData.price,
         images,
-        category: category.title,
-        subCategory: subCategory.title,
-        quantity: req.body.quantity,
+        categoryId: category._id,
+        subCategoryId: subCategory._id,
+        quantity: validatedData.quantity,
+        discountedPrice: validatedData.discountedPrice,
       });
       res.json({
         status: true,
         message: "Product created successfully",
         product,
       });
-    } catch (error: any) {
-      throw new Error(error.message);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400);
+        return res.json({
+          status: false,
+          message: "Validation failed",
+          errors: error.errors,
+        });
+      }
+      next(error);
     }
   }
 );
@@ -53,14 +66,39 @@ export const createProduct = expressAsyncHandler(
 export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
     const { q = "" } = req.query;
-    const product = await Product.find({
+    const products = await Product.find({
       title: { $regex: String(q), $options: "i" },
     });
+    const transformedProducts = [];
+    if (products) {
+      for (const product of products) {
+        const category = await ProductCategory.findById(product.categoryId);
 
-    if (product) {
-      res
-        .status(STATUS.OK)
-        .json({ status: true, message: "Products found", product });
+        if (!category) {
+          transformedProducts.push({
+            ...product.toObject(),
+            category: "Unknown",
+            subCategory: "Unknown",
+          });
+          continue;
+        }
+
+        const subCategory = category.subCategories.id(product.subCategoryId);
+
+        transformedProducts.push({
+          ...product.toObject(),
+          category: category.title,
+          subCategory: subCategory ? subCategory.title : "Unknown",
+          categoryId: undefined,
+          subCategoryId: undefined,
+          __v: undefined,
+        });
+      }
+      res.status(STATUS.OK).json({
+        status: true,
+        message: "Products found",
+        data: transformedProducts,
+      });
     }
   } catch (error: any) {
     throw new Error(error.message);

@@ -10,8 +10,8 @@ export const seedDatabase = async () => {
       const productRequest = productsData.map((product) => {
         return {
           ...product,
-          category: categories[0].title,
-          subCategory: categories[0]?.subCategories[0].title,
+          categoryId: categories[0]._id,
+          subCategoryId: categories[0]?.subCategories[0]._id,
         };
       });
 

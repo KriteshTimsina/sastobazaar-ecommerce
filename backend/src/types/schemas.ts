@@ -19,11 +19,11 @@ export const productValidationSchema = z
       .optional()
       .default(0),
     images: z.array(z.string()).optional().default([]),
-    category: z
+    categoryId: z
       .string({ message: "Select a category" })
       .length(24, "Invalid ID: Must be exactly 24 characters")
       .regex(/^[a-fA-F0-9]{24}$/, "Invalid Category ID"),
-    subCategory: z
+    subCategoryId: z
       .string({ message: "Select a sub category" })
       .length(24, "Invalid ID: Must be exactly 24 characters")
       .regex(/^[a-fA-F0-9]{24}$/, "Invalid sub category ID"),

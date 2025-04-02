@@ -25,12 +25,12 @@ const productSchema = new Schema<IProduct & Document>(
       type: [String],
       required: [true, "Upload an image"],
     },
-    category: {
+    categoryId: {
       type: String,
       required: true,
       ref: "ProductCategory",
     },
-    subCategory: {
+    subCategoryId: {
       type: String,
       required: true,
       ref: "ProductCategory.subCategories",
