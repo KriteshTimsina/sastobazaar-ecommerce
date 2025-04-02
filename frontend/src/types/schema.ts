@@ -3,34 +3,35 @@ import { z } from "zod";
 export const productValidationSchema = z
   .object({
     title: z
-      .string({ message: "Title is required" })
+      .string({ required_error: "Title is required" })
       .min(3, "Title must be atleast 3 charaters")
       .max(255, "Title must not exceed 255 character"),
     description: z
-      .string({ message: "Description is required" })
+      .string({ required_error: "Description is required" })
       .min(3, "Description is required and be atleast 3 charaters")
       .max(255, "Description must not exceed 255 character"),
     price: z
-      .number({ message: "Price is required" })
+      .number({ required_error: "Price is required" })
+      .nonnegative("Price cannot be negative")
       .max(9999999, "Price cannot be greater than 9999999"),
     discountedPrice: z
       .number()
+      .nonnegative("Discounted price cannot be negative")
       .max(9999999, "Discounted cannot be greater than 9999999")
-      .optional()
       .default(0),
-    images: z.array(z.string()).optional().default([]),
+    images: z.array(z.string()).default([]),
     categoryId: z
-      .string({ message: "Select a category" })
+      .string({ required_error: "Select a category" })
       .length(24, "Invalid ID: Must be exactly 24 characters")
       .regex(/^[a-fA-F0-9]{24}$/, "Invalid Category ID"),
     subCategoryId: z
-      .string({ message: "Select a sub category" })
+      .string({ required_error: "Select a sub category" })
       .length(24, "Invalid ID: Must be exactly 24 characters")
       .regex(/^[a-fA-F0-9]{24}$/, "Invalid sub category ID"),
     quantity: z
       .number({ required_error: "Quantity is required" })
       .int("Quantity must be an integer")
-      .positive("Quantity must be greater than zero"),
+      .nonnegative("Quantity cannot be negative"),
     isActive: z.boolean().default(true),
   })
   .refine((data) => data.discountedPrice <= data.price, {

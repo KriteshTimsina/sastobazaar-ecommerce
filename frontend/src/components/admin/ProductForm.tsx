@@ -5,7 +5,7 @@ import type React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Upload } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -46,7 +46,6 @@ type ProductFormProps = {
 
 export default function ProductForm({ categories }: ProductFormProps) {
   const router = useRouter();
-  const [images, setImages] = useState<string[]>([]);
   const [subCategories, setSubCategories] = useState<Category[]>([]);
 
   const form = useForm<IProductInput>({
@@ -64,8 +63,10 @@ export default function ProductForm({ categories }: ProductFormProps) {
     },
   });
 
+  const images = form.watch("images") || [];
+
   const handleCategoryChange = (categoryId: string) => {
-    const category = categories.find((c) => c._id === categoryId);
+    const category = categories.find((sub) => sub._id === categoryId);
     if (category) {
       setSubCategories(category?.subCategories);
     }
@@ -77,16 +78,23 @@ export default function ProductForm({ categories }: ProductFormProps) {
       const newImages = Array.from(files).map((file) =>
         URL.createObjectURL(file)
       );
-      setImages((prev) => [...prev, ...newImages]);
+
+      const updatedImages = [...images, ...newImages];
+      form.setValue("images", updatedImages);
     }
   };
 
   const handleRemoveImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    form.setValue(
+      "images",
+      images.filter((_, i) => i !== index)
+    );
   };
 
   const onSubmit = (data: IProductInput) => {
-    console.log({ ...data, images });
+    console.log(data);
+
+    return;
 
     alert("Product created successfully!");
     router.push("/admin/products");
