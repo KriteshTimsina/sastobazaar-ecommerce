@@ -6,8 +6,9 @@ import { uploadToCloud } from "../utils/cloudinary";
 import { Request } from "./user.controller";
 import { User } from "../models/userModel";
 import { STATUS } from "../utils/status";
-import { productValidationSchema } from "../types/schemas";
+import { IProduct, productValidationSchema } from "../types/schemas";
 import { z } from "zod";
+import { FilterQuery } from "mongoose";
 
 export const createProduct = expressAsyncHandler(
   async (req: Request, res, next): Promise<any> => {
@@ -43,6 +44,7 @@ export const createProduct = expressAsyncHandler(
         subCategoryId: subCategory._id,
         quantity: validatedData.quantity,
         discountedPrice: validatedData.discountedPrice,
+        isActive: validatedData.isActive,
       });
       res.json({
         status: true,
@@ -66,9 +68,17 @@ export const createProduct = expressAsyncHandler(
 export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
     const { q = "" } = req.query;
-    const products = await Product.find({
+    const isAdmin = (req?.user && req?.user?.role === "admin") || false;
+
+    const queryObject: FilterQuery<IProduct> = {
       title: { $regex: String(q), $options: "i" },
-    });
+    };
+
+    if (!isAdmin) {
+      queryObject.isActive = true;
+    }
+
+    const products = await Product.find(queryObject);
     const transformedProducts = [];
     if (products) {
       for (const product of products) {
@@ -92,6 +102,7 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
           categoryId: undefined,
           subCategoryId: undefined,
           __v: undefined,
+          isActive: isAdmin ? product.isActive : undefined,
         });
       }
       res.status(STATUS.OK).json({

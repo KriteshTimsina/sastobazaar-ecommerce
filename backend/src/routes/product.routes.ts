@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authenticated } from "../middleware/auth";
+import { authenticated, optionalAuth } from "../middleware/auth";
 import {
   addToWishlist,
   createProduct,
@@ -13,14 +13,25 @@ import isAdmin from "../middleware/admin";
 
 const router = Router();
 
-router.get("", getAllProduct);
-router.get("/:id",getSingleProduct);
-router.post("/wishlist",authenticated,addToWishlist)
+router.get("", optionalAuth, getAllProduct);
+router.get("/:id", getSingleProduct);
+router.post("/wishlist", authenticated, addToWishlist);
 
 //admin access only
-router.post("", authenticated, isAdmin, upload.array("images",5), createProduct);
-router.delete("/:id",authenticated,isAdmin,deleteProduct);
-router.patch("/:id",authenticated,isAdmin,upload.array("images",5),updateProduct);
-
+router.post(
+  "",
+  authenticated,
+  isAdmin,
+  upload.array("images", 5),
+  createProduct
+);
+router.delete("/:id", authenticated, isAdmin, deleteProduct);
+router.patch(
+  "/:id",
+  authenticated,
+  isAdmin,
+  upload.array("images", 5),
+  updateProduct
+);
 
 export default router;

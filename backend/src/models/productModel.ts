@@ -39,6 +39,10 @@ const productSchema = new Schema<IProduct & Document>(
       type: Number,
       default: 1,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

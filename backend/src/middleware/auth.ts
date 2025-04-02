@@ -9,7 +9,7 @@ interface Request extends ExpressRequest {
 }
 
 export const authenticated = expressAsyncHandler(
-  async (req: Request, res, next) => {
+  async (req: Request, _, next) => {
     let token;
     if (req?.headers?.authorization?.startsWith("Bearer")) {
       token = req?.headers?.authorization?.split(" ")[1];
@@ -28,6 +28,30 @@ export const authenticated = expressAsyncHandler(
       }
     } else {
       throw new Error("Unauthorized. You cannot perform this action");
+    }
+  }
+);
+
+export const optionalAuth = expressAsyncHandler(
+  async (req: Request, _, next) => {
+    let token;
+    if (req?.headers?.authorization?.startsWith("Bearer")) {
+      token = req?.headers?.authorization?.split(" ")[1];
+      try {
+        if (token) {
+          const decoded = verifyToken(token);
+          if (typeof decoded === "object" && "id" in decoded) {
+            const foundUser = await User.findById(decoded.id);
+
+            req.user = foundUser;
+            next();
+          }
+        }
+      } catch (error) {
+        next();
+      }
+    } else {
+      next();
     }
   }
 );
