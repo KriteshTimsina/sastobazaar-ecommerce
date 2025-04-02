@@ -26,7 +26,7 @@ export default async function ProductsPage() {
           <p className="text-muted-foreground">Manage your product inventory</p>
         </div>
         <Button asChild>
-          <Link href="/admin/products/new">
+          <Link href="/admin/products/create">
             <Plus className="mr-2 w-4 h-4" />
             Add Product
           </Link>
