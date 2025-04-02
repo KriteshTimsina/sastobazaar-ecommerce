@@ -5,11 +5,11 @@ import type { APIResponse, Category, Product } from "@/types";
 import { URL } from "@/lib/constants";
 
 export async function getAllProducts() {
-  const productsResponse = await fetcher<APIResponse<{ product: Product[] }>>(
+  const productsResponse = await fetcher<APIResponse<{ data: Product[] }>>(
     URL.PRODUCTS
   );
 
-  const products = productsResponse.status ? productsResponse.product : [];
+  const products = productsResponse.status ? productsResponse.data : [];
 
   return products;
 }
