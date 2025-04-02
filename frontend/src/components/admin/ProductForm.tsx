@@ -155,12 +155,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 gap-4">
-                  <div
-                    className="flex flex-col justify-center items-center p-4 h-32 rounded-md border-2 border-dashed cursor-pointer hover:bg-muted/50"
-                    onClick={() =>
-                      document.getElementById("image-upload")?.click()
-                    }
-                  >
+                  <label className="flex flex-col justify-center items-center p-4 h-32 rounded-md border-2 border-dashed cursor-pointer hover:bg-muted/50">
                     <Upload className="mb-2 w-8 h-8 text-muted-foreground" />
                     <p className="text-xs text-center text-muted-foreground">
                       Click to upload or
@@ -175,7 +170,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                       className="hidden"
                       onChange={handleImageUpload}
                     />
-                  </div>
+                  </label>
 
                   {images.map((image, index) => (
                     <div
@@ -223,11 +218,16 @@ export default function ProductForm({ categories }: ProductFormProps) {
                 <FormField
                   control={form.control}
                   name="price"
-                  render={({ field }) => (
+                  render={({ field: { onChange, ...field } }) => (
                     <FormItem>
                       <FormLabel>Base Price</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" {...field} />
+                        <Input
+                          type="number"
+                          min="0"
+                          {...field}
+                          onChange={(e) => onChange(Number(e.target.value))}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -236,11 +236,16 @@ export default function ProductForm({ categories }: ProductFormProps) {
                 <FormField
                   control={form.control}
                   name="discountedPrice"
-                  render={({ field }) => (
+                  render={({ field: { onChange, ...field } }) => (
                     <FormItem>
                       <FormLabel>Discounted Price</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" {...field} />
+                        <Input
+                          type="number"
+                          min="0"
+                          {...field}
+                          onChange={(e) => onChange(Number(e.target.value))}
+                        />
                       </FormControl>
                       <FormDescription>
                         Leave at 0 for no discount
@@ -368,11 +373,16 @@ export default function ProductForm({ categories }: ProductFormProps) {
                 <FormField
                   control={form.control}
                   name="quantity"
-                  render={({ field }) => (
+                  render={({ field: { onChange, ...field } }) => (
                     <FormItem>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" {...field} />
+                        <Input
+                          type="number"
+                          min="0"
+                          {...field}
+                          onChange={(e) => onChange(Number(e.target.value))}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
