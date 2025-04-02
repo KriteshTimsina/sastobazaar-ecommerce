@@ -8,10 +8,12 @@ export const seedDatabase = async () => {
     const categories = await ProductCategory.insertMany(categoryData);
     if (categories) {
       const productRequest = productsData.map((product) => {
+        const random = Math.floor(Math.random() * 2);
         return {
           ...product,
           categoryId: categories[0]._id,
           subCategoryId: categories[0]?.subCategories[0]._id,
+          isActive: Boolean(random),
         };
       });
 

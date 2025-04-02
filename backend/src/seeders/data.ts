@@ -133,215 +133,161 @@ export const categoryData = [
 
 export const productsData = [
   {
-    title: "iPhone 14 Pro",
-    description:
-      "The latest iPhone with powerful features and camera improvements.",
-    price: 999,
+    title: "GoPro Hero 10 1",
+    description: "Smart and energy-efficient with the latest innovations.",
+    price: 2004,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 9,
+  },
+  {
+    title: "Epson Projector 2",
+    description: "Sleek and powerful for all your needs.",
+    price: 758,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 75,
+    discountedPrice: 160,
+  },
+  {
+    title: "iPhone 14 Pro 3",
+    description: "High-performance device with cutting-edge technology.",
+    price: 1604,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 25,
+  },
+  {
+    title: "Samsung Galaxy S21 4",
+    description: "Perfect blend of design and performance.",
+    price: 1329,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 85,
+  },
+  {
+    title: "LG OLED 55-inch TV 5",
+    description: "Sleek and powerful for all your needs.",
+    price: 669,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 36,
+    discountedPrice: 467,
+  },
+  {
+    title: "Sony WH-1000XM5 Headphones",
+    description:
+      "Industry-leading noise cancellation and premium sound quality.",
+    price: 349,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 50,
   },
   {
-    title: "Samsung Galaxy S21",
-    description:
-      "A premium Android phone with excellent display and performance.",
-    price: 799,
+    title: "MacBook Air M2",
+    description: "Powerful and lightweight with Apple's latest M2 chip.",
+    price: 1199,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 30,
+  },
+  {
+    title: "Bose SoundLink Revolve+",
+    description:
+      "Deep, loud, and immersive sound with true 360-degree coverage.",
+    price: 299,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
+    ],
+    quantity: 45,
+  },
+  {
+    title: "Samsung Galaxy Watch 6",
+    description: "Your ultimate health and fitness companion.",
+    price: 329,
+    images: [
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 60,
   },
   {
-    title: "MacBook Pro 16-inch",
-    description:
-      "High-end laptop designed for professionals with heavy computing needs.",
+    title: "Canon EOS R6 Camera",
+    description: "High-speed performance and superb image quality.",
     price: 2499,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 25,
-  },
-  {
-    title: "Dell XPS 13",
-    description: "Compact laptop with a sleek design and high performance.",
-    price: 1500,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 30,
-  },
-  {
-    title: "Samsung Galaxy Tab S8",
-    description:
-      "A powerful tablet with a stunning display and productivity features.",
-    price: 699,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 40,
-  },
-  {
-    title: "Microsoft Surface Pro 8",
-    description:
-      "A 2-in-1 tablet and laptop with Windows OS for professional use.",
-    price: 999,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 20,
+    discountedPrice: 2199,
   },
   {
-    title: "LG Washing Machine",
-    description:
-      "High-efficiency washing machine with smart features and large capacity.",
-    price: 699,
+    title: "Dell XPS 13 Laptop",
+    description: "Ultra-thin, ultra-powerful with an InfinityEdge display.",
+    price: 1399,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 15,
   },
   {
-    title: "Whirlpool Refrigerator",
-    description:
-      "Energy-efficient refrigerator with advanced cooling technology.",
-    price: 1200,
+    title: "Apple iPad Pro 12.9-inch",
+    description: "All-screen design with a powerful M2 chip.",
+    price: 1099,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
-    quantity: 10,
+    quantity: 25,
   },
   {
-    title: "Samsung Microwave Oven",
-    description: "Smart microwave with multiple cooking modes for quick meals.",
-    price: 250,
+    title: "Sony PlayStation 5",
+    description: "Lightning-fast loading and immersive gaming experience.",
+    price: 499,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
-    quantity: 50,
+    quantity: 40,
   },
   {
-    title: "Sony 55-inch LED TV",
-    description:
-      "High-definition television with crisp picture quality and sound.",
-    price: 800,
+    title: "Google Pixel 7 Pro",
+    description: "Google's most powerful phone with an exceptional camera.",
+    price: 899,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 35,
   },
   {
-    title: "Bose Sound System",
-    description: "Premium audio system with powerful bass and clear sound.",
-    price: 350,
+    title: "Nikon Z9 Mirrorless Camera",
+    description: "Professional-grade photography with 8K video recording.",
+    price: 5499,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 25,
-  },
-  {
-    title: "Canon EOS 5D Mark IV",
-    description:
-      "Full-frame DSLR camera designed for professional photographers.",
-    price: 3000,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 10,
   },
   {
-    title: "GoPro Hero 10",
-    description:
-      "Action camera for capturing high-definition video in extreme conditions.",
-    price: 450,
+    title: "Amazon Echo Show 10",
+    description: "Smart display with motion tracking and Alexa built-in.",
+    price: 249,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
-    quantity: 30,
+    quantity: 55,
   },
   {
-    title: "JBL PartyBox 1000",
-    description: "Bluetooth speaker with powerful sound and light effects.",
-    price: 1200,
+    title: "HP Spectre x360 Convertible Laptop",
+    description: "2-in-1 premium laptop with exceptional performance.",
+    price: 1499,
     images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
+      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg",
     ],
     quantity: 20,
-  },
-  {
-    title: "Nikon D7500",
-    description:
-      "Digital SLR camera with a high-resolution sensor and excellent performance.",
-    price: 1200,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 15,
-  },
-  {
-    title: "Philips Air Conditioner",
-    description:
-      "Energy-efficient air conditioner for quick and cool indoor air.",
-    price: 600,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 10,
-  },
-  {
-    title: "Epson Projector",
-    description:
-      "Portable projector with HD quality for presentations and home cinema.",
-    price: 400,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 20,
-  },
-  {
-    title: "iPad Pro 12.9",
-    description:
-      "Powerful tablet with a large screen and pro-level performance.",
-    price: 1099,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 40,
-  },
-  {
-    title: "HP Omen Gaming Laptop",
-    description: "Gaming laptop with top-tier performance and graphics.",
-    price: 1800,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 25,
-  },
-  {
-    title: "Bose QuietComfort 35 II",
-    description: "Noise-canceling headphones with superior sound quality.",
-    price: 350,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 50,
-  },
-  {
-    title: "Samsung Galaxy Z Fold 4",
-    description: "A foldable smartphone with a large flexible screen.",
-    price: 1799,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 10,
-  },
-  {
-    title: "LG OLED 55-inch TV",
-    description: "OLED TV with deep black levels and vibrant colors.",
-    price: 2500,
-    images: [
-      "https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?ga=GA1.1.312935147.1742884504&semt=ais_hybrid",
-    ],
-    quantity: 15,
   },
 ];
