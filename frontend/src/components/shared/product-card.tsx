@@ -8,10 +8,15 @@ import {
 } from "@/components/ui/card";
 import { type Product } from "@/types";
 import CartButton from "@/components/shared/cart-button";
+import { Badge } from "@/components/ui/badge";
+import Pricing from "@/components/shared/pricing";
 
 export const ProductCard = ({ product }: { product: Product }) => {
+  const discountPercentage = Math.ceil(
+    (product.discountedPrice / product.price) * 100
+  );
   return (
-    <Card className="overflow-hidden ">
+    <Card className="overflow-hidden">
       <CardHeader className="p-0">
         <div className="relative w-full h-48 group">
           <Image
@@ -20,11 +25,11 @@ export const ProductCard = ({ product }: { product: Product }) => {
             fill
             className="object-cover transition-transform group-hover:scale-105"
           />
-          {/* {product.discount && (
-          <Badge className="absolute top-2 right-2 bg-primary">
-            {product.discount}% OFF
-          </Badge>
-        )} */}
+          {product.discountedPrice && (
+            <Badge className="absolute top-0 left-2 bg-primary">
+              {discountPercentage}% OFF
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent className="p-4">
@@ -54,25 +59,10 @@ export const ProductCard = ({ product }: { product: Product }) => {
         </p>
       </CardContent>
       <CardFooter className="flex justify-between items-center p-4 pt-0">
-        <div>
-          {/* {product.discount ? (
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-bold">
-              $
-              {(product.price * (1 - product.discount / 100)).toFixed(
-                2
-              )}
-            </span>
-            <span className="text-sm line-through text-muted-foreground">
-              ${product.price.toFixed(2)}
-            </span>
-          </div>
-        ) : ( */}
-          <span className="text-lg font-bold">
-            Rs. {product.price.toFixed(2)}
-          </span>
-          {/* )} */}
-        </div>
+        <Pricing
+          price={product.price}
+          discountedPrice={product.discountedPrice}
+        />
         <CartButton />
       </CardFooter>
     </Card>

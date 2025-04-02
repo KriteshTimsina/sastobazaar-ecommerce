@@ -41,7 +41,8 @@ export interface Product {
   quantity: number;
   createdAt: string;
   updatedAt: string;
-  __v: number;
+  discountedPrice: number;
+  isActive?: boolean;
 }
 
 export interface Category {
