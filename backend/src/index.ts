@@ -11,10 +11,11 @@ import dynamicContentRoutes from "./routes/dynamicContentRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import path from "path";
 import { PORT } from "./utils/env";
+import { createUploadFolder, upload } from "./middleware/multer";
 
 const app = express();
 
-//middlewares
+// middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,17 +30,26 @@ app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/cart", cartRoutes);
 app.use("/dynamic-content", dynamicContentRoutes);
+app.use("/test", upload.single("image"), (req, res) => {
+  res.json({
+    test: "Test"
+  });
+});
 
-//error middlewares
+// error middlewares
 app.use(notFound);
 app.use(errorHandler);
 
-connectDB()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`🖥️ Server starting at http://localhost:${PORT}`);
-    });
-  })
-  .catch(() => {
-    console.log("MONGO DB Connection failed");
-  });
+app.listen(PORT, () => {
+  createUploadFolder();
+  console.log(`🖥️ Server starting at http://localhost:${PORT}`);
+});
+// connectDB()
+//   .then(() => {
+//     app.listen(PORT, () => {
+//       console.log(`🖥️ Server starting at http://localhost:${PORT}`);
+//     });
+//   })
+//   .catch(() => {
+//     console.log("MONGO DB Connection failed");
+//   });

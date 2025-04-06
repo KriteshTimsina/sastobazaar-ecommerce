@@ -21,8 +21,8 @@
     "**/*.config.ts",
     "**/*.config.cjs",
     "**/*.config.js",
-    "**/*.gen.ts",
-    "**/components/ui/*"
+    "**/*.gen.ts"
+    // "**/components/ui/*"
   ],
   "rules": {
     "@typescript-eslint/no-confusing-void-expression": "off",
@@ -62,7 +62,7 @@
       }
     ],
     "tailwindcss/no-custom-classname": "off",
-    "no-console": "warn",
+    // "no-console": "warn",
     "import/no-absolute-path": "off"
   }
 }

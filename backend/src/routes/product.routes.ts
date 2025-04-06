@@ -6,7 +6,7 @@ import {
   deleteProduct,
   getAllProduct,
   getSingleProduct,
-  updateProduct,
+  updateProduct
 } from "../controllers/productController";
 import { upload } from "../middleware/multer";
 import isAdmin from "../middleware/admin";
@@ -17,21 +17,9 @@ router.get("", optionalAuth, getAllProduct);
 router.get("/:id", getSingleProduct);
 router.post("/wishlist", authenticated, addToWishlist);
 
-//admin access only
-router.post(
-  "",
-  authenticated,
-  isAdmin,
-  upload.array("images", 5),
-  createProduct
-);
+// admin access only
+router.post("", authenticated, isAdmin, upload.array("images", 5), createProduct);
 router.delete("/:id", authenticated, isAdmin, deleteProduct);
-router.patch(
-  "/:id",
-  authenticated,
-  isAdmin,
-  upload.array("images", 5),
-  updateProduct
-);
+router.patch("/:id", authenticated, isAdmin, upload.array("images", 5), updateProduct);
 
 export default router;
