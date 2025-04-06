@@ -1,0 +1,46 @@
+{
+  "name": "sastobazaar",
+  "author": "Kritesh Timsina",
+  "version": "1.0.0",
+  "description": "Fullstack ecommerce built with next and node",
+  "scripts": {
+    "server": "npm run dev --prefix backend",
+    "client": "npm run dev --prefix frontend",
+    "build-server": "npm run build --prefix backend",
+    "build-client": "npm run build --prefix frontend",
+    "preview-server": "npm run build-backend & npm run start --prefix backend",
+    "preview-client": "npm run build-frontend & npm run preview --prefix frontend",
+    "check-types": "cd backend & tsc --noEmit & cd ../frontend & tsc --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build-all": "npm run build-server & npm run build-client",
+    "install-all": "npm i && concurrently \"cd ./frontend & npm i\" \"cd ./backend & npm i\"",
+    "preview-all": "concurrently \"npm run preview-server\" \"npm run preview-client\"",
+    "check-all": "npm run check-format & npm run check-lint & npm run check-types",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "husky": {
+    "pre-commit": "npx pretty-quick --staged ng lint ng test",
+    "pre-push": "ng build --aot true"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.56.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-tailwindcss": "^3.14.2",
+    "husky": "^9.0.10",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "pretty-quick": "^4.0.0",
+    "typescript": "^5.3.3"
+  }
+}

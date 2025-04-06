@@ -7,9 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cache:clean": "rm -rf .next",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
-    "check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\""
+    "cache:clean": "rm -rf .next"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -49,7 +47,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
-    "prettier": "^3.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

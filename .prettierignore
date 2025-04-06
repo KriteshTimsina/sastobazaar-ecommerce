@@ -1,0 +1,27 @@
+node_modules
+dist
+build
+public
+
+.prettierrc
+
+package.json
+package-lock.json
+tsconfig.json
+tsconfig.node.json
+nodemon.json
+vercel.json
+
+vite-env.d.ts
+
+CHANGELOG.md
+README.md
+
+vite.config.ts
+# ignore generated files from tanstack router
+*.gen.ts
+*.html
+
+#next
+
+.next
