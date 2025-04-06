@@ -1,21 +1,15 @@
-"use client";
+'use client';
 
-import type React from "react";
+import type React from 'react';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Upload } from "lucide-react";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Upload } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -24,26 +18,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
-import { IProductInput, productValidationSchema } from "@/types/schema";
-import { type Category } from "@/types";
-import Image from "next/image";
-import { useMutation } from "@tanstack/react-query";
-import { clientFetcher } from "@/lib/fetcher";
-import { URL as API_URL } from "@/lib/constants";
-import { createProduct } from "@/lib/clientApi";
-import { toast } from "sonner";
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
+import { IProductInput, productValidationSchema } from '@/types/schema';
+import { type Category } from '@/types';
+import Image from 'next/image';
+import { useMutation } from '@tanstack/react-query';
+import { clientFetcher } from '@/lib/fetcher';
+import { URL as API_URL } from '@/lib/constants';
+import { createProduct } from '@/lib/clientApi';
+import { toast } from 'sonner';
 
 type ProductFormProps = {
   categories: Category[];
@@ -56,12 +50,12 @@ export default function ProductForm({ categories }: ProductFormProps) {
   const form = useForm<IProductInput>({
     resolver: zodResolver(productValidationSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: '',
+      description: '',
       price: 0,
       quantity: 0,
-      categoryId: "",
-      subCategoryId: "",
+      categoryId: '',
+      subCategoryId: '',
       discountedPrice: 0,
       images: [],
       isActive: true,
@@ -75,7 +69,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
     },
   });
 
-  const images = form.watch("images") || [];
+  const images = form.watch('images') || [];
 
   const handleCategoryChange = (categoryId: string) => {
     const category = categories.find((sub) => sub._id === categoryId);
@@ -87,25 +81,23 @@ export default function ProductForm({ categories }: ProductFormProps) {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const newImages = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
+      const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
 
       const updatedImages = [...images, ...newImages];
-      form.setValue("images", updatedImages);
+      form.setValue('images', updatedImages);
     }
   };
 
   const handleRemoveImage = (index: number) => {
     form.setValue(
-      "images",
-      images.filter((_, i) => i !== index)
+      'images',
+      images.filter((_, i) => i !== index),
     );
   };
 
   const onSubmit = (body: IProductInput) => {
     mutate(body);
-    router.push("/admin/products");
+    router.push('/admin/products');
   };
 
   return (
@@ -117,9 +109,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
             <Card>
               <CardHeader>
                 <CardTitle>General Information</CardTitle>
-                <CardDescription>
-                  Basic information about the product
-                </CardDescription>
+                <CardDescription>Basic information about the product</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -181,13 +171,10 @@ export default function ProductForm({ categories }: ProductFormProps) {
                   </label>
 
                   {images.map((image, index) => (
-                    <div
-                      key={index}
-                      className="overflow-hidden relative h-32 rounded-md border"
-                    >
+                    <div key={index} className="overflow-hidden relative h-32 rounded-md border">
                       <Image
                         fill
-                        src={image || "/placeholder.svg"}
+                        src={image || '/placeholder.svg'}
                         alt={`Product image ${index + 1}`}
                         className="object-cover w-full h-full"
                       />
@@ -218,9 +205,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Pricing</CardTitle>
-                <CardDescription>
-                  Set the pricing for your product
-                </CardDescription>
+                <CardDescription>Set the pricing for your product</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -255,9 +240,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                           onChange={(e) => onChange(Number(e.target.value))}
                         />
                       </FormControl>
-                      <FormDescription>
-                        Leave at 0 for no discount
-                      </FormDescription>
+                      <FormDescription>Leave at 0 for no discount</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -268,9 +251,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Category</CardTitle>
-                <CardDescription>
-                  Assign your product to a category
-                </CardDescription>
+                <CardDescription>Assign your product to a category</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -311,10 +292,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Sub Category</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a sub-category" />
@@ -322,10 +300,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                         </FormControl>
                         <SelectContent>
                           {subCategories.map((subCategory) => (
-                            <SelectItem
-                              key={subCategory._id}
-                              value={subCategory._id}
-                            >
+                            <SelectItem key={subCategory._id} value={subCategory._id}>
                               {subCategory.title}
                             </SelectItem>
                           ))}
@@ -403,18 +378,11 @@ export default function ProductForm({ categories }: ProductFormProps) {
                   render={({ field }) => (
                     <FormItem className="flex flex-row justify-between items-center p-4 rounded-lg border">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">
-                          Active Status
-                        </FormLabel>
-                        <FormDescription>
-                          Make this product visible on your store
-                        </FormDescription>
+                        <FormLabel className="text-base">Active Status</FormLabel>
+                        <FormDescription>Make this product visible on your store</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -427,11 +395,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
         <Separator />
 
         <div className="flex gap-4 justify-end">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.push("/admin/products")}
-          >
+          <Button type="button" variant="outline" onClick={() => router.push('/admin/products')}>
             Cancel
           </Button>
           <Button disabled={isPending} type="submit">

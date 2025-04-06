@@ -1,14 +1,14 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { getAllCategories } from "@/app/actions/product";
-import { ChevronRight } from "lucide-react";
+} from '@/components/ui/navigation-menu';
+import { getAllCategories } from '@/app/actions/product';
+import { ChevronRight } from 'lucide-react';
 
 export const BottomHeader = async () => {
   const categories = await getAllCategories();

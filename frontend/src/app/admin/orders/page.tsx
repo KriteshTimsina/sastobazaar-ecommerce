@@ -1,29 +1,42 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Link from "next/link"
-import { Eye, Search } from "lucide-react"
+import { useState } from 'react';
+import Link from 'next/link';
+import { Eye, Search } from 'lucide-react';
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { orders, getUserById } from "@/lib/data"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { orders, getUserById } from '@/lib/data';
 
 export default function OrdersPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [statusFilter, setStatusFilter] = useState<string>("all")
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       order.id.includes(searchQuery) ||
-      getUserById(order.userId)?.name.toLowerCase().includes(searchQuery.toLowerCase())
+      getUserById(order.userId)?.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesStatus = statusFilter === "all" || order.status === statusFilter
+    const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
 
-    return matchesSearch && matchesStatus
-  })
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="space-y-6">
@@ -72,26 +85,26 @@ export default function OrdersPage() {
           </TableHeader>
           <TableBody>
             {filteredOrders.map((order) => {
-              const user = getUserById(order.userId)
+              const user = getUserById(order.userId);
 
               return (
                 <TableRow key={order.id}>
                   <TableCell className="font-medium">#{order.id}</TableCell>
-                  <TableCell>{user?.name || "Unknown"}</TableCell>
+                  <TableCell>{user?.name || 'Unknown'}</TableCell>
                   <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">${order.total.toFixed(2)}</TableCell>
                   <TableCell className="text-center">
                     <Badge
                       variant={
-                        order.status === "delivered"
-                          ? "default"
-                          : order.status === "shipped"
-                            ? "secondary"
-                            : order.status === "processing"
-                              ? "outline"
-                              : order.status === "cancelled"
-                                ? "destructive"
-                                : "outline"
+                        order.status === 'delivered'
+                          ? 'default'
+                          : order.status === 'shipped'
+                            ? 'secondary'
+                            : order.status === 'processing'
+                              ? 'outline'
+                              : order.status === 'cancelled'
+                                ? 'destructive'
+                                : 'outline'
                       }
                     >
                       {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -106,7 +119,7 @@ export default function OrdersPage() {
                     </Button>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
             {filteredOrders.length === 0 && (
               <TableRow>
@@ -119,6 +132,5 @@ export default function OrdersPage() {
         </Table>
       </div>
     </div>
-  )
+  );
 }
-

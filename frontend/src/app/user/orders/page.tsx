@@ -1,15 +1,15 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Eye, Package } from "lucide-react"
+import Link from 'next/link';
+import Image from 'next/image';
+import { Eye, Package } from 'lucide-react';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { getOrdersByUserId, getProductById } from "@/lib/data"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { getOrdersByUserId, getProductById } from '@/lib/data';
 
 export default function OrdersPage() {
-  const orders = getOrdersByUserId("1")
+  const orders = getOrdersByUserId('1');
 
   return (
     <div className="space-y-6">
@@ -26,17 +26,19 @@ export default function OrdersPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-base">Order #{order.id}</CardTitle>
-                    <CardDescription>Placed on {new Date(order.createdAt).toLocaleDateString()}</CardDescription>
+                    <CardDescription>
+                      Placed on {new Date(order.createdAt).toLocaleDateString()}
+                    </CardDescription>
                   </div>
                   <Badge
                     variant={
-                      order.status === "delivered"
-                        ? "default"
-                        : order.status === "shipped"
-                          ? "secondary"
-                          : order.status === "processing"
-                            ? "outline"
-                            : "destructive"
+                      order.status === 'delivered'
+                        ? 'default'
+                        : order.status === 'shipped'
+                          ? 'secondary'
+                          : order.status === 'processing'
+                            ? 'outline'
+                            : 'destructive'
                     }
                   >
                     {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -46,14 +48,14 @@ export default function OrdersPage() {
               <CardContent>
                 <div className="space-y-4">
                   {order.products.map((item) => {
-                    const product = getProductById(item.productId)
-                    if (!product) return null
+                    const product = getProductById(item.productId);
+                    if (!product) return null;
 
                     return (
                       <div key={item.productId} className="flex items-center gap-4">
                         <div className="relative h-16 w-16 overflow-hidden rounded-md">
                           <Image
-                            src={product.image || "/placeholder.svg"}
+                            src={product.image || '/placeholder.svg'}
                             alt={product.name}
                             fill
                             className="object-cover"
@@ -69,7 +71,7 @@ export default function OrdersPage() {
                           <p className="font-medium">${(item.quantity * item.price).toFixed(2)}</p>
                         </div>
                       </div>
-                    )
+                    );
                   })}
 
                   <Separator />
@@ -86,13 +88,13 @@ export default function OrdersPage() {
                     <div className="flex items-center gap-2">
                       <Package className="h-4 w-4 text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">
-                        {order.status === "delivered"
-                          ? "Delivered on " + new Date(order.updatedAt).toLocaleDateString()
-                          : order.status === "shipped"
-                            ? "Shipped on " + new Date(order.updatedAt).toLocaleDateString()
-                            : order.status === "processing"
-                              ? "Processing"
-                              : "Pending"}
+                        {order.status === 'delivered'
+                          ? 'Delivered on ' + new Date(order.updatedAt).toLocaleDateString()
+                          : order.status === 'shipped'
+                            ? 'Shipped on ' + new Date(order.updatedAt).toLocaleDateString()
+                            : order.status === 'processing'
+                              ? 'Processing'
+                              : 'Pending'}
                       </p>
                     </div>
                     <Button variant="outline" size="sm">
@@ -119,6 +121,5 @@ export default function OrdersPage() {
         </Card>
       )}
     </div>
-  )
+  );
 }
-

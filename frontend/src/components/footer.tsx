@@ -1,11 +1,11 @@
-import Link from "next/link";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import Link from 'next/link';
+import { Facebook, Instagram, Twitter } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { APP_DATA } from "@/lib/constants";
-import Logo from "@/components/logo";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { APP_DATA } from '@/lib/constants';
+import Logo from '@/components/logo';
 
 export default function Footer() {
   return (
@@ -15,8 +15,8 @@ export default function Footer() {
           <div className="space-y-4">
             <Logo />
             <p className="text-sm text-muted-foreground">
-              Your one-stop shop for all your shopping needs. Quality products,
-              fast delivery, and excellent customer service.
+              Your one-stop shop for all your shopping needs. Quality products, fast delivery, and
+              excellent customer service.
             </p>
             <div className="flex space-x-4">
               <Button variant="ghost" size="icon">
@@ -42,34 +42,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/products?category=electronics"
-                  className="hover:underline"
-                >
+                <Link href="/products?category=electronics" className="hover:underline">
                   Electronics
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/products?category=clothing"
-                  className="hover:underline"
-                >
+                <Link href="/products?category=clothing" className="hover:underline">
                   Clothing
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/products?category=home-kitchen"
-                  className="hover:underline"
-                >
+                <Link href="/products?category=home-kitchen" className="hover:underline">
                   Home & Kitchen
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/products?category=beauty"
-                  className="hover:underline"
-                >
+                <Link href="/products?category=beauty" className="hover:underline">
                   Beauty
                 </Link>
               </li>
@@ -108,8 +96,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Newsletter</h3>
             <p className="text-sm text-muted-foreground">
-              Subscribe to our newsletter to receive updates and exclusive
-              offers.
+              Subscribe to our newsletter to receive updates and exclusive offers.
             </p>
             <div className="flex space-x-2">
               <Input type="email" placeholder="Your email" />
@@ -120,26 +107,16 @@ export default function Footer() {
         <Separator className="my-8" />
         <div className="flex flex-col justify-between items-center md:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} {APP_DATA.NAME}. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} {APP_DATA.NAME}. All rights reserved.
           </p>
           <div className="flex mt-4 space-x-4 md:mt-0">
-            <Link
-              href="/terms"
-              className="text-sm text-muted-foreground hover:underline"
-            >
+            <Link href="/terms" className="text-sm text-muted-foreground hover:underline">
               Terms
             </Link>
-            <Link
-              href="/privacy"
-              className="text-sm text-muted-foreground hover:underline"
-            >
+            <Link href="/privacy" className="text-sm text-muted-foreground hover:underline">
               Privacy
             </Link>
-            <Link
-              href="/cookies"
-              className="text-sm text-muted-foreground hover:underline"
-            >
+            <Link href="/cookies" className="text-sm text-muted-foreground hover:underline">
               Cookies
             </Link>
           </div>

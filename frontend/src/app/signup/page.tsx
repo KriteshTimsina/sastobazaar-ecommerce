@@ -1,29 +1,29 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Eye, EyeOff } from "lucide-react"
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 export default function SignupPage() {
-  const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, you would register the user here
     // For demo purposes, we'll just redirect to the login page
-    router.push("/login")
-  }
+    router.push('/login');
+  };
 
   return (
     <div className="container max-w-md py-12">
@@ -51,7 +51,12 @@ export default function SignupPage() {
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <Input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••" required />
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  required
+                />
                 <Button
                   type="button"
                   variant="ghost"
@@ -60,7 +65,9 @@ export default function SignupPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+                  <span className="sr-only">
+                    {showPassword ? 'Hide password' : 'Show password'}
+                  </span>
                 </Button>
               </div>
             </div>
@@ -71,11 +78,11 @@ export default function SignupPage() {
             <div className="flex items-center space-x-2">
               <Checkbox id="terms" required />
               <Label htmlFor="terms" className="text-sm">
-                I agree to the{" "}
+                I agree to the{' '}
                 <Link href="/terms" className="text-primary hover:underline">
                   Terms of Service
-                </Link>{" "}
-                and{" "}
+                </Link>{' '}
+                and{' '}
                 <Link href="/privacy" className="text-primary hover:underline">
                   Privacy Policy
                 </Link>
@@ -89,7 +96,7 @@ export default function SignupPage() {
           <div className="mt-4 text-center text-sm">
             <Separator className="my-4" />
             <p>
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Link href="/login" className="text-primary hover:underline">
                 Login
               </Link>
@@ -98,6 +105,5 @@ export default function SignupPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

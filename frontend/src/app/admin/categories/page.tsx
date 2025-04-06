@@ -1,5 +1,5 @@
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableHead,
@@ -7,9 +7,9 @@ import {
   TableRow,
   TableBody,
   TableCell,
-} from "@/components/ui/table";
-import { getAllCategories } from "@/app/actions/product";
-import { CategoryRow } from "@/components/admin/CategoryTable";
+} from '@/components/ui/table';
+import { getAllCategories } from '@/app/actions/product';
+import { CategoryRow } from '@/components/admin/CategoryTable';
 
 export default async function CategoryPage() {
   const categories = await getAllCategories();
@@ -20,20 +20,14 @@ export default async function CategoryPage() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Categories</h1>
-            <p className="text-muted-foreground">
-              Browse our product categories
-            </p>
+            <p className="text-muted-foreground">Browse our product categories</p>
           </div>
         </div>
 
         <div className="flex gap-2 items-center">
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search categories..."
-              className="pl-8"
-            />
+            <Input type="search" placeholder="Search categories..." className="pl-8" />
           </div>
         </div>
 

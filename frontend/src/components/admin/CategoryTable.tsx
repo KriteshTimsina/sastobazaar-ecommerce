@@ -1,6 +1,6 @@
-import { Category } from "@/types";
-import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table";
-import { Badge } from "../ui/badge";
+import { Category } from '@/types';
+import { Table, TableRow, TableBody, TableCell } from '@/components/ui/table';
+import { Badge } from '../ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,20 +8,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { MoreHorizontal } from "lucide-react";
-import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
+import { MoreHorizontal } from 'lucide-react';
+import Link from 'next/link';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 
 export const CategoryRow = ({ category }: { category: Category }) => {
-  const hasSubcategories =
-    category.subCategories && category.subCategories.length > 0;
+  const hasSubcategories = category.subCategories && category.subCategories.length > 0;
 
   //   const filteredSubcategories = hasSubcategories
   //     ? category?.subCategories?.filter(
@@ -69,24 +63,16 @@ export const CategoryRow = ({ category }: { category: Category }) => {
         <TableRow>
           <TableCell colSpan={5} className="p-0">
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem
-                value={`subcategories-${category._id}`}
-                className="border-0"
-              >
+              <AccordionItem value={`subcategories-${category._id}`} className="border-0">
                 <div className="pl-4">
                   <AccordionTrigger className="py-2 px-10">
-                    <span className="text-sm font-medium">
-                      View Subcategories
-                    </span>
+                    <span className="text-sm font-medium">View Subcategories</span>
                   </AccordionTrigger>
                   <AccordionContent>
                     <Table>
                       <TableBody>
                         {category.subCategories.map((subcategory) => (
-                          <CategoryRow
-                            key={subcategory._id}
-                            category={subcategory}
-                          />
+                          <CategoryRow key={subcategory._id} category={subcategory} />
                         ))}
                       </TableBody>
                     </Table>

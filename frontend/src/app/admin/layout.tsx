@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import type React from "react";
+import type React from 'react';
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   BarChart,
   Box,
@@ -14,55 +14,51 @@ import {
   ShoppingCart,
   Users,
   Package2,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 const sidebarNavItems = [
   {
-    title: "Dashboard",
-    href: "/admin/dashboard",
+    title: 'Dashboard',
+    href: '/admin/dashboard',
     icon: Home,
   },
   {
-    title: "Products",
-    href: "/admin/products",
+    title: 'Products',
+    href: '/admin/products',
     icon: Package,
   },
   {
-    title: "Categories",
-    href: "/admin/categories",
+    title: 'Categories',
+    href: '/admin/categories',
     icon: Box,
   },
   {
-    title: "Orders",
-    href: "/admin/orders",
+    title: 'Orders',
+    href: '/admin/orders',
     icon: ShoppingCart,
   },
   {
-    title: "Users",
-    href: "/admin/users",
+    title: 'Users',
+    href: '/admin/users',
     icon: Users,
   },
   {
-    title: "Analytics",
-    href: "/admin/analytics",
+    title: 'Analytics',
+    href: '/admin/analytics',
     icon: BarChart,
   },
   {
-    title: "Settings",
-    href: "/admin/settings",
+    title: 'Settings',
+    href: '/admin/settings',
     icon: Settings,
   },
 ];
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -70,10 +66,7 @@ export default function AdminLayout({
     <div className="flex flex-col min-h-screen">
       <div className="border-b">
         <div className="flex items-center px-4 h-16">
-          <Link
-            href="/admin/dashboard"
-            className="flex items-center text-xl font-bold"
-          >
+          <Link href="/admin/dashboard" className="flex items-center text-xl font-bold">
             <Package2 className="mr-2 w-6 h-6" />
             Admin Panel
           </Link>
@@ -82,17 +75,15 @@ export default function AdminLayout({
             className="ml-auto md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? "Hide Menu" : "Show Menu"}
+            {isMobileMenuOpen ? 'Hide Menu' : 'Show Menu'}
           </Button>
         </div>
       </div>
       <div className="flex flex-1">
         <aside
           className={cn(
-            "w-64 border-r bg-muted/40 md:block",
-            isMobileMenuOpen
-              ? "block fixed inset-y-0 z-50 pt-16 bg-background"
-              : "hidden"
+            'w-64 border-r bg-muted/40 md:block',
+            isMobileMenuOpen ? 'block fixed inset-y-0 z-50 pt-16 bg-background' : 'hidden',
           )}
         >
           <div className="py-4 space-y-4">
@@ -101,11 +92,10 @@ export default function AdminLayout({
                 {sidebarNavItems.map((item) => (
                   <Button
                     key={item.href}
-                    variant={pathname === item.href ? "default" : "ghost"}
+                    variant={pathname === item.href ? 'default' : 'ghost'}
                     className={cn(
-                      "w-full justify-start",
-                      pathname === item.href &&
-                        "bg-primary text-primary-foreground"
+                      'w-full justify-start',
+                      pathname === item.href && 'bg-primary text-primary-foreground',
                     )}
                     asChild
                   >

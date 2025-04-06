@@ -1,20 +1,13 @@
-import React from "react";
-import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { type Product } from "@/types";
-import CartButton from "@/components/shared/cart-button";
-import { Badge } from "@/components/ui/badge";
-import Pricing from "@/components/shared/pricing";
+import React from 'react';
+import Image from 'next/image';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { type Product } from '@/types';
+import CartButton from '@/components/shared/cart-button';
+import { Badge } from '@/components/ui/badge';
+import Pricing from '@/components/shared/pricing';
 
 export const ProductCard = ({ product }: { product: Product }) => {
-  const discountPercentage = Math.ceil(
-    (product.discountedPrice / product.price) * 100
-  );
+  const discountPercentage = Math.ceil((product.discountedPrice / product.price) * 100);
   return (
     <Card className="overflow-hidden">
       <CardHeader className="p-0">
@@ -26,9 +19,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
             className="object-cover transition-transform group-hover:scale-105"
           />
           {product.discountedPrice && (
-            <Badge className="absolute top-0 left-2 bg-primary">
-              {discountPercentage}% OFF
-            </Badge>
+            <Badge className="absolute top-0 left-2 bg-primary">{discountPercentage}% OFF</Badge>
           )}
         </div>
       </CardHeader>
@@ -54,15 +45,10 @@ export const ProductCard = ({ product }: { product: Product }) => {
         </span>
       </div> */}
         <h3 className="font-medium line-clamp-1">{product.title}</h3>
-        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-          {product.description}
-        </p>
+        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{product.description}</p>
       </CardContent>
       <CardFooter className="flex justify-between items-center p-4 pt-0">
-        <Pricing
-          price={product.price}
-          discountedPrice={product.discountedPrice}
-        />
+        <Pricing price={product.price} discountedPrice={product.discountedPrice} />
         <CartButton />
       </CardFooter>
     </Card>

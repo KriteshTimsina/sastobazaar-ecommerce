@@ -1,7 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -9,19 +9,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
-import fetcher from "@/lib/fetcher";
-import { Plus, Search } from "lucide-react";
-import { UserTable } from "@/components/admin/UserTable";
+import fetcher from '@/lib/fetcher';
+import { Plus, Search } from 'lucide-react';
+import { UserTable } from '@/components/admin/UserTable';
 
-import type { APIResponse, User } from "@/types";
-import { URL } from "@/lib/constants";
+import type { APIResponse, User } from '@/types';
+import { URL } from '@/lib/constants';
 
 export default async function UsersPage() {
   const usersResponse = await fetcher<APIResponse<{ user: User[] }>>(URL.USERS);
 
-  if (!usersResponse.status) throw new Error("/admin/users error occured ");
+  if (!usersResponse.status) throw new Error('/admin/users error occured ');
 
   const users = usersResponse.user;
   return (
@@ -29,9 +29,7 @@ export default async function UsersPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-          <p className="text-muted-foreground">
-            Manage your users and their permissions
-          </p>
+          <p className="text-muted-foreground">Manage your users and their permissions</p>
         </div>
         <Button asChild>
           <Link href="/admin/users/new">

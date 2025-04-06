@@ -1,11 +1,11 @@
-"use client";
-import { FC, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
+'use client';
+import { FC, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { TableCell, TableRow } from "@/components/ui/table";
+import { Button } from '@/components/ui/button';
+import { TableCell, TableRow } from '@/components/ui/table';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -21,9 +21,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Product } from "@/types";
-import StockAvailabilityStatus from "@/components/admin/StockAvailabilityStatus";
+} from '@/components/ui/dialog';
+import { Product } from '@/types';
+import StockAvailabilityStatus from '@/components/admin/StockAvailabilityStatus';
 
 type ProductTableProps = {
   product: Product;
@@ -31,9 +31,7 @@ type ProductTableProps = {
 
 export const ProductTable: FC<ProductTableProps> = ({ product }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
-  );
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
   const handleDeleteClick = (productId: string) => {
     setSelectedProductId(productId);
@@ -51,21 +49,12 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
       <TableRow key={product._id}>
         <TableCell>
           <div className="overflow-hidden relative w-10 h-10 rounded-md">
-            <Image
-              src={product.images[0]}
-              alt={product.title}
-              fill
-              className="object-cover"
-            />
+            <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
           </div>
         </TableCell>
-        <TableCell className="font-medium overflow-ellipsis">
-          {product.title}
-        </TableCell>
+        <TableCell className="font-medium overflow-ellipsis">{product.title}</TableCell>
         <TableCell>{product.category}</TableCell>
-        <TableCell className="text-right">
-          Rs. {product.price.toFixed(2)}
-        </TableCell>
+        <TableCell className="text-right">Rs. {product.price.toFixed(2)}</TableCell>
         <TableCell className="text-center">{product.quantity}</TableCell>
         <TableCell className="text-center">
           <StockAvailabilityStatus quantity={product.quantity} />
@@ -103,15 +92,12 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete the
-              product from your store.
+              This action cannot be undone. This will permanently delete the product from your
+              store.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setDeleteDialogOpen(false)}
-            >
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleDeleteConfirm}>

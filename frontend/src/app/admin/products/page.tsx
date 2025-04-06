@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { Plus, Search } from "lucide-react";
+import Link from 'next/link';
+import { Plus, Search } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -10,10 +10,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
-import { ProductTable } from "@/components/admin/ProductTable";
-import { getAllProducts } from "@/app/actions/product";
+import { ProductTable } from '@/components/admin/ProductTable';
+import { getAllProducts } from '@/app/actions/product';
 
 export default async function ProductsPage() {
   const products = await getAllProducts();
@@ -36,11 +36,7 @@ export default async function ProductsPage() {
       <div className="flex gap-2 items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search products..."
-            className="pl-8"
-          />
+          <Input type="search" placeholder="Search products..." className="pl-8" />
         </div>
       </div>
 

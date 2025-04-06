@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { Menu, ShoppingCart, User } from "lucide-react";
+import Link from 'next/link';
+import { Menu, ShoppingCart, User } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,54 +11,54 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import Logo from "@/components/logo";
-import { BottomHeader } from "./shared/bottom-header";
+} from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
+import Logo from '@/components/logo';
+import { BottomHeader } from './shared/bottom-header';
 
 const mainNavItems = [
   {
-    title: "Home",
-    href: "/",
+    title: 'Home',
+    href: '/',
   },
   {
-    title: "Products",
-    href: "/products",
+    title: 'Products',
+    href: '/products',
   },
   {
-    title: "Categories",
-    href: "/categories",
+    title: 'Categories',
+    href: '/categories',
   },
   {
-    title: "About",
-    href: "/about",
+    title: 'About',
+    href: '/about',
   },
   {
-    title: "Contact",
-    href: "/contact",
+    title: 'Contact',
+    href: '/contact',
   },
 ];
 
 const categoryNavItems = [
   {
-    title: "Electronics",
-    href: "/products?category=electronics",
+    title: 'Electronics',
+    href: '/products?category=electronics',
   },
   {
-    title: "Clothing",
-    href: "/products?category=clothing",
+    title: 'Clothing',
+    href: '/products?category=clothing',
   },
   {
-    title: "Home & Kitchen",
-    href: "/products?category=home-kitchen",
+    title: 'Home & Kitchen',
+    href: '/products?category=home-kitchen',
   },
   {
-    title: "Beauty",
-    href: "/products?category=beauty",
+    title: 'Beauty',
+    href: '/products?category=beauty',
   },
   {
-    title: "Sports",
-    href: "/products?category=sports",
+    title: 'Sports',
+    href: '/products?category=sports',
   },
 ];
 
@@ -107,7 +107,7 @@ export default async function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary"
+                  'text-sm font-medium transition-colors hover:text-primary',
                   // pathname === item.href && "text-primary"
                 )}
               >

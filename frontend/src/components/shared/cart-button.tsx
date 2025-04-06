@@ -1,7 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Minus, Plus } from "lucide-react";
+'use client';
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Minus, Plus } from 'lucide-react';
 
 const CartButton = () => {
   const [quantity, setQuantity] = useState(0);
@@ -24,11 +24,7 @@ const CartButton = () => {
         className={`
           absolute inset-2 flex items-center justify-start 
           transition-all duration-300 transform  px-2
-          ${
-            quantity === 0
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-8 opacity-0"
-          }
+          ${quantity === 0 ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'}
         `}
       >
         <span className="hidden group-hover:flex text-sm">Add to cart</span>
@@ -39,30 +35,16 @@ const CartButton = () => {
            hidden 
           absolute inset-2 group-hover:flex  items-center justify-between px-2 pe-5
           transition-all duration-300 transform w-2/3
-          ${
-            quantity > 0
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0"
-          }
+          ${quantity > 0 ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}
         `}
       >
-        <span
-          title="Reduce"
-          onClick={onDecrement}
-          className="cursor-pointer z-10"
-        >
+        <span title="Reduce" onClick={onDecrement} className="cursor-pointer z-10">
           <Minus className="w-4 h-4 text-primary group-hover:text-white" />
         </span>
-        <span className="text-primary group-hover:text-white font-medium">
-          {quantity}
-        </span>
+        <span className="text-primary group-hover:text-white font-medium">{quantity}</span>
       </div>
 
-      <span
-        title="Add"
-        onClick={onIncrement}
-        className="absolute right-2 cursor-pointer"
-      >
+      <span title="Add" onClick={onIncrement} className="absolute right-2 cursor-pointer">
         <Plus className="w-4 h-4 text-primary group-hover:text-white" />
       </span>
     </Button>

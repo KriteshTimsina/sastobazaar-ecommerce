@@ -1,16 +1,16 @@
-import NextAuth, { DefaultSession } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import NextAuth, { DefaultSession } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 
-import fetcher from "@/lib/fetcher";
-import type { APIResponse, LoginResponse } from "@/types";
-import { URL } from "@/lib/constants";
+import fetcher from '@/lib/fetcher';
+import type { APIResponse, LoginResponse } from '@/types';
+import { URL } from '@/lib/constants';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: {
       token: any;
       role: any;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   interface User {
@@ -29,16 +29,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         const { email, password } = credentials;
 
-        const user = await fetcher<APIResponse<{ user: LoginResponse }>>(
-          URL.LOGIN,
-          {
-            method: "POST",
-            body: JSON.stringify({ ...credentials, email, password }),
-          }
-        );
+        const user = await fetcher<APIResponse<{ user: LoginResponse }>>(URL.LOGIN, {
+          method: 'POST',
+          body: JSON.stringify({ ...credentials, email, password }),
+        });
 
         if (!user.status) {
-          throw new Error("Login Failed");
+          throw new Error('Login Failed');
         }
 
         const userInfo = user.user;
@@ -47,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: userInfo.userId,
           token: userInfo?.token,
           email: userInfo?.email,
-          image: "",
+          image: '',
           name: userInfo.username,
           role: userInfo.role,
         };

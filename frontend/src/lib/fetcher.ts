@@ -1,16 +1,12 @@
-import { auth } from "@/app/auth";
-import { getSession } from "next-auth/react";
+import { auth } from '@/app/auth';
+import { getSession } from 'next-auth/react';
 
 // interface FetchError extends Error {
 //   status?: number;
 //   data?: any;
 // }
 
-const fetcher = async <T>(
-  url: string,
-  options: RequestInit = {},
-  timeout = 10000
-): Promise<T> => {
+const fetcher = async <T>(url: string, options: RequestInit = {}, timeout = 10000): Promise<T> => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -24,21 +20,21 @@ const fetcher = async <T>(
       ...(token && {
         Authorization: `Bearer ${token}`,
       }),
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     const response = await fetch(url, {
       ...options,
       headers,
       signal: controller.signal,
-      cache: "no-store",
+      cache: 'no-store',
     });
 
     clearTimeout(timeoutId);
 
     return response.json();
   } catch (error) {
-    console.log("Error Occured: ⚠️ ", error);
+    console.log('Error Occured: ⚠️ ', error);
     clearTimeout(timeoutId);
 
     // if (error.name === "AbortError") {
@@ -56,10 +52,10 @@ export default fetcher;
 export const clientFetcher = async <T>(
   url: string,
   options: RequestInit = {},
-  timeout = 10000
+  timeout = 10000,
 ): Promise<T> => {
   console.log(options.body);
-  console.log("YA SAMMA");
+  console.log('YA SAMMA');
   // return;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -73,14 +69,14 @@ export const clientFetcher = async <T>(
       ...(token && {
         Authorization: `Bearer ${token}`,
       }),
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     const response = await fetch(url, {
       ...options,
       headers,
       signal: controller.signal,
-      cache: "no-store",
+      cache: 'no-store',
     });
 
     clearTimeout(timeoutId);
@@ -96,7 +92,7 @@ export const clientFetcher = async <T>(
 
     return response.json();
   } catch (error) {
-    console.log("Error Occurred: ⚠️ ", error);
+    console.log('Error Occurred: ⚠️ ', error);
     clearTimeout(timeoutId);
     // if (error instanceof Error) {
     //   if (error.name === "AbortError") {

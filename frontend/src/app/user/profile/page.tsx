@@ -1,27 +1,34 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Image from "next/image"
+import { useState } from 'react';
+import Image from 'next/image';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 // import { toast } from "@/hooks/use-toast"
 
 export default function ProfilePage() {
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
-    setIsEditing(false)
+    setIsEditing(false);
     // toast({
     //   title: "Profile updated",
     //   description: "Your profile has been updated successfully.",
     // })
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -45,8 +52,11 @@ export default function ProfilePage() {
                   <CardTitle>Personal Information</CardTitle>
                   <CardDescription>Update your personal details</CardDescription>
                 </div>
-                <Button variant={isEditing ? "ghost" : "outline"} onClick={() => setIsEditing(!isEditing)}>
-                  {isEditing ? "Cancel" : "Edit"}
+                <Button
+                  variant={isEditing ? 'ghost' : 'outline'}
+                  onClick={() => setIsEditing(!isEditing)}
+                >
+                  {isEditing ? 'Cancel' : 'Edit'}
                 </Button>
               </div>
             </CardHeader>
@@ -76,11 +86,21 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" defaultValue="john@example.com" readOnly={!isEditing} />
+                  <Input
+                    id="email"
+                    type="email"
+                    defaultValue="john@example.com"
+                    readOnly={!isEditing}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" type="tel" defaultValue="+1 (555) 123-4567" readOnly={!isEditing} />
+                  <Input
+                    id="phone"
+                    type="tel"
+                    defaultValue="+1 (555) 123-4567"
+                    readOnly={!isEditing}
+                  />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
                   <Label htmlFor="bio">Bio</Label>
@@ -136,7 +156,11 @@ export default function ProfilePage() {
                     <Button variant="ghost" size="sm">
                       Edit
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-500 hover:bg-red-50">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-500 hover:bg-red-50"
+                    >
                       Delete
                     </Button>
                   </div>
@@ -162,7 +186,11 @@ export default function ProfilePage() {
                     <Button variant="ghost" size="sm">
                       Edit
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-500 hover:bg-red-50">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-500 hover:bg-red-50"
+                    >
                       Delete
                     </Button>
                   </div>
@@ -199,6 +227,5 @@ export default function ProfilePage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
-

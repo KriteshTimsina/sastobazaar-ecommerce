@@ -1,5 +1,5 @@
-import React from "react";
-import { auth } from "@/app/auth";
+import React from 'react';
+import { auth } from '@/app/auth';
 
 const Page = async () => {
   const data = await auth();

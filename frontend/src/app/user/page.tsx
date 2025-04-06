@@ -1,15 +1,22 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Clock, Package } from "lucide-react"
+import Image from 'next/image';
+import Link from 'next/link';
+import { Clock, Package } from 'lucide-react';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
-import { getOrdersByUserId } from "@/lib/data"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { getOrdersByUserId } from '@/lib/data';
 
 export default function UserDashboard() {
-  const recentOrders = getOrdersByUserId("1").slice(0, 3)
+  const recentOrders = getOrdersByUserId('1').slice(0, 3);
 
   return (
     <div className="space-y-6">
@@ -66,7 +73,12 @@ export default function UserDashboard() {
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4">
               <div className="relative h-16 w-16 overflow-hidden rounded-full">
-                <Image src="/placeholder.svg?height=64&width=64" alt="Profile picture" fill className="object-cover" />
+                <Image
+                  src="/placeholder.svg?height=64&width=64"
+                  alt="Profile picture"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div>
                 <p className="font-medium">John Doe</p>
@@ -120,6 +132,5 @@ export default function UserDashboard() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

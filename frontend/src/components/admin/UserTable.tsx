@@ -1,8 +1,8 @@
-"use client";
-import React, { FC, useState } from "react";
-import { Edit, MoreHorizontal, Shield, Trash } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { TableCell, TableRow } from "@/components/ui/table";
+'use client';
+import React, { FC, useState } from 'react';
+import { Edit, MoreHorizontal, Shield, Trash } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { TableCell, TableRow } from '@/components/ui/table';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +10,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -20,10 +20,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
-import { type User } from "@/types";
-import Link from "next/link";
+import { type User } from '@/types';
+import Link from 'next/link';
 
 type UserTable = {
   user: User;
@@ -49,18 +49,13 @@ export const UserTable: FC<UserTable> = ({ user }) => {
       <TableRow key={user._id}>
         <TableCell>
           <div className="overflow-hidden relative w-8 h-8 rounded-full">
-            <Image
-              src={user.avatar}
-              alt={user.username}
-              fill
-              className="object-cover"
-            />
+            <Image src={user.avatar} alt={user.username} fill className="object-cover" />
           </div>
         </TableCell>
         <TableCell className="font-medium">{user.username}</TableCell>
         <TableCell>{user.email}</TableCell>
         <TableCell>
-          <Badge variant={user.role === "admin" ? "default" : "outline"}>
+          <Badge variant={user.role === 'admin' ? 'default' : 'outline'}>
             {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
           </Badge>
         </TableCell>
@@ -104,15 +99,12 @@ export const UserTable: FC<UserTable> = ({ user }) => {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete the
-              user account and remove their data from our servers.
+              This action cannot be undone. This will permanently delete the user account and remove
+              their data from our servers.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setDeleteDialogOpen(false)}
-            >
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleDeleteConfirm}>

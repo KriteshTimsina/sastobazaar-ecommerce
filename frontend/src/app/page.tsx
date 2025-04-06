@@ -1,8 +1,8 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import banner from "@/assets/images/banner.jpg";
-import Products from "@/components/shared/products";
+import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import banner from '@/assets/images/banner.jpg';
+import Products from '@/components/shared/products';
 
 export default async function Home() {
   return (
@@ -13,12 +13,9 @@ export default async function Home() {
         <div className="flex absolute inset-0 items-center px-10 bg-black/40">
           <div className="container">
             <div className="max-w-lg text-white">
-              <h1 className="mb-4 text-4xl font-bold">
-                Summer Collection 2024
-              </h1>
+              <h1 className="mb-4 text-4xl font-bold">Summer Collection 2024</h1>
               <p className="mb-6 text-lg">
-                Discover our latest products with amazing discounts up to 50%
-                off.
+                Discover our latest products with amazing discounts up to 50% off.
               </p>
               <Button asChild size="lg">
                 <Link href="/products">Shop Now</Link>

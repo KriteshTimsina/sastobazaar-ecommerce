@@ -1,48 +1,30 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import {
-  Grid,
-  List,
-  Search,
-  ShoppingBag,
-  SlidersHorizontal,
-  Star,
-} from "lucide-react";
+import { useState } from 'react';
+import Image from 'next/image';
+import { Grid, List, Search, ShoppingBag, SlidersHorizontal, Star } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { categories, products } from "@/lib/data";
+} from '@/components/ui/select';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { categories, products } from '@/lib/data';
 
 export default function ProductsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState("featured");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [sortBy, setSortBy] = useState('featured');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // Filter products based on search query and selected categories
   const filteredProducts = products.filter((product) => {
@@ -51,8 +33,7 @@ export default function ProductsPage() {
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(product.category);
+      selectedCategories.length === 0 || selectedCategories.includes(product.category);
 
     return matchesSearch && matchesCategory;
   });
@@ -60,15 +41,13 @@ export default function ProductsPage() {
   // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
-      case "price-low":
+      case 'price-low':
         return a.price - b.price;
-      case "price-high":
+      case 'price-high':
         return b.price - a.price;
-      case "newest":
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      case "rating":
+      case 'newest':
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case 'rating':
         return b.rating - a.rating;
       default:
         return a.featured ? -1 : 1;
@@ -90,9 +69,7 @@ export default function ProductsPage() {
         <div className="flex flex-col gap-4 justify-between md:flex-row md:items-center">
           <div>
             <h1 className="text-3xl font-bold">Products</h1>
-            <p className="text-muted-foreground">
-              {sortedProducts.length} products available
-            </p>
+            <p className="text-muted-foreground">{sortedProducts.length} products available</p>
           </div>
 
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -123,18 +100,12 @@ export default function ProductsPage() {
                     <h3 className="mb-4 font-medium">Categories</h3>
                     <div className="space-y-3">
                       {categories.map((category) => (
-                        <div
-                          key={category.id}
-                          className="flex items-center space-x-2"
-                        >
+                        <div key={category.id} className="flex items-center space-x-2">
                           <Checkbox
                             id={`category-${category.id}`}
                             checked={selectedCategories.includes(category.slug)}
                             onCheckedChange={(checked) =>
-                              handleCategoryChange(
-                                category.slug,
-                                checked as boolean
-                              )
+                              handleCategoryChange(category.slug, checked as boolean)
                             }
                           />
                           <label
@@ -160,10 +131,7 @@ export default function ProductsPage() {
                     <h3 className="mb-4 font-medium">Rating</h3>
                     <div className="space-y-3">
                       {[5, 4, 3, 2, 1].map((rating) => (
-                        <div
-                          key={rating}
-                          className="flex items-center space-x-2"
-                        >
+                        <div key={rating} className="flex items-center space-x-2">
                           <Checkbox id={`rating-${rating}`} />
                           <label
                             htmlFor={`rating-${rating}`}
@@ -175,7 +143,7 @@ export default function ProductsPage() {
                                 <Star
                                   key={i}
                                   className="w-4 h-4 text-yellow-400"
-                                  fill={i < rating ? "currentColor" : "none"}
+                                  fill={i < rating ? 'currentColor' : 'none'}
                                 />
                               ))}
                             <span className="ml-1">& Up</span>
@@ -189,7 +157,7 @@ export default function ProductsPage() {
                         variant="outline"
                         onClick={() => {
                           setSelectedCategories([]);
-                          setSearchQuery("");
+                          setSearchQuery('');
                         }}
                       >
                         Reset
@@ -215,20 +183,20 @@ export default function ProductsPage() {
 
               <div className="flex rounded-md border">
                 <Button
-                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
                   className="rounded-r-none"
-                  onClick={() => setViewMode("grid")}
+                  onClick={() => setViewMode('grid')}
                 >
                   <Grid className="w-4 h-4" />
                   <span className="sr-only">Grid view</span>
                 </Button>
                 <Separator orientation="vertical" />
                 <Button
-                  variant={viewMode === "list" ? "default" : "ghost"}
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
                   className="rounded-l-none"
-                  onClick={() => setViewMode("list")}
+                  onClick={() => setViewMode('list')}
                 >
                   <List className="w-4 h-4" />
                   <span className="sr-only">List view</span>
@@ -244,11 +212,7 @@ export default function ProductsPage() {
             {selectedCategories.map((category) => {
               const categoryObj = categories.find((c) => c.slug === category);
               return (
-                <Badge
-                  key={category}
-                  variant="secondary"
-                  className="flex gap-1 items-center"
-                >
+                <Badge key={category} variant="secondary" className="flex gap-1 items-center">
                   {categoryObj?.name}
                   <button
                     onClick={() => handleCategoryChange(category, false)}
@@ -277,19 +241,17 @@ export default function ProductsPage() {
           <div className="py-12 text-center">
             <h3 className="text-lg font-medium">No products found</h3>
             <p className="mt-2 text-muted-foreground">
-              {
-                "Try adjusting your search or filter to find what you're looking for."
-              }
+              {"Try adjusting your search or filter to find what you're looking for."}
             </p>
           </div>
-        ) : viewMode === "grid" ? (
+        ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {sortedProducts.map((product) => (
               <Card key={product.id} className="overflow-hidden group">
                 <CardHeader className="p-0">
                   <div className="relative w-full h-48">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.image || '/placeholder.svg'}
                       alt={product.name}
                       fill
                       className="object-cover transition-transform group-hover:scale-105"
@@ -310,17 +272,11 @@ export default function ProductsPage() {
                           <Star
                             key={i}
                             className="w-4 h-4"
-                            fill={
-                              i < Math.floor(product.rating)
-                                ? "currentColor"
-                                : "none"
-                            }
+                            fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
                           />
                         ))}
                     </div>
-                    <span className="ml-2 text-xs text-muted-foreground">
-                      {product.rating}
-                    </span>
+                    <span className="ml-2 text-xs text-muted-foreground">{product.rating}</span>
                   </div>
                   <h3 className="font-medium line-clamp-1">{product.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
@@ -332,20 +288,14 @@ export default function ProductsPage() {
                     {product.discount ? (
                       <div className="flex gap-2 items-center">
                         <span className="text-lg font-bold">
-                          $
-                          {(
-                            product.price *
-                            (1 - product.discount / 100)
-                          ).toFixed(2)}
+                          ${(product.price * (1 - product.discount / 100)).toFixed(2)}
                         </span>
                         <span className="text-sm line-through text-muted-foreground">
                           ${product.price.toFixed(2)}
                         </span>
                       </div>
                     ) : (
-                      <span className="text-lg font-bold">
-                        ${product.price.toFixed(2)}
-                      </span>
+                      <span className="text-lg font-bold">${product.price.toFixed(2)}</span>
                     )}
                   </div>
                   <Button size="icon" variant="outline">
@@ -363,7 +313,7 @@ export default function ProductsPage() {
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-48 sm:h-auto sm:w-48 shrink-0">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.image || '/placeholder.svg'}
                       alt={product.name}
                       fill
                       className="object-cover"
@@ -383,41 +333,27 @@ export default function ProductsPage() {
                             <Star
                               key={i}
                               className="w-4 h-4"
-                              fill={
-                                i < Math.floor(product.rating)
-                                  ? "currentColor"
-                                  : "none"
-                              }
+                              fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
                             />
                           ))}
                       </div>
-                      <span className="ml-2 text-xs text-muted-foreground">
-                        {product.rating}
-                      </span>
+                      <span className="ml-2 text-xs text-muted-foreground">{product.rating}</span>
                     </div>
                     <h3 className="font-medium">{product.name}</h3>
-                    <p className="mt-1 mb-4 text-sm text-muted-foreground">
-                      {product.description}
-                    </p>
+                    <p className="mt-1 mb-4 text-sm text-muted-foreground">{product.description}</p>
                     <div className="flex justify-between items-center mt-auto">
                       <div>
                         {product.discount ? (
                           <div className="flex gap-2 items-center">
                             <span className="text-lg font-bold">
-                              $
-                              {(
-                                product.price *
-                                (1 - product.discount / 100)
-                              ).toFixed(2)}
+                              ${(product.price * (1 - product.discount / 100)).toFixed(2)}
                             </span>
                             <span className="text-sm line-through text-muted-foreground">
                               ${product.price.toFixed(2)}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-lg font-bold">
-                            ${product.price.toFixed(2)}
-                          </span>
+                          <span className="text-lg font-bold">${product.price.toFixed(2)}</span>
                         )}
                       </div>
                       <Button>
