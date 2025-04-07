@@ -1,43 +1,29 @@
-'use client';
+"use client";
 
-import type React from 'react';
+import type React from "react";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Upload } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Upload } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
-import { IProductInput, productValidationSchema } from '@/types/schema';
-import { type Category } from '@/types';
-import Image from 'next/image';
-import { useMutation } from '@tanstack/react-query';
-import { clientFetcher } from '@/lib/fetcher';
-import { URL as API_URL } from '@/lib/constants';
-import { createProduct } from '@/lib/clientApi';
-import { toast } from 'sonner';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { IProductInput, productValidationSchema } from "@/types/schema";
+import { type Category } from "@/types";
+import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { clientFetcher } from "@/lib/fetcher";
+import { URL as API_URL } from "@/lib/constants";
+import { createProduct } from "@/lib/clientApi";
+import { toast } from "sonner";
 
 type ProductFormProps = {
   categories: Category[];
@@ -46,33 +32,34 @@ type ProductFormProps = {
 export default function ProductForm({ categories }: ProductFormProps) {
   const router = useRouter();
   const [subCategories, setSubCategories] = useState<Category[]>([]);
+  const [imagesURI, setImagesURI] = useState<string[]>([]);
 
   const form = useForm<IProductInput>({
     resolver: zodResolver(productValidationSchema),
     defaultValues: {
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       price: 0,
       quantity: 0,
-      categoryId: '',
-      subCategoryId: '',
+      categoryId: "",
+      subCategoryId: "",
       discountedPrice: 0,
       images: [],
-      isActive: true,
-    },
+      isActive: true
+    }
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: (product: IProductInput) => createProduct(product),
-    onSuccess: (data) => {
+    onSuccess: data => {
       toast.success(data.message);
-    },
+    }
   });
 
-  const images = form.watch('images') || [];
+  const images = form.watch("images") || [];
 
   const handleCategoryChange = (categoryId: string) => {
-    const category = categories.find((sub) => sub._id === categoryId);
+    const category = categories.find(sub => sub._id === categoryId);
     if (category) {
       setSubCategories(category?.subCategories);
     }
@@ -81,23 +68,28 @@ export default function ProductForm({ categories }: ProductFormProps) {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
+      const newImages = Array.from(files).map(file => URL.createObjectURL(file));
 
-      const updatedImages = [...images, ...newImages];
-      form.setValue('images', updatedImages);
+      setImagesURI(prev => [...prev, ...newImages]);
+      const updatedImages = [...images, ...files];
+      form.setValue("images", updatedImages);
     }
   };
 
   const handleRemoveImage = (index: number) => {
-    form.setValue(
-      'images',
-      images.filter((_, i) => i !== index),
-    );
+    if (images) {
+      form.setValue(
+        "images",
+        images.filter((_, i) => i !== index)
+      );
+    }
+    const updated = imagesURI.filter((_, i) => i !== index);
+    setImagesURI(updated);
   };
 
   const onSubmit = (body: IProductInput) => {
     mutate(body);
-    router.push('/admin/products');
+    router.push("/admin/products");
   };
 
   return (
@@ -133,11 +125,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Describe your product..."
-                          className="min-h-[120px]"
-                          {...field}
-                        />
+                        <Textarea placeholder="Describe your product..." className="min-h-[120px]" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -153,9 +141,9 @@ export default function ProductForm({ categories }: ProductFormProps) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 gap-4">
-                  <label className="flex flex-col justify-center items-center p-4 h-32 rounded-md border-2 border-dashed cursor-pointer hover:bg-muted/50">
-                    <Upload className="mb-2 w-8 h-8 text-muted-foreground" />
-                    <p className="text-xs text-center text-muted-foreground">
+                  <label className="hover:bg-muted/50 flex h-32 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-4">
+                    <Upload className="text-muted-foreground mb-2 h-8 w-8" />
+                    <p className="text-muted-foreground text-center text-xs">
                       Click to upload or
                       <br />
                       drag and drop
@@ -170,29 +158,25 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     />
                   </label>
 
-                  {images.map((image, index) => (
-                    <div key={index} className="overflow-hidden relative h-32 rounded-md border">
-                      <Image
-                        fill
-                        src={image || '/placeholder.svg'}
-                        alt={`Product image ${index + 1}`}
-                        className="object-cover w-full h-full"
-                      />
-                      <div className="flex absolute inset-0 flex-col gap-1 justify-center items-center opacity-0 transition-opacity bg-black/40 hover:opacity-100">
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => handleRemoveImage(index)}
-                        >
-                          Remove
-                        </Button>
+                  {imagesURI.length > 0 &&
+                    imagesURI.map((image, index) => (
+                      <div key={index} className="relative h-32 overflow-hidden rounded-md border">
+                        <Image
+                          fill
+                          src={image || "/placeholder.svg"}
+                          alt={`Product image ${index + 1}`}
+                          className="h-full w-full object-cover"
+                        />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+                          <Button type="button" variant="secondary" size="sm" onClick={() => handleRemoveImage(index)}>
+                            Remove
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-                {images.length === 0 && (
-                  <p className="mt-4 text-sm text-muted-foreground">
+                {imagesURI.length === 0 && (
+                  <p className="text-muted-foreground mt-4 text-sm">
                     No images uploaded yet. Please upload at least one image.
                   </p>
                 )}
@@ -215,12 +199,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Base Price</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          {...field}
-                          onChange={(e) => onChange(Number(e.target.value))}
-                        />
+                        <Input type="number" min="0" {...field} onChange={e => onChange(Number(e.target.value))} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -233,12 +212,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Discounted Price</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          {...field}
-                          onChange={(e) => onChange(Number(e.target.value))}
-                        />
+                        <Input type="number" min="0" {...field} onChange={e => onChange(Number(e.target.value))} />
                       </FormControl>
                       <FormDescription>Leave at 0 for no discount</FormDescription>
                       <FormMessage />
@@ -261,7 +235,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Product Category</FormLabel>
                       <Select
-                        onValueChange={(value) => {
+                        onValueChange={value => {
                           field.onChange(value);
                           handleCategoryChange(value);
                         }}
@@ -273,7 +247,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories.map((category) => (
+                          {categories.map(category => (
                             <SelectItem key={category._id} value={category._id}>
                               {category.title}
                             </SelectItem>
@@ -299,7 +273,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {subCategories.map((subCategory) => (
+                          {subCategories.map(subCategory => (
                             <SelectItem key={subCategory._id} value={subCategory._id}>
                               {subCategory.title}
                             </SelectItem>
@@ -360,12 +334,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          {...field}
-                          onChange={(e) => onChange(Number(e.target.value))}
-                        />
+                        <Input type="number" min="0" {...field} onChange={e => onChange(Number(e.target.value))} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -376,7 +345,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                   control={form.control}
                   name="isActive"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row justify-between items-center p-4 rounded-lg border">
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">Active Status</FormLabel>
                         <FormDescription>Make this product visible on your store</FormDescription>
@@ -394,8 +363,8 @@ export default function ProductForm({ categories }: ProductFormProps) {
 
         <Separator />
 
-        <div className="flex gap-4 justify-end">
-          <Button type="button" variant="outline" onClick={() => router.push('/admin/products')}>
+        <div className="flex justify-end gap-4">
+          <Button type="button" variant="outline" onClick={() => router.push("/admin/products")}>
             Cancel
           </Button>
           <Button disabled={isPending} type="submit">

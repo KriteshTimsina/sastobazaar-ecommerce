@@ -8,4 +8,4 @@ const getEnv = (key: string, defaultValue?: string): string => {
   return value;
 };
 
-export const API_BASE_URL = getEnv('NEXT_PUBLIC_API_URL', 'http://localhost:8000');
+export const API_BASE_URL = getEnv("NEXT_PUBLIC_API_URL", "http://localhost:8000");

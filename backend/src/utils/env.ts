@@ -13,7 +13,9 @@ export const PORT = getEnv("PORT", "8000");
 export const MONGODB_URI = getEnv("MONGODB_URI");
 export const JWT_SECRET = getEnv("JWT_SECRET");
 
-//cloudinary
+// cloudinary
 export const CLOUD_NAME = getEnv("CLOUD_NAME");
 export const CLOUDINARY_API_KEY = getEnv("CLOUDINARY_API_KEY");
 export const CLOUDINARY_SECRET_KEY = getEnv("CLOUDINARY_SECRET_KEY");
+
+export const ROOT_URL = getEnv("ROOT_URL");

@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
 import connectDB from "./db";
 import { errorHandler, notFound } from "./middleware/error";
 import userRoutes from "./routes/user.routes";
@@ -11,14 +12,14 @@ import dynamicContentRoutes from "./routes/dynamicContentRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import path from "path";
 import { PORT } from "./utils/env";
-import { createUploadFolder, upload } from "./middleware/multer";
+import { initiateUpload, upload } from "./middleware/multer";
 
 const app = express();
 
 // middlewares
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve("./public")));
 
 app.get("/", (_, res) => {
@@ -40,16 +41,13 @@ app.use("/test", upload.single("image"), (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  createUploadFolder();
-  console.log(`🖥️ Server starting at http://localhost:${PORT}`);
-});
-// connectDB()
-//   .then(() => {
-//     app.listen(PORT, () => {
-//       console.log(`🖥️ Server starting at http://localhost:${PORT}`);
-//     });
-//   })
-//   .catch(() => {
-//     console.log("MONGO DB Connection failed");
-//   });
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      initiateUpload();
+      console.log(`🖥️ Server starting at http://localhost:${PORT}`);
+    });
+  })
+  .catch(() => {
+    console.log("MONGO DB Connection failed");
+  });

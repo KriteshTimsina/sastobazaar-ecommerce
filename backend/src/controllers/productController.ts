@@ -1,77 +1,92 @@
 import expressAsyncHandler from "express-async-handler";
 import { Product } from "../models/productModel";
 import { ProductCategory } from "../models/productCategoryModel";
-import path from "path";
 import { uploadToCloud } from "../utils/cloudinary";
-import { Request } from "./user.controller";
+import { type Request } from "./user.controller";
 import { User } from "../models/userModel";
 import { STATUS } from "../utils/status";
-import { IProduct, productValidationSchema } from "../types/schemas";
+import { type IProduct, productValidationSchema } from "../types/schemas";
 import { z } from "zod";
-import { FilterQuery } from "mongoose";
+import { type FilterQuery } from "mongoose";
+import { ROOT_URL } from "../utils/env";
 
-export const createProduct = expressAsyncHandler(
-  async (req: Request, res, next): Promise<any> => {
-    const files = req.files;
-    const images = [];
+export const createProduct = expressAsyncHandler(async (req: Request, res, next): Promise<any> => {
+  const files = req.files;
+  const { title, description, price, quantity, categoryId, subCategoryId, discountedPrice, isActive } = req.body;
+  const images: string[] = [];
 
-    try {
-      const validatedData = productValidationSchema.parse(req.body);
-      const category = await ProductCategory.findById(validatedData.categoryId);
-      if (!category) {
-        return res.status(404).json({ error: "Category not found" });
-      }
+  try {
+    const data = {
+      title,
+      description,
+      price: Number(price),
+      quantity: Number(quantity),
+      categoryId,
+      subCategoryId,
+      discountedPrice: Number(discountedPrice ?? 0),
+      isActive: Boolean(isActive) ?? 0,
+      images: []
+    };
 
-      const subCategory = category.subCategories.find(
-        (sub) => sub._id.toString() === validatedData.subCategoryId
-      );
-      if (!subCategory) {
-        return res.status(404).json({ error: "Subcategory not found" });
-      }
+    const validatedData = productValidationSchema.parse(data);
 
-      for (const file in files) {
-        const image = await uploadToCloud(files[file].path);
-        if (image) {
-          images.push(image);
-        }
-      }
-      const product = await Product.create({
-        description: validatedData.description,
-        title: validatedData.title,
-        price: validatedData.price,
-        images,
-        categoryId: category._id,
-        subCategoryId: subCategory._id,
-        quantity: validatedData.quantity,
-        discountedPrice: validatedData.discountedPrice,
-        isActive: validatedData.isActive,
-      });
-      res.json({
-        status: true,
-        message: "Product created successfully",
-        product,
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400);
-        return res.json({
-          status: false,
-          message: "Validation failed",
-          errors: error.errors,
-        });
-      }
-      next(error);
+    console.log(validatedData, "va,");
+    const category = await ProductCategory.findById(validatedData.categoryId);
+    if (!category) {
+      return res.status(404).json({ error: "Category not found" });
     }
+
+    const subCategory = category.subCategories.find(sub => sub._id.toString() === validatedData.subCategoryId);
+    if (!subCategory) {
+      return res.status(404).json({ error: "Subcategory not found" });
+    }
+
+    for (const file in files) {
+      const image: string = files[file].filename;
+      images.push(image);
+    }
+
+    const product = await Product.create({
+      description: validatedData.description,
+      title: validatedData.title,
+      price: validatedData.price,
+      images,
+      categoryId: category._id,
+      subCategoryId: subCategory._id,
+      quantity: validatedData.quantity,
+      discountedPrice: validatedData.discountedPrice,
+      isActive: validatedData.isActive
+    });
+
+    console.log(images, "JABBA");
+
+    res.json({
+      status: true,
+      message: "Product created successfully",
+      product
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400);
+      return res.json({
+        status: false,
+        message: "Validation failed",
+        errors: error.errors
+      });
+    }
+    next(error);
   }
-);
+});
 
 export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
     const { q = "" } = req.query;
     const isAdmin = (req?.user && req?.user?.role === "admin") || false;
 
+    console.log(ROOT_URL, "HAY");
+
     const queryObject: FilterQuery<IProduct> = {
-      title: { $regex: String(q), $options: "i" },
+      title: { $regex: String(q), $options: "i" }
     };
 
     if (!isAdmin) {
@@ -88,12 +103,28 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
           transformedProducts.push({
             ...product.toObject(),
             category: "Unknown",
-            subCategory: "Unknown",
+            subCategory: "Unknown"
           });
           continue;
         }
 
         const subCategory = category.subCategories.id(product.subCategoryId);
+
+        const imageURLs = [];
+        // const urls = product.images.map((url: any) => {
+        //   console.log(url, "JAY HO");
+        //   if (url) {
+        //     const imageURL = `${ROOT_URL}${url}`;
+        //     return imageURL;
+        //   }
+        // });
+
+        product.images.forEach((url: any) => {
+          if (url) {
+            const imageURL = `${ROOT_URL}${url}`;
+            imageURLs.push(imageURL);
+          }
+        });
 
         transformedProducts.push({
           ...product.toObject(),
@@ -103,33 +134,36 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
           subCategoryId: undefined,
           __v: undefined,
           isActive: isAdmin ? product.isActive : undefined,
+          images: imageURLs
         });
       }
       res.status(STATUS.OK).json({
         status: true,
         message: "Products found",
-        data: transformedProducts,
+        data: transformedProducts
       });
     }
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
-});
-
-export const getSingleProduct = expressAsyncHandler(
-  async (req: Request, res) => {
-    try {
-      const { id } = req.params;
-      const product = await Product.findById(id);
-      if (product) {
-        res.json({ status: true, message: "Product found", product });
-      }
-      throw new Error("Failed to get product");
-    } catch (error: any) {
+  } catch (error) {
+    if (error instanceof Error) {
       throw new Error(error.message);
     }
   }
-);
+});
+
+export const getSingleProduct = expressAsyncHandler(async (req: Request, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (product) {
+      res.json({ status: true, message: "Product found", product });
+    }
+    throw new Error("Failed to get product");
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+});
 
 export const deleteProduct = expressAsyncHandler(async (req, res) => {
   try {
@@ -147,17 +181,18 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
     res.json({
       status: true,
       message: "Product Deleted successfully",
-      product,
+      product
     });
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 });
 
 export const updateProduct = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { title, description, price, categoryId, subCategoryId, quantity } =
-    req.body;
+  const { title, description, price, categoryId, subCategoryId, quantity } = req.body;
   const files = req.files;
   const images = [];
 
@@ -181,9 +216,7 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
     const category = await ProductCategory.findById({ _id: categoryId });
 
     if (category) {
-      const subCategory = category.subCategories.find(
-        (sub) => sub._id.toString() === subCategoryId
-      );
+      const subCategory = category.subCategories.find(sub => sub._id.toString() === subCategoryId);
       if (subCategory) {
         const updateProduct = await Product.findByIdAndUpdate(
           { _id: productExists._id },
@@ -194,23 +227,23 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
             category: category.title,
             subCategory: subCategory.title,
             images,
-            quantity,
+            quantity
           },
           {
-            new: true,
+            new: true
           }
         );
         res.json({
           status: true,
           message: "Product updated successfully",
-          updateProduct,
+          updateProduct
         });
       }
-    } else {
     }
-  } catch (error: any) {
-    console.log("ERE?");
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 });
 
@@ -221,34 +254,34 @@ export const addToWishlist = expressAsyncHandler(async (req: Request, res) => {
 
     const userExists = await User.findById(_id);
     console.log(userExists);
-    const alreadyAdded = userExists.wishlist.find(
-      (id) => id.toString() === productId
-    );
+    const alreadyAdded = userExists.wishlist.find(id => id.toString() === productId);
 
     if (alreadyAdded) {
-      let user = await User.findByIdAndUpdate(
+      const user = await User.findByIdAndUpdate(
         userExists._id,
         {
-          $pull: { wishlist: productId },
+          $pull: { wishlist: productId }
         },
         {
-          new: true,
+          new: true
         }
       );
       res.json({ status: true, message: "Removed from wishlist", user });
     } else {
-      let user = await User.findByIdAndUpdate(
+      const user = await User.findByIdAndUpdate(
         userExists._id,
         {
-          $push: { wishlist: productId },
+          $push: { wishlist: productId }
         },
         {
-          new: true,
+          new: true
         }
       );
       res.json({ status: true, message: "Added to wishlist", user });
     }
   } catch (error) {
-    throw new Error(error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 });
