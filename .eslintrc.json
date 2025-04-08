@@ -21,7 +21,8 @@
     "**/*.config.ts",
     "**/*.config.cjs",
     "**/*.config.js",
-    "**/*.gen.ts"
+    "**/*.gen.ts",
+    "**/.next"
     // "**/components/ui/*"
   ],
   "rules": {
