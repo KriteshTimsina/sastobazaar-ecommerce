@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, type Document } from "mongoose";
 import { type IProduct } from "../types/schemas";
 
 const productSchema = new Schema<IProduct & Document>(
@@ -42,6 +42,9 @@ const productSchema = new Schema<IProduct & Document>(
     isActive: {
       type: Boolean,
       default: true
+    },
+    slug: {
+      type: String
     }
   },
   { timestamps: true }

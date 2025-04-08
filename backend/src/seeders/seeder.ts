@@ -3,6 +3,7 @@ import connectDB from "../db";
 import { categoryData, productsData } from "./data";
 import { ProductCategory } from "../models/productCategoryModel";
 import { Product } from "../models/productModel";
+import { slugify } from "../utils/slugify";
 
 // import
 
@@ -16,7 +17,8 @@ export const seedDatabase = async () => {
           ...product,
           categoryId: categories[0]._id,
           subCategoryId: categories[0]?.subCategories[0]._id,
-          isActive: Boolean(random)
+          isActive: Boolean(random),
+          slug: slugify(product.title)
         };
       });
 

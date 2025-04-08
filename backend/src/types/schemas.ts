@@ -25,7 +25,8 @@ export const productValidationSchema = z
       .number({ required_error: "Quantity is required" })
       .int("Quantity must be an integer")
       .nonnegative("Quantity must be greater than zero"),
-    isActive: z.boolean().default(true)
+    isActive: z.boolean().default(true),
+    slug: z.string().optional()
   })
   .refine(data => data.discountedPrice <= data.price, {
     message: "Discounted Price cannot be greater than the original Price",

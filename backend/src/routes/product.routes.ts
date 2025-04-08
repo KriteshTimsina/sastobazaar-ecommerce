@@ -14,7 +14,7 @@ import isAdmin from "../middleware/admin";
 const router = Router();
 
 router.get("", optionalAuth, getAllProduct);
-router.get("/:id", getSingleProduct);
+router.get("/:slug", getSingleProduct);
 router.post("/wishlist", authenticated, addToWishlist);
 
 // admin access only

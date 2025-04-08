@@ -10,6 +10,7 @@ import { z } from "zod";
 import { type FilterQuery } from "mongoose";
 import { ROOT_URL } from "../utils/env";
 import { deleteProductImage } from "../services/product.services";
+import { slugify } from "../utils/slugify";
 
 export const createProduct = expressAsyncHandler(async (req: Request, res, next): Promise<any> => {
   const files = req.files;
@@ -31,7 +32,6 @@ export const createProduct = expressAsyncHandler(async (req: Request, res, next)
 
     const validatedData = productValidationSchema.parse(data);
 
-    console.log(validatedData, "va,");
     const category = await ProductCategory.findById(validatedData.categoryId);
     if (!category) {
       return res.status(404).json({ error: "Category not found" });
@@ -47,19 +47,20 @@ export const createProduct = expressAsyncHandler(async (req: Request, res, next)
       images.push(image);
     }
 
+    const slug = slugify(validatedData.title);
+
     const product = await Product.create({
       description: validatedData.description,
       title: validatedData.title,
       price: validatedData.price,
-      images,
       categoryId: category._id,
       subCategoryId: subCategory._id,
       quantity: validatedData.quantity,
       discountedPrice: validatedData.discountedPrice,
-      isActive: validatedData.isActive
+      isActive: validatedData.isActive,
+      images,
+      slug
     });
-
-    console.log(images, "JABBA");
 
     res.json({
       status: true,
@@ -146,15 +147,23 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
 
 export const getSingleProduct = expressAsyncHandler(async (req: Request, res) => {
   try {
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    if (product) {
-      res.json({ status: true, message: "Product found", product });
+    const { slug } = req.params;
+    const product = await Product.findOne({ slug });
+    if (!product) {
+      res.status(STATUS.NOT_FOUND).json({
+        status: false,
+        data: null,
+        message: "Product doesn't exists"
+      });
     }
+    res.status(STATUS.OK).json({ status: true, message: "Product found", data: product });
     throw new Error("Failed to get product");
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message);
+      res.json({
+        message: error.message,
+        status: false
+      });
     }
   }
 });
