@@ -18,4 +18,4 @@ export const CLOUD_NAME = getEnv("CLOUD_NAME");
 export const CLOUDINARY_API_KEY = getEnv("CLOUDINARY_API_KEY");
 export const CLOUDINARY_SECRET_KEY = getEnv("CLOUDINARY_SECRET_KEY");
 
-export const ROOT_URL = getEnv("ROOT_URL");
+export const IMAGE_BASE_URL = getEnv("IMAGE_BASE_URL");

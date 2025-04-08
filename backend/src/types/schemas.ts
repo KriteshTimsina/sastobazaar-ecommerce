@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { File } from "buffer";
 
 export const productValidationSchema = z
   .object({
@@ -12,7 +13,7 @@ export const productValidationSchema = z
       .max(255, "Description must not exceed 255 character"),
     price: z.number({ message: "Price is required" }).max(9999999, "Price cannot be greater than 9999999"),
     discountedPrice: z.number().max(9999999, "Discounted cannot be greater than 9999999").optional().default(0),
-    images: z.array(z.instanceof(File)).max(3, "Maximum 3 images allowed"),
+    images: z.union([z.array(z.instanceof(File)).max(3, "Maximum 3 images allowed"), z.array(z.string()).max(3)]),
     categoryId: z
       .string({ message: "Select a category" })
       .length(24, "Invalid ID: Must be exactly 24 characters")

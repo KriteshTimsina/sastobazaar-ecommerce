@@ -8,7 +8,7 @@ import { STATUS } from "../utils/status";
 import { type IProduct, productValidationSchema } from "../types/schemas";
 import { z } from "zod";
 import { type FilterQuery } from "mongoose";
-import { ROOT_URL } from "../utils/env";
+import { IMAGE_BASE_URL } from "../utils/env";
 import { deleteProductImage } from "../services/product.services";
 import { slugify } from "../utils/slugify";
 
@@ -85,8 +85,6 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
     const { q = "" } = req.query;
     const isAdmin = (req?.user && req?.user?.role === "admin") || false;
 
-    console.log(ROOT_URL, "HAY");
-
     const queryObject: FilterQuery<IProduct> = {
       title: { $regex: String(q), $options: "i" }
     };
@@ -116,7 +114,7 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
 
         product.images.forEach((url: any) => {
           if (url) {
-            const imageURL = `${ROOT_URL}${url}`;
+            const imageURL = `${IMAGE_BASE_URL}${url}`;
             imageURLs.push(imageURL);
           }
         });
@@ -178,13 +176,13 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
     const product = await Product.findByIdAndDelete(id);
 
     if (!product) {
-      throw new Product("Error deleting product");
+      throw new Error("Error deleting product");
     }
 
-    product.images.length > 0 &&
-      product.images.map((image: any) => {
-        const deleted = deleteProductImage(image);
-        console.log(deleted, "HEHE");
+    product.images?.length > 0 &&
+      product.images?.forEach((image: any) => {
+        const deleted = deleteProductImage(image as string);
+        console.log(deleted, "Images");
       });
 
     res.json({

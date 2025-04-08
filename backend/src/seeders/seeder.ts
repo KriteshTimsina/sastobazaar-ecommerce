@@ -5,8 +5,6 @@ import { ProductCategory } from "../models/productCategoryModel";
 import { Product } from "../models/productModel";
 import { slugify } from "../utils/slugify";
 
-// import
-
 export const seedDatabase = async () => {
   try {
     const categories = await ProductCategory.insertMany(categoryData);
