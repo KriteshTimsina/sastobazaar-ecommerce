@@ -9,6 +9,7 @@ import { type IProduct, productValidationSchema } from "../types/schemas";
 import { z } from "zod";
 import { type FilterQuery } from "mongoose";
 import { ROOT_URL } from "../utils/env";
+import { deleteProductImage } from "../services/product.services";
 
 export const createProduct = expressAsyncHandler(async (req: Request, res, next): Promise<any> => {
   const files = req.files;
@@ -111,13 +112,6 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
         const subCategory = category.subCategories.id(product.subCategoryId);
 
         const imageURLs = [];
-        // const urls = product.images.map((url: any) => {
-        //   console.log(url, "JAY HO");
-        //   if (url) {
-        //     const imageURL = `${ROOT_URL}${url}`;
-        //     return imageURL;
-        //   }
-        // });
 
         product.images.forEach((url: any) => {
           if (url) {
@@ -177,6 +171,12 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
     if (!product) {
       throw new Product("Error deleting product");
     }
+
+    product.images.length > 0 &&
+      product.images.map((image: any) => {
+        const deleted = deleteProductImage(image);
+        console.log(deleted, "HEHE");
+      });
 
     res.json({
       status: true,
