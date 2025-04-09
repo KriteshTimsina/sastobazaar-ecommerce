@@ -154,7 +154,19 @@ export const getSingleProduct = expressAsyncHandler(async (req: Request, res) =>
         message: "Product doesn't exists"
       });
     }
-    res.status(STATUS.OK).json({ status: true, message: "Product found", data: product });
+
+    const imageURLs = [];
+
+    product.images.forEach((url: any) => {
+      if (url) {
+        const imageURL = `${IMAGE_BASE_URL}${url}`;
+        imageURLs.push(imageURL);
+      }
+    });
+
+    res
+      .status(STATUS.OK)
+      .json({ status: true, message: "Product found", data: { ...product.toObject(), images: imageURLs } });
     throw new Error("Failed to get product");
   } catch (error) {
     if (error instanceof Error) {
