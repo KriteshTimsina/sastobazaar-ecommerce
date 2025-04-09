@@ -6,9 +6,10 @@ import CartButton from "@/components/shared/cart-button";
 import { Badge } from "@/components/ui/badge";
 import Pricing from "@/components/shared/pricing";
 import Link from "next/link";
+import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
 
 export const ProductCard = ({ product }: { product: Product }) => {
-  const discountPercentage = Math.ceil((product.discountedPrice / product.price) * 100);
+  const discountPercentage = getDiscountedPercent(product.price, product.discountedPrice);
   return (
     <Card className="overflow-hidden">
       <CardHeader className="p-0">

@@ -15,13 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { type Product } from "@/types";
 import { type Product as DummyProduct } from "@/lib/data";
 import Pricing from "./shared/pricing";
-
-const images = [
-  "http://localhost:8000/uploads/image-5.jpeg",
-  "http://localhost:8000/uploads/image-3.jpeg",
-  "http://localhost:8000/uploads/image-2.jpeg",
-  "http://localhost:8000/uploads/image-4.jpeg"
-];
+import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
 
 interface ProductDetailProps {
   product: Product;
@@ -33,9 +27,8 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   const [quantity, setQuantity] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
-  const discountPercentage = Math.ceil((product.discountedPrice / product.price) * 100);
-
-  const productImages = images;
+  const discountPercentage = getDiscountedPercent(product.price, product.discountedPrice);
+  console.log(discountPercentage, "HAHA");
 
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(Math.max(1, Math.min(product.quantity, newQuantity)));
@@ -75,11 +68,8 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                   : {}
               }
             >
-              <Image src={productImages[selectedImage]} alt={product.title} fill className="object-cover" priority />
+              <Image src={product.images[selectedImage]} alt={product.title} fill className="object-cover" priority />
             </div>
-            {product.discountedPrice && (
-              <Badge className="absolute left-4 top-4 z-10">{product.discountedPrice}% OFF</Badge>
-            )}
           </div>
 
           <div className="grid grid-cols-4 gap-4">
@@ -103,6 +93,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold">{product.title}</h1>
+            <p className="text-muted-foreground mt-1 line-clamp-2 text-sm">{product.description}</p>
           </div>
 
           <div className="flex items-center space-x-4">

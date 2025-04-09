@@ -6,18 +6,22 @@ import { Card, CardFooter } from "@/components/ui/card";
 import { Product } from "@/types";
 import Pricing from "@/components/shared/pricing";
 import CartButton from "./cart-button";
+import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
+import Link from "next/link";
 
 type ProductCardListProps = {
   product: Product;
 };
 
 const ProductCardList: FC<ProductCardListProps> = ({ product }) => {
-  const discountPercentage = Math.ceil((product.discountedPrice / product.price) * 100);
+  const discountPercentage = getDiscountedPercent(product.price, product.discountedPrice);
   return (
     <Card key={product._id} className="overflow-hidden">
       <div className="flex flex-col sm:flex-row">
         <div className="relative h-48 shrink-0 sm:h-auto sm:w-48">
-          <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+          <Link href={`/products/${product.slug}`}>
+            <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+          </Link>
           {product.discountedPrice && (
             <Badge className="bg-primary absolute left-2 top-0">{discountPercentage}% OFF</Badge>
           )}
@@ -33,7 +37,9 @@ const ProductCardList: FC<ProductCardListProps> = ({ product }) => {
             </div>
             <span className="text-muted-foreground ml-2 text-xs">{4}</span>
           </div> */}
-          <h3 className="font-medium">{product.title}</h3>
+          <Link className="font-medium" href={`/products/${product.slug}`}>
+            {product.title}
+          </Link>
           <p className="text-muted-foreground mb-4 mt-1 text-sm">{product.description}</p>
           <CardFooter className="flex items-center justify-between px-0 pt-0">
             <Pricing price={product.price} discountedPrice={product.discountedPrice} />
