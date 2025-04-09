@@ -10,44 +10,25 @@ import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
 
 export const ProductCard = ({ product }: { product: Product }) => {
   const discountPercentage = getDiscountedPercent(product.price, product.discountedPrice);
+  const image = product.images[0] ?? "";
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden py-0">
       <CardHeader className="p-0">
         <div className="group relative h-48 w-full">
           <Link href={`/products/${product.slug}`}>
             <Image
-              src={product.images[0]}
+              src={image}
               alt={product.title}
               fill
-              className="object-cover transition-transform group-hover:scale-105"
+              className="object-contain transition-transform group-hover:scale-105"
             />
           </Link>
-          {product.discountedPrice && (
-            <Badge className="bg-primary absolute left-2 top-0">{discountPercentage}% OFF</Badge>
+          {product.discountedPrice > 0 && (
+            <Badge className="bg-primary absolute left-2 top-3">{discountPercentage}% OFF</Badge>
           )}
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        {/* <div className="flex items-center mb-2">
-        <div className="flex text-yellow-400">
-          {Array(5)
-            .fill(0)
-            .map((_, i) => (
-              <Star
-                key={i}
-                className="w-4 h-4"
-                fill={
-                  i < Math.floor(product.rating)
-                    ? "currentColor"
-                    : "none"
-                }
-              />
-            ))}
-        </div>
-        <span className="ml-2 text-xs text-muted-foreground">
-          {product.rating}
-        </span>
-      </div> */}
         <Link className="line-clamp-1 font-medium" href={`/products/${product.slug}`}>
           {product.title}
         </Link>
