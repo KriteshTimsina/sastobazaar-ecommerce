@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Grid, List, Search, SlidersHorizontal, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -11,12 +11,21 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { categories } from "@/lib/data";
+import { DisplayMode } from "@/types/products";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const ProductHeader = () => {
+type ProductHeaderProps = {
+  mode: DisplayMode;
+};
+
+const ProductHeader: FC<ProductHeaderProps> = ({ mode }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("featured");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [displayMode, setDisplayMode] = useState<DisplayMode>(mode);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     if (checked) {
@@ -25,6 +34,15 @@ const ProductHeader = () => {
       setSelectedCategories(selectedCategories.filter(c => c !== category));
     }
   };
+
+  const onModeSwitch = () => {
+    const updatedMode = displayMode === "grid" ? "list" : "grid";
+    setDisplayMode(updatedMode);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("mode", updatedMode);
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <>
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
@@ -142,20 +160,20 @@ const ProductHeader = () => {
 
             <div className="flex rounded-md border">
               <Button
-                variant={viewMode === "grid" ? "default" : "ghost"}
+                variant={displayMode === "grid" ? "default" : "ghost"}
                 size="icon"
                 className="rounded-r-none"
-                onClick={() => setViewMode("grid")}
+                onClick={onModeSwitch}
               >
                 <Grid className="h-4 w-4" />
                 <span className="sr-only">Grid view</span>
               </Button>
               <Separator orientation="vertical" />
               <Button
-                variant={viewMode === "list" ? "default" : "ghost"}
+                variant={displayMode === "list" ? "default" : "ghost"}
                 size="icon"
                 className="rounded-l-none"
-                onClick={() => setViewMode("list")}
+                onClick={onModeSwitch}
               >
                 <List className="h-4 w-4" />
                 <span className="sr-only">List view</span>

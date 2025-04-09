@@ -1,25 +1,28 @@
-import React from 'react';
-import Image from 'next/image';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { type Product } from '@/types';
-import CartButton from '@/components/shared/cart-button';
-import { Badge } from '@/components/ui/badge';
-import Pricing from '@/components/shared/pricing';
+import React from "react";
+import Image from "next/image";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { type Product } from "@/types";
+import CartButton from "@/components/shared/cart-button";
+import { Badge } from "@/components/ui/badge";
+import Pricing from "@/components/shared/pricing";
+import Link from "next/link";
 
 export const ProductCard = ({ product }: { product: Product }) => {
   const discountPercentage = Math.ceil((product.discountedPrice / product.price) * 100);
   return (
     <Card className="overflow-hidden">
       <CardHeader className="p-0">
-        <div className="relative w-full h-48 group">
-          <Image
-            src={product.images[0]}
-            alt={product.title}
-            fill
-            className="object-cover transition-transform group-hover:scale-105"
-          />
+        <div className="group relative h-48 w-full">
+          <Link href={`/products/${product.slug}`}>
+            <Image
+              src={product.images[0]}
+              alt={product.title}
+              fill
+              className="object-cover transition-transform group-hover:scale-105"
+            />
+          </Link>
           {product.discountedPrice && (
-            <Badge className="absolute top-0 left-2 bg-primary">{discountPercentage}% OFF</Badge>
+            <Badge className="bg-primary absolute left-2 top-0">{discountPercentage}% OFF</Badge>
           )}
         </div>
       </CardHeader>
@@ -44,10 +47,12 @@ export const ProductCard = ({ product }: { product: Product }) => {
           {product.rating}
         </span>
       </div> */}
-        <h3 className="font-medium line-clamp-1">{product.title}</h3>
-        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+        <Link className="line-clamp-1 font-medium" href={`/products/${product.slug}`}>
+          {product.title}
+        </Link>
+        <p className="text-muted-foreground mt-1 line-clamp-2 text-sm">{product.description}</p>
       </CardContent>
-      <CardFooter className="flex justify-between items-center p-4 pt-0">
+      <CardFooter className="flex items-center justify-between p-4 pt-0">
         <Pricing price={product.price} discountedPrice={product.discountedPrice} />
         <CartButton />
       </CardFooter>
