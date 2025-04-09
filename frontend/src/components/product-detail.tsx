@@ -10,10 +10,11 @@ import { Heart, Minus, Plus, Share2, ShoppingCart, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import type { Product } from "@/lib/data";
+import { type Product } from "@/types";
+import { type Product as DummyProduct } from "@/lib/data";
+import Pricing from "./shared/pricing";
 
 const images = [
   "http://localhost:8000/uploads/image-5.jpeg",
@@ -22,32 +23,9 @@ const images = [
   "http://localhost:8000/uploads/image-4.jpeg"
 ];
 
-// Generate mock reviews
-const generateReviews = (rating: number) => {
-  const reviews = [];
-  const reviewCount = Math.floor(Math.random() * 10) + 5; // 5-15 reviews
-
-  for (let i = 0; i < reviewCount; i++) {
-    const reviewRating = Math.max(1, Math.min(5, Math.floor(rating + (Math.random() * 2 - 1))));
-    reviews.push({
-      id: `review-${i}`,
-      author: `Customer ${i + 1}`,
-      rating: reviewRating,
-      date: new Date(Date.now() - Math.random() * 10000000000).toLocaleDateString(),
-      title: ["Great product", "Excellent quality", "Good value", "Highly recommend", "Satisfied"][
-        Math.floor(Math.random() * 5)
-      ],
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-    });
-  }
-
-  return reviews;
-};
-
 interface ProductDetailProps {
   product: Product;
-  relatedProducts: Product[];
+  relatedProducts: DummyProduct[];
 }
 
 export default function ProductDetail({ product, relatedProducts }: ProductDetailProps) {
@@ -55,12 +33,12 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   const [quantity, setQuantity] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const discountPercentage = Math.ceil((product.discountedPrice / product.price) * 100);
 
   const productImages = images;
-  const reviews = generateReviews(product.rating);
 
   const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(Math.max(1, Math.min(product.stock, newQuantity)));
+    setQuantity(Math.max(1, Math.min(product.quantity, newQuantity)));
   };
 
   const handleAddToCart = () => {};
@@ -76,9 +54,8 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   };
 
   return (
-    <div className="container p-10">
+    <div className="container mx-auto p-10">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        {/* Product Images */}
         <div className="space-y-4">
           <div
             className="bg-background relative aspect-square overflow-hidden rounded-lg border"
@@ -98,74 +75,42 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                   : {}
               }
             >
-              <Image
-                src={productImages[selectedImage] || "/placeholder.svg"}
-                alt={product.name}
-                fill
-                className="object-cover"
-                priority
-              />
+              <Image src={productImages[selectedImage]} alt={product.title} fill className="object-cover" priority />
             </div>
-            {product.discount && <Badge className="absolute left-4 top-4 z-10">{product.discount}% OFF</Badge>}
+            {product.discountedPrice && (
+              <Badge className="absolute left-4 top-4 z-10">{product.discountedPrice}% OFF</Badge>
+            )}
           </div>
 
           <div className="grid grid-cols-4 gap-4">
-            {productImages.map((image, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "relative aspect-square cursor-pointer overflow-hidden rounded-md border",
-                  selectedImage === index ? "ring-primary ring-2" : ""
-                )}
-                onClick={() => setSelectedImage(index)}
-              >
-                <Image
-                  src={image || "/placeholder.svg"}
-                  alt={`${product.name} - Image ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
+            {product.images.length > 1 &&
+              product.images.map((image, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "relative aspect-square cursor-pointer overflow-hidden rounded-md border",
+                    selectedImage === index ? "ring-primary ring-2" : ""
+                  )}
+                  onClick={() => setSelectedImage(index)}
+                >
+                  <Image src={image || "/placeholder.svg"} alt={product.title} fill className="object-cover" />
+                </div>
+              ))}
           </div>
         </div>
 
         {/* Product Info */}
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold">{product.name}</h1>
-            <div className="mt-2 flex items-center space-x-4">
-              <div className="flex items-center">
-                {Array(5)
-                  .fill(0)
-                  .map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-5 w-5"
-                      fill={i < Math.floor(product.rating) ? "currentColor" : "none"}
-                      color={i < Math.floor(product.rating) ? "#FFD700" : "#E5E7EB"}
-                    />
-                  ))}
-                <span className="text-muted-foreground ml-2 text-sm">
-                  {product.rating.toFixed(1)} ({reviews.length} reviews)
-                </span>
-              </div>
-              <Separator orientation="vertical" className="h-5" />
-              <span className="text-muted-foreground text-sm">{product.stock} in stock</span>
-            </div>
+            <h1 className="text-3xl font-bold">{product.title}</h1>
           </div>
 
           <div className="flex items-center space-x-4">
-            {product.discount ? (
-              <>
-                <span className="text-3xl font-bold">${(product.price * (1 - product.discount / 100)).toFixed(2)}</span>
-                <span className="text-muted-foreground text-xl line-through">${product.price.toFixed(2)}</span>
-                <Badge variant="outline" className="border-green-600 text-green-600">
-                  Save ${(product.price * (product.discount / 100)).toFixed(2)}
-                </Badge>
-              </>
-            ) : (
-              <span className="text-3xl font-bold">${product.price.toFixed(2)}</span>
+            <Pricing price={product.price} discountedPrice={product.discountedPrice} />
+            {discountPercentage > 0 && (
+              <Badge variant="outline" className="border-green-600 text-green-600">
+                {discountPercentage} % Off
+              </Badge>
             )}
           </div>
 
@@ -191,13 +136,13 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                   size="icon"
                   className="h-10 w-10 rounded-none rounded-r-md"
                   onClick={() => handleQuantityChange(quantity + 1)}
-                  disabled={quantity >= product.stock}
+                  disabled={quantity >= product.quantity}
                 >
                   <Plus className="h-4 w-4" />
                   <span className="sr-only">Increase</span>
                 </Button>
               </div>
-              <span className="text-muted-foreground text-sm">{product.stock} available</span>
+              <span className="text-muted-foreground text-sm">{product.quantity} available</span>
             </div>
           </div>
 
@@ -217,13 +162,13 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
               <Share2 className="mr-2 h-4 w-4" />
               Share
             </Button>
-            <span className="text-muted-foreground text-sm">SKU: {product.id.toUpperCase()}</span>
+            <span className="text-muted-foreground text-sm">SKU: {product._id.toUpperCase()}</span>
           </div>
         </div>
       </div>
 
       {/* Product Details Tabs */}
-      <div className="mt-16">
+      {/* <div className="mt-16">
         <Tabs defaultValue="description">
           <TabsList className="h-auto w-full justify-start rounded-none border-b p-0">
             <TabsTrigger
@@ -271,7 +216,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                 <div className="space-y-2">
                   {[
                     { label: "Brand", value: "NextShop" },
-                    { label: "Model", value: product.name },
+                    { label: "Model", value: product.title },
                     { label: "Material", value: "Premium Quality" },
                     { label: "Dimensions", value: "12 × 8 × 2 inches" },
                     { label: "Weight", value: "1.5 lbs" }
@@ -286,7 +231,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
               <div>
                 <h3 className="mb-4 text-lg font-medium">Package Contents</h3>
                 <ul className="list-inside list-disc space-y-2">
-                  <li>1 × {product.name}</li>
+                  <li>1 × {product.title}</li>
                   <li>1 × User Manual</li>
                   <li>1 × Warranty Card</li>
                   {product.category === "electronics" && <li>1 × Charging Cable</li>}
@@ -300,7 +245,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                 <div className="md:w-1/3">
                   <div className="bg-muted/50 rounded-lg p-6">
                     <div className="mb-4 text-center">
-                      <span className="text-5xl font-bold">{product.rating.toFixed(1)}</span>
+                      <span className="text-5xl font-bold">{5}</span>
                       <div className="mt-2 flex justify-center">
                         {Array(5)
                           .fill(0)
@@ -308,8 +253,8 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                             <Star
                               key={i}
                               className="h-5 w-5"
-                              fill={i < Math.floor(product.rating) ? "currentColor" : "none"}
-                              color={i < Math.floor(product.rating) ? "#FFD700" : "#E5E7EB"}
+                              fill={i < Math.floor(5) ? "currentColor" : "none"}
+                              color={i < Math.floor(5) ? "#FFD700" : "#E5E7EB"}
                             />
                           ))}
                       </div>
@@ -371,7 +316,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
             </div>
           </TabsContent>
         </Tabs>
-      </div>
+      </div> */}
 
       {/* Related Products */}
       <div className="mt-16">

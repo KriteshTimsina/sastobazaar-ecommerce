@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getProductById, getRelatedProducts } from "@/lib/data";
+import { getRelatedProducts } from "@/lib/data";
 import ProductDetail from "@/components/product-detail";
+import { getSingleProduct } from "@/app/actions/product";
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const product = getProductById(params.slug);
+  const { slug } = await params;
+  const product = await getSingleProduct(slug);
 
   if (!product) {
     return {
@@ -21,22 +23,25 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.name} | NextShop`,
+    title: `${product.title} | NextShop`,
     description: product.description,
     openGraph: {
-      images: [{ url: product.image }]
+      images: [{ url: product.title }]
     }
   };
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = getProductById(params.slug);
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { slug } = await params;
+  const product = await getSingleProduct(slug);
+
+  console.log("product", JSON.stringify(product, null, 2));
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = getRelatedProducts(product.id, product.category);
+  const relatedProducts = getRelatedProducts("1", product.category);
 
   return <ProductDetail product={product} relatedProducts={relatedProducts} />;
 }

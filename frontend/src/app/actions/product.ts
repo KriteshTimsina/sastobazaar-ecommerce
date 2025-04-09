@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import fetcher from '@/lib/fetcher';
-import type { APIResponse, Category, Product } from '@/types';
-import { URL } from '@/lib/constants';
+import fetcher from "@/lib/fetcher";
+import type { APIResponse, Category, Product } from "@/types";
+import { URL } from "@/lib/constants";
 
 export async function getAllProducts() {
   const productsResponse = await fetcher<APIResponse<{ data: Product[] }>>(URL.PRODUCTS);
@@ -10,6 +10,14 @@ export async function getAllProducts() {
   const products = productsResponse.status ? productsResponse.data : [];
 
   return products;
+}
+
+export async function getSingleProduct(slug: string) {
+  const productResponse = await fetcher<APIResponse<{ data: Product }>>(`${URL.PRODUCTS}/${slug}`);
+
+  const product = productResponse.status ? productResponse.data : null;
+
+  return product;
 }
 
 export async function getAllCategories() {
