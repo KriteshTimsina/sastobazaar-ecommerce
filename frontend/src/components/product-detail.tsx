@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { type Product } from "@/types";
 import { type Product as DummyProduct } from "@/lib/data";
-import Pricing from "./shared/pricing";
+import Pricing from "@/components/shared/pricing";
 import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
 
 interface ProductDetailProps {
@@ -89,7 +89,6 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold">{product.title}</h1>
