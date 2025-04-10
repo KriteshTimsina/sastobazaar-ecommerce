@@ -27,3 +27,9 @@ export async function createProduct(product: IProductInput) {
     }
   });
 }
+
+export async function deleteProduct(productId: string) {
+  return clientFetcher<{ status: boolean; message: string }>(URL.PRODUCTS + `/${productId}`, {
+    method: "DELETE"
+  });
+}

@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/dialog";
 import { Product } from "@/types";
 import StockAvailabilityStatus from "@/components/admin/StockAvailabilityStatus";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { deleteProduct } from "@/lib/clientApi";
 
 type ProductTableProps = {
   product: Product;
@@ -32,6 +36,20 @@ type ProductTableProps = {
 export const ProductTable: FC<ProductTableProps> = ({ product }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const router = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (productId: string) => deleteProduct(productId),
+    onSuccess: data => {
+      toast.success(data.message);
+      setSelectedProductId(null);
+      router.refresh();
+    },
+    onError: e => {
+      toast.success(e.message);
+      console.log(e.message);
+    }
+  });
 
   const handleDeleteClick = (productId: string) => {
     setSelectedProductId(productId);
@@ -39,14 +57,15 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
   };
 
   const handleDeleteConfirm = () => {
-    // In a real app, you would delete the product here
-    console.log(`Deleting product ${selectedProductId}`);
+    if (selectedProductId) {
+      mutate(selectedProductId);
+    }
     setDeleteDialogOpen(false);
     setSelectedProductId(null);
   };
   return (
     <>
-      <TableRow key={product._id}>
+      <TableRow>
         <TableCell>
           <div className="relative h-10 w-10 overflow-hidden rounded-md">
             <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
@@ -77,7 +96,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
-                className="text-red-600 focus:text-red-600"
+                className="cursor-pointer text-red-600 focus:text-red-600"
                 onClick={() => handleDeleteClick(product._id)}
               >
                 <Trash className="mr-2 h-4 w-4" />
@@ -99,7 +118,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
             <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm}>
+            <Button disabled={isPending} variant="destructive" onClick={handleDeleteConfirm}>
               Delete
             </Button>
           </DialogFooter>
