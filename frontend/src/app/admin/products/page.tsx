@@ -1,15 +1,22 @@
 import Link from "next/link";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { ProductTable } from "@/components/admin/ProductTable";
 import { getAllProducts } from "@/app/actions/product";
+import ProductSearch from "@/components/admin/ProductSearch";
 
-export default async function ProductsPage() {
-  const products = await getAllProducts();
+type ProductPageProps = {
+  searchParams: Promise<{
+    q: string;
+  }>;
+};
+
+export default async function ProductsPage({ searchParams }: ProductPageProps) {
+  const { q = "" } = await searchParams;
+  const products = await getAllProducts(q);
 
   return (
     <div className="space-y-6">
@@ -26,12 +33,7 @@ export default async function ProductsPage() {
         </Button>
       </div>
 
-      <div className="flex items-center gap-2">
-        <div className="relative max-w-sm flex-1">
-          <Search className="text-muted-foreground absolute left-2.5 top-2.5 h-4 w-4" />
-          <Input type="search" placeholder="Search products..." className="pl-8" />
-        </div>
-      </div>
+      <ProductSearch q={q} />
 
       <div className="rounded-md border">
         <Table>

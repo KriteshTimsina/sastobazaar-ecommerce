@@ -4,8 +4,8 @@ import fetcher from "@/lib/fetcher";
 import type { APIResponse, Category, Product } from "@/types";
 import { URL } from "@/lib/constants";
 
-export async function getAllProducts() {
-  const productsResponse = await fetcher<APIResponse<{ data: Product[] }>>(URL.PRODUCTS);
+export async function getAllProducts(q: string = "") {
+  const productsResponse = await fetcher<APIResponse<{ data: Product[] }>>(URL.PRODUCTS + `?q=${q}`);
 
   const products = productsResponse.status ? productsResponse.data : [];
 
