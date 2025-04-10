@@ -1,15 +1,17 @@
-import React from 'react';
+import React from "react";
 
 type PricingProps = {
   price: number;
-  discountedPrice: number;
+  discountPercent: number;
 };
 
-const Pricing = ({ price, discountedPrice }: PricingProps) => {
+const Pricing = ({ price, discountPercent }: PricingProps) => {
+  const discountedPrice = Math.ceil(price - (price * discountPercent) / 100);
+
   return (
     <div>
-      {discountedPrice ? (
-        <div className="flex gap-2 items-center">
+      {discountPercent > 0 ? (
+        <div className="flex items-center gap-2">
           <span className="text-lg font-bold">
             Rs.
             {discountedPrice}

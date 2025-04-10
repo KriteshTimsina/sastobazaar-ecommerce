@@ -14,10 +14,10 @@ export const productValidationSchema = z
       .number({ required_error: "Price is required" })
       .nonnegative("Price cannot be negative")
       .max(9999999, "Price cannot be greater than 9999999"),
-    discountedPrice: z
+    discount: z
       .number()
-      .nonnegative("Discounted price cannot be negative")
-      .max(9999999, "Discounted cannot be greater than 9999999")
+      .nonnegative("Discount cannot be negative")
+      .max(9999999, "Discount cannot be greater than 9999999")
       .default(0),
     images: z.array(z.instanceof(File)).max(3, "Maximum 3 images allowed"),
     categoryId: z
@@ -34,9 +34,9 @@ export const productValidationSchema = z
       .nonnegative("Quantity cannot be negative"),
     isActive: z.boolean().default(true)
   })
-  .refine(data => data.discountedPrice <= data.price, {
-    message: "Discounted Price cannot be greater than the original Price",
-    path: ["discountedPrice"]
+  .refine(data => data.discount <= data.price, {
+    message: "Discount cannot be greater than the original Price",
+    path: ["discount"]
   });
 
 export type IProductInput = z.infer<typeof productValidationSchema>;

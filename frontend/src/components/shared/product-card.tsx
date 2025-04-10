@@ -6,10 +6,8 @@ import CartButton from "@/components/shared/cart-button";
 import { Badge } from "@/components/ui/badge";
 import Pricing from "@/components/shared/pricing";
 import Link from "next/link";
-import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
 
 export const ProductCard = ({ product }: { product: Product }) => {
-  const discountPercentage = getDiscountedPercent(product.price, product.discountedPrice);
   const image = product.images[0] ?? "";
   return (
     <Card className="overflow-hidden py-0">
@@ -23,8 +21,8 @@ export const ProductCard = ({ product }: { product: Product }) => {
               className="object-contain transition-transform group-hover:scale-105"
             />
           </Link>
-          {product.discountedPrice > 0 && (
-            <Badge className="bg-primary absolute left-2 top-3">{discountPercentage}% OFF</Badge>
+          {product.discountPercent > 0 && (
+            <Badge className="bg-primary absolute left-2 top-3">{product.discountPercent}% OFF</Badge>
           )}
         </div>
       </CardHeader>
@@ -35,7 +33,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
         <p className="text-muted-foreground mt-1 line-clamp-2 text-sm">{product.description}</p>
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 pt-0">
-        <Pricing price={product.price} discountedPrice={product.discountedPrice} />
+        <Pricing price={product.price} discountPercent={product.discountPercent} />
         <CartButton />
       </CardFooter>
     </Card>
