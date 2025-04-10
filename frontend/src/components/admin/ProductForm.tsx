@@ -51,6 +51,13 @@ export default function ProductForm({ categories }: ProductFormProps) {
     mutationFn: (product: IProductInput) => createProduct(product),
     onSuccess: data => {
       toast.success(data.message);
+      form.reset();
+      router.push("/admin/products");
+      router.refresh();
+    },
+    onError: e => {
+      toast.success(e.message);
+      console.log(e.message);
     }
   });
 
@@ -86,7 +93,6 @@ export default function ProductForm({ categories }: ProductFormProps) {
   };
 
   const onSubmit = (body: IProductInput) => {
-    console.log(body, "JADDUUU");
     mutate(body);
     router.push("/admin/products");
   };
