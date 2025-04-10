@@ -1,29 +1,29 @@
-'use client';
-import { FC, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+"use client";
+import { FC, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { TableCell, TableRow } from '@/components/ui/table';
+import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Product } from '@/types';
-import StockAvailabilityStatus from '@/components/admin/StockAvailabilityStatus';
+  DialogTitle
+} from "@/components/ui/dialog";
+import { Product } from "@/types";
+import StockAvailabilityStatus from "@/components/admin/StockAvailabilityStatus";
 
 type ProductTableProps = {
   product: Product;
@@ -48,11 +48,11 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
     <>
       <TableRow key={product._id}>
         <TableCell>
-          <div className="overflow-hidden relative w-10 h-10 rounded-md">
+          <div className="relative h-10 w-10 overflow-hidden rounded-md">
             <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
           </div>
         </TableCell>
-        <TableCell className="font-medium overflow-ellipsis">{product.title}</TableCell>
+        <TableCell className="max-w-[300px] truncate font-medium">{product.title}</TableCell>
         <TableCell>{product.category}</TableCell>
         <TableCell className="text-right">Rs. {product.price.toFixed(2)}</TableCell>
         <TableCell className="text-center">{product.quantity}</TableCell>
@@ -63,7 +63,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <MoreHorizontal className="w-4 h-4" />
+                <MoreHorizontal className="h-4 w-4" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -72,7 +72,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href={`/admin/products/${product._id}`}>
-                  <Edit className="mr-2 w-4 h-4" />
+                  <Edit className="mr-2 h-4 w-4" />
                   Edit
                 </Link>
               </DropdownMenuItem>
@@ -80,7 +80,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
                 className="text-red-600 focus:text-red-600"
                 onClick={() => handleDeleteClick(product._id)}
               >
-                <Trash className="mr-2 w-4 h-4" />
+                <Trash className="mr-2 h-4 w-4" />
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -92,8 +92,7 @@ export const ProductTable: FC<ProductTableProps> = ({ product }) => {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete the product from your
-              store.
+              This action cannot be undone. This will permanently delete the product from your store.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
