@@ -2,27 +2,25 @@
 
 import type React from "react";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { Upload } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { IProductInput, productValidationSchema } from "@/types/schema";
-import { type Category } from "@/types";
-import Image from "next/image";
-import { useMutation } from "@tanstack/react-query";
-import { clientFetcher } from "@/lib/fetcher";
-import { URL as API_URL } from "@/lib/constants";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { createProduct } from "@/lib/clientApi";
+import { type Category } from "@/types";
+import { IProductInput, productValidationSchema } from "@/types/schema";
+import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
 import { toast } from "sonner";
 
 type ProductFormProps = {
@@ -40,10 +38,10 @@ export default function ProductForm({ categories }: ProductFormProps) {
       title: "",
       description: "",
       price: 0,
+      discount: 0,
       quantity: 0,
       categoryId: "",
-      subCategoryId: "",
-      discountedPrice: 0,
+      subCategoryId: ",",
       images: [],
       isActive: true
     }
@@ -88,6 +86,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
   };
 
   const onSubmit = (body: IProductInput) => {
+    console.log(body, "JADDUUU");
     mutate(body);
     router.push("/admin/products");
   };
@@ -96,7 +95,6 @@ export default function ProductForm({ categories }: ProductFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {/* Left Column - General Information & Media */}
           <div className="space-y-8">
             <Card>
               <CardHeader>
@@ -125,7 +123,11 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Describe your product..." className="min-h-[120px]" {...field} />
+                        <Textarea
+                          placeholder="Describe your product under 255 words..."
+                          className="min-h-[120px]"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -136,18 +138,14 @@ export default function ProductForm({ categories }: ProductFormProps) {
 
             <Card>
               <CardHeader>
-                <CardTitle>Product Media</CardTitle>
+                <CardTitle>Product Images (1-5)</CardTitle>
                 <CardDescription>Upload images of your product</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 gap-4">
                   <label className="hover:bg-muted/50 flex h-32 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-4">
                     <Upload className="text-muted-foreground mb-2 h-8 w-8" />
-                    <p className="text-muted-foreground text-center text-xs">
-                      Click to upload or
-                      <br />
-                      drag and drop
-                    </p>
+                    <p className="text-muted-foreground text-center text-xs">Click to upload</p>
                     <input
                       id="image-upload"
                       type="file"
@@ -184,7 +182,6 @@ export default function ProductForm({ categories }: ProductFormProps) {
             </Card>
           </div>
 
-          {/* Right Column - Pricing, Category, Inventory */}
           <div className="space-y-8">
             <Card>
               <CardHeader>
@@ -195,11 +192,11 @@ export default function ProductForm({ categories }: ProductFormProps) {
                 <FormField
                   control={form.control}
                   name="price"
-                  render={({ field: { onChange, ...field } }) => (
+                  render={({ field: { ...field } }) => (
                     <FormItem>
-                      <FormLabel>Base Price</FormLabel>
+                      <FormLabel>Price</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" {...field} onChange={e => onChange(Number(e.target.value))} />
+                        <Input type="number" min={0} {...field} {...form.register("price", { valueAsNumber: true })} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -207,12 +204,17 @@ export default function ProductForm({ categories }: ProductFormProps) {
                 />
                 <FormField
                   control={form.control}
-                  name="discountedPrice"
-                  render={({ field: { onChange, ...field } }) => (
+                  name="discount"
+                  render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Discounted Price</FormLabel>
+                      <FormLabel>Discount Amount</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" {...field} onChange={e => onChange(Number(e.target.value))} />
+                        <Input
+                          type="number"
+                          min={0}
+                          {...field}
+                          {...form.register("discount", { valueAsNumber: true })}
+                        />
                       </FormControl>
                       <FormDescription>Leave at 0 for no discount</FormDescription>
                       <FormMessage />
@@ -241,7 +243,7 @@ export default function ProductForm({ categories }: ProductFormProps) {
                         }}
                         defaultValue={field.value}
                       >
-                        <FormControl>
+                        <FormControl className="w-full">
                           <SelectTrigger>
                             <SelectValue placeholder="Select a category" />
                           </SelectTrigger>
@@ -267,9 +269,9 @@ export default function ProductForm({ categories }: ProductFormProps) {
                     <FormItem>
                       <FormLabel>Sub Category</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
+                        <FormControl className="w-full">
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a sub-category" />
+                            <SelectValue placeholder="Select a Sub Category" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -293,48 +295,19 @@ export default function ProductForm({ categories }: ProductFormProps) {
                 <CardDescription>Manage your product inventory</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* <FormField
-                  control={form.control}
-                  name="sku"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>SKU</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. MAC-AIR-M2" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Stock Keeping Unit - unique identifier for your product
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-
-                {/* <FormField
-                  control={form.control}
-                  name="barcode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Barcode</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. 123456789012" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Optional - enter the product barcode if available
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-
                 <FormField
                   control={form.control}
                   name="quantity"
-                  render={({ field: { onChange, ...field } }) => (
+                  render={({ field: { ...field } }) => (
                     <FormItem>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" {...field} onChange={e => onChange(Number(e.target.value))} />
+                        <Input
+                          type="number"
+                          min="0"
+                          {...field}
+                          {...form.register("quantity", { valueAsNumber: true })}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

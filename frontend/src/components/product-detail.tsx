@@ -15,7 +15,6 @@ import { Separator } from "@/components/ui/separator";
 import { type Product } from "@/types";
 import { type Product as DummyProduct } from "@/lib/data";
 import Pricing from "@/components/shared/pricing";
-import { getDiscountedPercent } from "@/utils/getDiscountedPercent";
 
 interface ProductDetailProps {
   product: Product;
@@ -27,8 +26,6 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   const [quantity, setQuantity] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
-  const discountPercentage = getDiscountedPercent(product.price, product.discountedPrice);
-  console.log(discountPercentage, "HAHA");
 
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(Math.max(1, Math.min(product.quantity, newQuantity)));
@@ -48,58 +45,71 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
 
   return (
     <div className="container mx-auto p-10">
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        <div className="space-y-4">
-          <div
-            className="bg-background relative aspect-square overflow-hidden rounded-lg border"
-            onMouseMove={handleImageZoom}
-            onMouseEnter={() => setIsZoomed(true)}
-            onMouseLeave={() => setIsZoomed(false)}
-            style={{ cursor: isZoomed ? "zoom-out" : "zoom-in" }}
-            onClick={() => setIsZoomed(!isZoomed)}
-          >
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 ">
+        <div className="flex flex-col  gap-4 md:flex-row">
+          <div className="md:w-4/5">
             <div
-              className={cn("absolute inset-0 transition-transform duration-300", isZoomed ? "scale-150" : "scale-100")}
-              style={
-                isZoomed
-                  ? {
-                      transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
-                    }
-                  : {}
-              }
+              className="bg-background relative aspect-square overflow-hidden rounded-lg border"
+              onMouseMove={handleImageZoom}
+              onMouseEnter={() => setIsZoomed(true)}
+              onMouseLeave={() => setIsZoomed(false)}
+              style={{ cursor: isZoomed ? "zoom-out" : "zoom-in" }}
+              onClick={() => setIsZoomed(!isZoomed)}
             >
-              <Image src={product.images[selectedImage]} alt={product.title} fill className="object-cover" priority />
+              <div
+                className={cn(
+                  "absolute inset-0 transition-transform duration-300",
+                  isZoomed ? "scale-150" : "scale-100"
+                )}
+                style={
+                  isZoomed
+                    ? {
+                        transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
+                      }
+                    : {}
+                }
+              >
+                <Image
+                  src={product.images[selectedImage]}
+                  alt={product.title}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-4">
-            {product.images.length > 1 &&
-              product.images.map((image, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "relative aspect-square cursor-pointer overflow-hidden rounded-md border",
-                    selectedImage === index ? "ring-primary ring-2" : ""
-                  )}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <Image src={image || "/placeholder.svg"} alt={product.title} fill className="object-cover" />
-                </div>
-              ))}
+          <div className="md:w-1/5">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
+              {product.images.length > 0 &&
+                product.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      "relative aspect-square cursor-pointer overflow-hidden rounded-md border",
+                      selectedImage === index ? "ring-primary ring-2" : ""
+                    )}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <Image src={image} alt={product.title} fill className="object-contain" />
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
 
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold">{product.title}</h1>
-            <p className="text-muted-foreground mt-1 line-clamp-2 text-sm">{product.description}</p>
+            <p className="text-muted-foreground mt-1 line-clamp-3 text-sm">{product.description}</p>
           </div>
 
           <div className="flex items-center space-x-4">
-            <Pricing price={product.price} discountedPrice={product.discountedPrice} />
-            {discountPercentage > 0 && (
+            <Pricing price={product.price} discountPercent={product.discountPercent} />
+            {product.discountPercent > 0 && (
               <Badge variant="outline" className="border-green-600 text-green-600">
-                {discountPercentage} % Off
+                {product.discountPercent} % Off
               </Badge>
             )}
           </div>
@@ -156,157 +166,6 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
           </div>
         </div>
       </div>
-
-      {/* Product Details Tabs */}
-      {/* <div className="mt-16">
-        <Tabs defaultValue="description">
-          <TabsList className="h-auto w-full justify-start rounded-none border-b p-0">
-            <TabsTrigger
-              value="description"
-              className="data-[state=active]:border-primary rounded-none border-b-2 border-transparent py-3 data-[state=active]:shadow-none"
-            >
-              Description
-            </TabsTrigger>
-            <TabsTrigger
-              value="specifications"
-              className="data-[state=active]:border-primary rounded-none border-b-2 border-transparent py-3 data-[state=active]:shadow-none"
-            >
-              Specifications
-            </TabsTrigger>
-            <TabsTrigger
-              value="reviews"
-              className="data-[state=active]:border-primary rounded-none border-b-2 border-transparent py-3 data-[state=active]:shadow-none"
-            >
-              Reviews ({reviews.length})
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="description" className="pt-6">
-            <div className="prose max-w-none">
-              <p className="text-lg">{product.description}</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur.
-              </p>
-              <h3>Features</h3>
-              <ul>
-                <li>High-quality materials for durability</li>
-                <li>Ergonomic design for comfort</li>
-                <li>Versatile for various uses</li>
-                <li>Easy to clean and maintain</li>
-                <li>Modern aesthetic that complements any style</li>
-              </ul>
-            </div>
-          </TabsContent>
-          <TabsContent value="specifications" className="pt-6">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <div>
-                <h3 className="mb-4 text-lg font-medium">Technical Specifications</h3>
-                <div className="space-y-2">
-                  {[
-                    { label: "Brand", value: "NextShop" },
-                    { label: "Model", value: product.title },
-                    { label: "Material", value: "Premium Quality" },
-                    { label: "Dimensions", value: "12 × 8 × 2 inches" },
-                    { label: "Weight", value: "1.5 lbs" }
-                  ].map(spec => (
-                    <div key={spec.label} className="flex justify-between border-b py-2">
-                      <span className="font-medium">{spec.label}</span>
-                      <span>{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="mb-4 text-lg font-medium">Package Contents</h3>
-                <ul className="list-inside list-disc space-y-2">
-                  <li>1 × {product.title}</li>
-                  <li>1 × User Manual</li>
-                  <li>1 × Warranty Card</li>
-                  {product.category === "electronics" && <li>1 × Charging Cable</li>}
-                </ul>
-              </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="reviews" className="pt-6">
-            <div className="space-y-8">
-              <div className="flex flex-col gap-8 md:flex-row">
-                <div className="md:w-1/3">
-                  <div className="bg-muted/50 rounded-lg p-6">
-                    <div className="mb-4 text-center">
-                      <span className="text-5xl font-bold">{5}</span>
-                      <div className="mt-2 flex justify-center">
-                        {Array(5)
-                          .fill(0)
-                          .map((_, i) => (
-                            <Star
-                              key={i}
-                              className="h-5 w-5"
-                              fill={i < Math.floor(5) ? "currentColor" : "none"}
-                              color={i < Math.floor(5) ? "#FFD700" : "#E5E7EB"}
-                            />
-                          ))}
-                      </div>
-                      <p className="text-muted-foreground mt-1 text-sm">Based on {reviews.length} reviews</p>
-                    </div>
-                    <div className="space-y-2">
-                      {[5, 4, 3, 2, 1].map(star => {
-                        const count = reviews.filter(r => Math.floor(r.rating) === star).length;
-                        const percentage = (count / reviews.length) * 100;
-                        return (
-                          <div key={star} className="flex items-center">
-                            <span className="w-12 text-sm">{star} stars</span>
-                            <div className="bg-muted mx-2 h-2 flex-1 overflow-hidden rounded-full">
-                              <div className="bg-primary h-full" style={{ width: `${percentage}%` }} />
-                            </div>
-                            <span className="w-12 text-right text-sm">{count}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="mt-6">
-                      <Button className="w-full">Write a Review</Button>
-                    </div>
-                  </div>
-                </div>
-                <div className="md:w-2/3">
-                  <h3 className="mb-4 text-lg font-medium">Customer Reviews</h3>
-                  <div className="space-y-6">
-                    {reviews.slice(0, 3).map(review => (
-                      <div key={review.id} className="border-b pb-6 last:border-0">
-                        <div className="mb-2 flex justify-between">
-                          <h4 className="font-medium">{review.title}</h4>
-                          <span className="text-muted-foreground text-sm">{review.date}</span>
-                        </div>
-                        <div className="mb-2 flex items-center">
-                          {Array(5)
-                            .fill(0)
-                            .map((_, i) => (
-                              <Star
-                                key={i}
-                                className="h-4 w-4"
-                                fill={i < Math.floor(review.rating) ? "currentColor" : "none"}
-                                color={i < Math.floor(review.rating) ? "#FFD700" : "#E5E7EB"}
-                              />
-                            ))}
-                          <span className="ml-2 text-sm font-medium">{review.author}</span>
-                        </div>
-                        <p className="text-sm">{review.content}</p>
-                      </div>
-                    ))}
-                  </div>
-                  {reviews.length > 3 && (
-                    <Button variant="outline" className="mt-4">
-                      Load More Reviews
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div> */}
 
       {/* Related Products */}
       <div className="mt-16">
