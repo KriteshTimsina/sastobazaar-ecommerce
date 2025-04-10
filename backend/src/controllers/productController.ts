@@ -11,10 +11,11 @@ import { type FilterQuery } from "mongoose";
 import { IMAGE_BASE_URL } from "../utils/env";
 import { deleteProductImage } from "../services/product.services";
 import { slugify } from "../utils/slugify";
+import { getDiscountPercent } from "../utils/calculation";
 
 export const createProduct = expressAsyncHandler(async (req: Request, res, next): Promise<any> => {
   const files = req.files;
-  const { title, description, price, quantity, categoryId, subCategoryId, discountedPrice, isActive } = req.body;
+  const { title, description, price, quantity, categoryId, subCategoryId, discount, isActive } = req.body;
   const images: string[] = [];
 
   try {
@@ -25,7 +26,7 @@ export const createProduct = expressAsyncHandler(async (req: Request, res, next)
       quantity: Number(quantity),
       categoryId,
       subCategoryId,
-      discountedPrice: Number(discountedPrice ?? 0),
+      discount: Number(discount ?? 0),
       isActive: Boolean(isActive) ?? 0,
       images: []
     };
@@ -56,7 +57,7 @@ export const createProduct = expressAsyncHandler(async (req: Request, res, next)
       categoryId: category._id,
       subCategoryId: subCategory._id,
       quantity: validatedData.quantity,
-      discountedPrice: validatedData.discountedPrice,
+      discount: validatedData.discount,
       isActive: validatedData.isActive,
       images,
       slug
@@ -119,6 +120,8 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
           }
         });
 
+        const discountPercent = getDiscountPercent(product.discount, product.price);
+
         transformedProducts.push({
           ...product.toObject(),
           category: category.title,
@@ -127,7 +130,8 @@ export const getAllProduct = expressAsyncHandler(async (req: Request, res) => {
           subCategoryId: undefined,
           __v: undefined,
           isActive: isAdmin ? product.isActive : undefined,
-          images: imageURLs
+          images: imageURLs,
+          discountPercent
         });
       }
       res.status(STATUS.OK).json({
@@ -155,6 +159,8 @@ export const getSingleProduct = expressAsyncHandler(async (req: Request, res) =>
       });
     }
 
+    const discountPercent = getDiscountPercent(product.discount, product.price);
+
     const imageURLs = [];
 
     product.images.forEach((url: any) => {
@@ -164,9 +170,11 @@ export const getSingleProduct = expressAsyncHandler(async (req: Request, res) =>
       }
     });
 
-    res
-      .status(STATUS.OK)
-      .json({ status: true, message: "Product found", data: { ...product.toObject(), images: imageURLs } });
+    res.status(STATUS.OK).json({
+      status: true,
+      message: "Product found",
+      data: { ...product.toObject(), images: imageURLs, discountPercent }
+    });
     throw new Error("Failed to get product");
   } catch (error) {
     if (error instanceof Error) {

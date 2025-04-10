@@ -17,7 +17,7 @@ const productSchema = new Schema<IProduct & Document>(
       type: Number,
       default: 0
     },
-    discountedPrice: {
+    discount: {
       type: Number,
       default: 0
     },

@@ -130,7 +130,7 @@ export const productsData = [
     price: 758,
     images: ["image-2.jpeg"],
     quantity: 75,
-    discountedPrice: 160
+    discount: 160
   },
   {
     title: "iPhone 14 Pro 3",
@@ -150,9 +150,9 @@ export const productsData = [
     title: "LG OLED 55-inch TV 5",
     description: "Sleek and powerful for all your needs.",
     price: 669,
-    images: ["image-5.jpeg"],
+    images: ["image-5.jpeg", "image-3.jpeg", "image-2.jpeg"],
     quantity: 36,
-    discountedPrice: 467
+    discount: 467
   },
   {
     title: "Sony WH-1000XM5 Headphones",
@@ -188,7 +188,7 @@ export const productsData = [
     price: 2499,
     images: ["image-1.jpeg"],
     quantity: 20,
-    discountedPrice: 2199
+    discount: 2199
   },
   {
     title: "Dell XPS 13 Laptop",

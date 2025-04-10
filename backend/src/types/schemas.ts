@@ -12,7 +12,7 @@ export const productValidationSchema = z
       .min(3, "Description is required and be atleast 3 charaters")
       .max(255, "Description must not exceed 255 character"),
     price: z.number({ message: "Price is required" }).max(9999999, "Price cannot be greater than 9999999"),
-    discountedPrice: z.number().max(9999999, "Discounted cannot be greater than 9999999").optional().default(0),
+    discount: z.number().max(9999999, "Discount cannot be greater than 9999999").optional().default(0),
     images: z.union([z.array(z.instanceof(File)).max(3, "Maximum 3 images allowed"), z.array(z.string()).max(3)]),
     categoryId: z
       .string({ message: "Select a category" })
@@ -29,9 +29,9 @@ export const productValidationSchema = z
     isActive: z.boolean().default(true),
     slug: z.string().optional()
   })
-  .refine(data => data.discountedPrice <= data.price, {
-    message: "Discounted Price cannot be greater than the original Price",
-    path: ["discountedPrice"]
+  .refine(data => data.discount <= data.price, {
+    message: "Discount amount cannot be greater than the Original Price",
+    path: ["discount"]
   });
 
 export type IProduct = z.infer<typeof productValidationSchema>;
