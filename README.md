@@ -131,4 +131,4 @@ MIT
 
 ---
 
-> Crafted with ❤️ by Kritesh Timsina
+> Crafted with ❤️ by Kritesh Timsina.
